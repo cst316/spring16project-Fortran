@@ -33,7 +33,7 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
   String url = App.WEBSITE_URL;
   String developersHead = Local.getString("Developers") + ":";
   String[] developers = {
-              "Alex Alishevskikh (alexeya@users.sourceforge.net)",
+              "Alex Alishevskikh(alexeya@users.sourceforge.net)",
               "Patrick Bielen (bielen@stafa.nl)",
               "Ryan Ho (rawsushi@users.sourceforge.net)",
               "Ivan Ribas (ivanrise@users.sourceforge.net)",

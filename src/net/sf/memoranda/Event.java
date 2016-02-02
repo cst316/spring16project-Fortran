@@ -1,4 +1,5 @@
 /**
+
  * Event.java
  * Created on 08.03.2003, 12:21:40 Alex
  * Package: net.sf.memoranda

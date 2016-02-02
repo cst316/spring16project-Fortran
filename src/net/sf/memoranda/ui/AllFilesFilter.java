@@ -32,6 +32,8 @@ public class AllFilesFilter extends FileFilter {
     public static final String JAR = "JAR";
     public static final String ICO = "ICO";
     public static final String WAV = "WAV";
+    //added for import source code module
+    public static final String JAVA = "JAVA";
 
     String _type = "";
     /**
@@ -53,6 +55,8 @@ public class AllFilesFilter extends FileFilter {
             return ext.equals("rtf");
         else if (_type.equals(ZIP))
             return ext.equals("zip");
+        else if(_type.equals(JAVA))
+        	return ext.equals("java");
         else if (_type.equals(EXE))
             return (ext.equals("exe") || ext.equals("com") || ext.equals("bat"));
         else if (_type.equals(JAR))

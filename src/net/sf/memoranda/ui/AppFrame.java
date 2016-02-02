@@ -137,6 +137,18 @@ public class AppFrame extends JFrame {
                         p1Import_actionPerformed(e);
                 }
         };
+        
+        
+        /**
+         * Even Implementation of import source code module
+         */
+        public Action importSourceAction = new AbstractAction(Local.getString("Import Code")) {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		importSource_actionPerformed(e);
+        	}
+        	
+        };
     
     JMenuItem jMenuFileNewPrj = new JMenuItem();
         JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
@@ -145,6 +157,14 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuFileExportPrj = new JMenuItem(exportNotesAction);
     JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
     JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
+    //added import source code 
+    
+    
+    JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
+    
+    
+    /////////////////////////////////////
+    
     JMenuItem jMenuFileExportNote = new JMenuItem(
             workPanel.dailyItemsPanel.editorPanel.exportAction);
     JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
@@ -267,7 +287,7 @@ public class AppFrame extends JFrame {
         statusBar.setText(" Version:" + App.VERSION_INFO + " (Build "
                 + App.BUILD_INFO + " )");
 
-        jMenuFile.setText(Local.getString("File"));
+        jMenuFile.setText(Local.getString("File"));//
         jMenuFileExit.setText(Local.getString("Exit"));
         jMenuFileExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -334,8 +354,9 @@ public class AppFrame extends JFrame {
         jMenuFileUnpackPrj.setText(Local.getString("Unpack project") + "...");
         jMenuFileExportNote.setText(Local.getString("Export current note")
                 + "...");
-        jMenuFileImportNote.setText(Local.getString("Import one note")
+        jMenuFileImportNote.setText(Local.getString("Import one note")//////////////////////////////////////////
                 + "...");
+        jMenuFileImportSource.setText(Local.getString("Import Code") + "...");
         jMenuFilePackPrj.setText(Local.getString("Pack project") + "...");
         jMenuFileMin.setText(Local.getString("Close the window"));
         jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
@@ -446,15 +467,21 @@ public class AppFrame extends JFrame {
 
         toolBar.add(jButton3);
         jMenuFile.add(jMenuFileNewPrj);
-                jMenuFile.add(jMenuFileNewNote);
+        jMenuFile.add(jMenuFileNewNote);
         jMenuFile.addSeparator();
         jMenuFile.add(jMenuFilePackPrj);
         jMenuFile.add(jMenuFileUnpackPrj);
+        jMenuFile.add(jMenuFileImportSource);
         jMenuFile.addSeparator();
         jMenuFile.add(jMenuFileExportPrj);
         jMenuFile.add(jMenuFileExportNote);
         jMenuFile.add(jMenuFileImportNote);
         jMenuFile.add(jMenuFileImportPrj);
+        
+        //added to panel
+        
+        
+        
         jMenuFile.addSeparator();
         jMenuFile.add(jMenuEditPref);
         jMenuFile.addSeparator();
@@ -1021,6 +1048,45 @@ public class AppFrame extends JFrame {
                     exc.printStackTrace();
             }
         }
+            /**
+             * Action event for Import Source Code 
+             * @param e The action event that triggred the button press
+             */
+            protected void importSource_actionPerformed(ActionEvent e){
+            	
+            	 UIManager.put("FileChooser.lookInLabelText", Local
+                         .getString("Look in:"));
+                 UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
+                         "Up One Level"));
+                 UIManager.put("FileChooser.newFolderToolTipText", Local.getString(
+                         "Create New Folder"));
+                 UIManager.put("FileChooser.listViewButtonToolTipText", Local
+                         .getString("List"));
+                 UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
+                         .getString("Details"));
+                 UIManager.put("FileChooser.fileNameLabelText", Local.getString(
+                         "File Name:"));
+                 UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString(
+                         "Files of Type:"));
+                 UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
+                 UIManager.put("FileChooser.openButtonToolTipText", Local.getString(
+                         "Open selected file"));
+                 UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+                 UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString(
+                         "Cancel"));
+                 JFileChooser chooser = new JFileChooser();
+                 chooser.setFileHidingEnabled(false);
+
+                 chooser.setDialogTitle(Local.getString("Import notes"));
+                 chooser.setAcceptAllFileFilterUsed(false);
+                 chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                 chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));///having some problems here
+                 chooser.setPreferredSize(new Dimension(550, 375));
+                 
+            	
+            	
+            	
+            }
             protected void p1Import_actionPerformed(ActionEvent e) {
                 
             UIManager.put("FileChooser.lookInLabelText", Local
