@@ -464,7 +464,7 @@ public class AppFrame extends JFrame {
         jMenuInsertBR.setToolTipText(Local.getString("Insert break"));
         jMenuInsertHR.setText(Local.getString("Horizontal rule"));
         jMenuInsertHR.setToolTipText(Local.getString("Insert Horizontal rule"));
-
+        
         toolBar.add(jButton3);
         jMenuFile.add(jMenuFileNewPrj);
         jMenuFile.add(jMenuFileNewNote);
@@ -1077,14 +1077,18 @@ public class AppFrame extends JFrame {
                  JFileChooser chooser = new JFileChooser();
                  chooser.setFileHidingEnabled(false);
 
-                 chooser.setDialogTitle(Local.getString("Import notes"));
+                 chooser.setDialogTitle(Local.getString("Import Code"));
                  chooser.setAcceptAllFileFilterUsed(false);
                  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                  chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));///having some problems here
                  chooser.setPreferredSize(new Dimension(550, 375));
                  
-            	
-            	
+            	 int val = chooser.showOpenDialog(this);
+            	if(val == JFileChooser.APPROVE_OPTION){
+            		
+            		File f = chooser.getSelectedFile();
+            		
+            	}
             	
             }
             protected void p1Import_actionPerformed(ActionEvent e) {

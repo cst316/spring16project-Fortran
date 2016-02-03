@@ -78,6 +78,8 @@ public class AllFilesFilter extends FileFilter {
             return "Rich Text Format (*.rtf)";
         else if (_type.equals(ZIP))
             return "ZIP archives (*.zip)";
+        else if(_type.equals(JAVA))
+        	return "Java Source Files (*.java)";
         else if (_type.equals(EXE))
             return Local.getString("Executable Files") + " (*.exe, *.com, *.bat)";
         else if (_type.equals(JAR))
