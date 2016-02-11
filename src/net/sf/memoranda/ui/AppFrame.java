@@ -51,6 +51,7 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
+import net.sf.memoranda.util.LOCreader;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -70,7 +71,7 @@ public class AppFrame extends JFrame {
     JMenuBar menuBar = new JMenuBar();
     JMenu jMenuFile = new JMenu();
     JMenuItem jMenuFileExit = new JMenuItem();
-
+    
     JToolBar toolBar = new JToolBar();
     JButton jButton3 = new JButton();
     ImageIcon image1;
@@ -85,7 +86,10 @@ public class AppFrame extends JFrame {
     JMenu jMenuEdit = new JMenu();
     JMenu jMenuFormat = new JMenu();
     JMenu jMenuInsert = new JMenu();
-
+    
+    //Added View
+    JMenu jMenuView = new JMenu();
+    
     public WorkPanel workPanel = new WorkPanel();
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
@@ -149,6 +153,19 @@ public class AppFrame extends JFrame {
         	}
         	
         };
+        /**
+         * Event handler for viewing source code module
+         * 
+         */
+        public Action viewSourceAction = new AbstractAction(Local.getString("Imported Code")) {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        	
+        	
+        };
+        
     
     JMenuItem jMenuFileNewPrj = new JMenuItem();
         JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
@@ -158,10 +175,10 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
     JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
     //added import source code 
-    
+    JMenuItem jMenuViewCode = new JMenuItem(viewSourceAction);
     
     JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
-    
+    //JMenuItem jMenuViewSource = new JMenuItem(viewSourceAction);
     
     /////////////////////////////////////
     
@@ -361,9 +378,10 @@ public class AppFrame extends JFrame {
         jMenuFileMin.setText(Local.getString("Close the window"));
         jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
                 InputEvent.ALT_MASK));
-
+        
+        jMenuView.setText("View");
         jMenuEdit.setText(Local.getString("Edit"));
-
+       // JMenuView.setText(Local.getString("View"));
         jMenuEditUndo.setText(Local.getString("Undo"));
         jMenuEditUndo.setToolTipText(Local.getString("Undo"));
         jMenuEditRedo.setText(Local.getString("Redo"));
@@ -479,7 +497,7 @@ public class AppFrame extends JFrame {
         jMenuFile.add(jMenuFileImportPrj);
         
         //added to panel
-        
+        jMenuView.add(jMenuViewCode);///////////////////////////////////////////
         
         
         jMenuFile.addSeparator();
@@ -496,6 +514,7 @@ public class AppFrame extends JFrame {
         jMenuHelp.add(jMenuHelpAbout);
         
         menuBar.add(jMenuFile);
+        menuBar.add(jMenuView);//Added View
         menuBar.add(jMenuEdit);
         menuBar.add(jMenuInsert);
         menuBar.add(jMenuFormat);
@@ -1087,8 +1106,16 @@ public class AppFrame extends JFrame {
             	if(val == JFileChooser.APPROVE_OPTION){
             		
             		File f = chooser.getSelectedFile();
-            		
+            		LOCreader Srcreader = new LOCreader(f);
             	}
+            	
+            }
+            /**
+             * Event for opening Imported Code
+             */
+            public void vewImportedCode(ActionEvent e){
+            	
+             
             	
             }
             protected void p1Import_actionPerformed(ActionEvent e) {
@@ -1113,7 +1140,7 @@ public class AppFrame extends JFrame {
             UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
             UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString(
                     "Cancel"));
-
+            
             JFileChooser chooser = new JFileChooser();
             chooser.setFileHidingEnabled(false);
 
