@@ -96,6 +96,8 @@ public class TaskDialog extends JDialog {
     JLabel jLabelEffort = new JLabel();
     JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
+	JCheckBox timer = new JCheckBox();
+	
 	
 	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	JLabel jLabelProgress = new JLabel();
@@ -146,6 +148,9 @@ public class TaskDialog extends JDialog {
 
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+		timer.setSelected(false);
+		timer.setSelected(false);
+		
 		
         chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
@@ -261,10 +266,14 @@ public class TaskDialog extends JDialog {
                 setStartDateB_actionPerformed(e);
             }
         });
+        timer.setBounds(100, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        
         jLabel2.setMaximumSize(new Dimension(270, 16));
         //jLabel2.setPreferredSize(new Dimension(60, 16));
-        jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
         jLabel2.setText(Local.getString("End date"));
+        timer.setBounds(200, 200, 15, 15);
+        timer.setText(Local.getString("Timer"));
         endDate.setBorder(border8);
         endDate.setPreferredSize(new Dimension(80, 24));
         
@@ -343,6 +352,7 @@ public class TaskDialog extends JDialog {
         jPanel2.add(jPanel1, null);
 		jPanel1.add(chkEndDate, null);
         jPanel1.add(jLabel2, null);
+        jPanel1.add(timer, null);
         jPanel1.add(endDate, null);
         jPanel1.add(setEndDateB, null);
         // added by rawsushi
@@ -406,7 +416,9 @@ public class TaskDialog extends JDialog {
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
     }
-	
+	void timer_actionPerformed(ActionEvent e){
+		
+	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());
 		setEndDateB.setEnabled(chkEndDate.isSelected());

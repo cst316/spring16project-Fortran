@@ -23,6 +23,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JFrame;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.*;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
@@ -39,7 +43,6 @@ import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Util;
-
 /*$Id: TaskPanel.java,v 1.27 2007/01/17 20:49:12 killerjoe Exp $*/
 public class TaskPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
@@ -468,6 +471,10 @@ public class TaskPanel extends JPanel {
         CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
 //        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
          CalendarDate ed;
+        if(dlg.timer.isSelected()){
+        	TheTimer time = new TheTimer();
+        }
+        
  		if(dlg.chkEndDate.isSelected())
  			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
  		else
@@ -758,5 +765,16 @@ public class TaskPanel extends JPanel {
   void ppCalcTask_actionPerformed(ActionEvent e) {
       calcTask_actionPerformed(e);
   }
+  public class TheTimer extends JFrame {
 
+		JFrame frame = new JFrame();
+		
+		private TheTimer(){
+			super("Timer");
+			frame.setSize(400,400);
+			frame.setResizable(true);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+  }
 }
+ 
