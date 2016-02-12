@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
 *
-* @author Quy
+* @author Quy Ly and Saul Lopez
 */
 
 public class LOCreader {
@@ -47,19 +47,21 @@ public class LOCreader {
     
         //Do not count comments
                 if (fileName.startsWith("//")) {
-                    LOC--;
+                  
                 } 
         
         //Do not count lines of multiple comments
                 if (fileName.startsWith("/*")) {
-                    LOC--;
+                   
                         while(!fileName.endsWith("*/")) {
                             fileName = reader.readLine();
                         }
                 }
 
                 fileName = reader.readLine();
+                
             }
+            System.out.println("LOC Called");
             file.close();
         }
         
