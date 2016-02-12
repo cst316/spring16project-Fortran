@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -96,6 +97,7 @@ public class TaskDialog extends JDialog {
     JLabel jLabelEffort = new JLabel();
     JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
+	JCheckBox timer = new JCheckBox();
 	
 	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	JLabel jLabelProgress = new JLabel();
@@ -147,6 +149,7 @@ public class TaskDialog extends JDialog {
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
 		
+        timer.setSelected(false);
         chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
 		chkEndDate.addActionListener(new java.awt.event.ActionListener() {
@@ -261,10 +264,12 @@ public class TaskDialog extends JDialog {
                 setStartDateB_actionPerformed(e);
             }
         });
+
+
         jLabel2.setMaximumSize(new Dimension(270, 16));
         //jLabel2.setPreferredSize(new Dimension(60, 16));
-        jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
         jLabel2.setText(Local.getString("End date"));
+        timer.setText(Local.getString("Timer"));
         endDate.setBorder(border8);
         endDate.setPreferredSize(new Dimension(80, 24));
         
@@ -341,6 +346,7 @@ public class TaskDialog extends JDialog {
         jPanel6.add(startDate, null);
         jPanel6.add(setStartDateB, null);
         jPanel2.add(jPanel1, null);
+		jPanel1.add(timer, null);
 		jPanel1.add(chkEndDate, null);
         jPanel1.add(jLabel2, null);
         jPanel1.add(endDate, null);
@@ -400,6 +406,11 @@ public class TaskDialog extends JDialog {
 	
     void okB_actionPerformed(ActionEvent e) {
 	CANCELLED = false;
+        if(timer.isSelected()){
+    		StopWatch stopwatch = new StopWatch();
+ 
+    	}
+
         this.dispose();
     }
 
