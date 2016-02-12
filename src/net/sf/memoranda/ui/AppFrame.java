@@ -155,7 +155,7 @@ public class AppFrame extends JFrame {
         };
         /**
          * Event handler for viewing source code module
-         * 
+         * will display a JTable of all source code imported
          */
         public Action viewSourceAction = new AbstractAction(Local.getString("Imported Code")) {
         	
@@ -174,13 +174,14 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuFileExportPrj = new JMenuItem(exportNotesAction);
     JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
     JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
+    
     //added import source code 
     JMenuItem jMenuViewCode = new JMenuItem(viewSourceAction);
     
     JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
     //JMenuItem jMenuViewSource = new JMenuItem(viewSourceAction);
     
-    /////////////////////////////////////
+   
     
     JMenuItem jMenuFileExportNote = new JMenuItem(
             workPanel.dailyItemsPanel.editorPanel.exportAction);

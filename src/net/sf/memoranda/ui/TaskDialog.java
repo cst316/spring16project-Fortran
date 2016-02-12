@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +40,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.StopWatch;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -149,8 +151,12 @@ public class TaskDialog extends JDialog {
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
 		timer.setSelected(false);
-		timer.setSelected(false);
-		
+		//timer.setSelected(false);
+		timer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				timer_actionPerformed(e);
+			}
+		});
 		
         chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
@@ -409,14 +415,20 @@ public class TaskDialog extends JDialog {
 	}
 	
     void okB_actionPerformed(ActionEvent e) {
-	CANCELLED = false;
+    	CANCELLED = false;
+    	if(timer.isSelected()){
+    		StopWatch s = new StopWatch();
+    	}//creates StopWatch GUI after clicking GUI
         this.dispose();
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
     }
-	void timer_actionPerformed(ActionEvent e){
+	void timer_actionPerformed(ActionEvent e){/////////////////////////////////
+		
+		//StopWatch s = new StopWatch();
+		
 		
 	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
