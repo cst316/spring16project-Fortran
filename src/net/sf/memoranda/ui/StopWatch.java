@@ -15,7 +15,13 @@ public class StopWatch extends JFrame{
 	JButton button;
 	Timer timer;
 	
-	public StopWatch() {
+	public StopWatch(String temp) {
+		super(temp);
+		setVisible(true);
+		setResizable(true);
+		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
+		setSize(300,150);
+		
 		setLayout(new GridLayout(2, 2, 5, 5));
 		
 		promptLabel = new JLabel("Enter seconds:", SwingConstants.CENTER);
@@ -24,13 +30,21 @@ public class StopWatch extends JFrame{
 		tf = new JTextField(5);
 		add(tf);
 		
+		button = new JButton("Start timing");
+		add(button);
+		
 		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
 		add(timerLabel);
-		
+
 		event e = new event();
 		button.addActionListener(e);
 	}
 	
+	private void closeOperationOnDefault(int exitOnClose) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int count = (int)(Double.parseDouble(tf.getText()));

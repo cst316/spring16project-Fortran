@@ -40,7 +40,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.StopWatch;
+import net.sf.memoranda.ui.StopWatch;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -419,10 +419,14 @@ public class TaskDialog extends JDialog {
     void okB_actionPerformed(ActionEvent e) {
 
     	CANCELLED = false;
-    	if(timer.isSelected()){
-    		StopWatch s = new StopWatch();
-    	}//creates StopWatch GUI after clicking GUI
         this.dispose();
+    	if(timer.isSelected()){
+    		if(todoField.getText() != null){
+    			StopWatch s = new StopWatch(todoField.getText());
+    		}else{
+    			StopWatch s = new StopWatch("StopWatch");
+    		}
+    	}//creates StopWatch GUI after clicking GUI
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
