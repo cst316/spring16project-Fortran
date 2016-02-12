@@ -40,6 +40,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.StopWatch;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -148,6 +149,13 @@ public class TaskDialog extends JDialog {
 
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+		timer.setSelected(false);
+		//timer.setSelected(false);
+		timer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				timer_actionPerformed(e);
+			}
+		});
 		
         timer.setSelected(false);
         chkEndDate.setSelected(false);
@@ -265,10 +273,13 @@ public class TaskDialog extends JDialog {
             }
         });
 
-
+        timer.setBounds(100, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        
         jLabel2.setMaximumSize(new Dimension(270, 16));
         //jLabel2.setPreferredSize(new Dimension(60, 16));
         jLabel2.setText(Local.getString("End date"));
+        timer.setBounds(200, 200, 15, 15);
         timer.setText(Local.getString("Timer"));
         endDate.setBorder(border8);
         endDate.setPreferredSize(new Dimension(80, 24));
@@ -349,6 +360,7 @@ public class TaskDialog extends JDialog {
 		jPanel1.add(timer, null);
 		jPanel1.add(chkEndDate, null);
         jPanel1.add(jLabel2, null);
+        jPanel1.add(timer, null);
         jPanel1.add(endDate, null);
         jPanel1.add(setEndDateB, null);
         // added by rawsushi
@@ -405,19 +417,23 @@ public class TaskDialog extends JDialog {
 	}
 	
     void okB_actionPerformed(ActionEvent e) {
-	CANCELLED = false;
-        if(timer.isSelected()){
-    		StopWatch stopwatch = new StopWatch();
- 
-    	}
 
+    	CANCELLED = false;
+    	if(timer.isSelected()){
+    		StopWatch s = new StopWatch();
+    	}//creates StopWatch GUI after clicking GUI
         this.dispose();
     }
 
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
     }
-	
+	void timer_actionPerformed(ActionEvent e){/////////////////////////////////
+		
+		//StopWatch s = new StopWatch();
+		
+		
+	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());
 		setEndDateB.setEnabled(chkEndDate.isSelected());
