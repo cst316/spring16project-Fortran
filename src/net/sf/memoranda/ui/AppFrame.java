@@ -51,7 +51,8 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
-import net.sf.memoranda.util.LOCreader;
+import net.sf.memoranda.util.LOCReader;
+import net.sf.memoranda.util.LOCWriter;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -1107,8 +1108,13 @@ public class AppFrame extends JFrame {
             	if(val == JFileChooser.APPROVE_OPTION){
             		
             		File f = chooser.getSelectedFile();
-            		LOCreader Srcreader = new LOCreader(f);
+            		LOCReader Srcreader = new LOCReader(f);
+            		//save to file calling LOCWriter then load LOCTable
+            		LOCWriter write = new LOCWriter(Srcreader);
+            		
             	}
+            	
+            	
             	
             }
             /**

@@ -10,58 +10,60 @@ import java.io.IOException;
 * @author Quy Ly and Saul Lopez
 */
 
-public class LOCreader {
+public class LOCReader {
   
 	int LOC;
+	String fileLine;
 	String fileName;
 	
-    public LOCreader () {
+    public LOCReader () {
     	LOC = 0;
-        fileName = "";
+        fileLine = "";
     }
     
-    public LOCreader (File readFile) {
+    public LOCReader (File readFile) {
         
         FileReader file;
         LOC = 0;
-        fileName = "";
+        fileLine = "";
+        fileName = readFile.getName();
 
         try 
         {
             file = new FileReader(readFile);
             
             BufferedReader reader = new BufferedReader(file);
-            
-            fileName = reader.readLine();
+            //Quy Im going to refactor this to fileContent for line 
+            fileLine = reader.readLine();
      
 //Read until end of file
-            while (fileName != null){
+            while (fileLine != null){
                
         //Remove all spaces in the beginning
-                fileName = fileName.replaceAll("\\s+", "");
+                fileLine = fileLine.replaceAll("\\s+", "");
               
         //Counts all but empty lines
-                if (fileName.length() > 0 ) {
+                if (fileLine.length() > 0 ) {
                     LOC++;
                 }
     
         //Do not count comments
-                if (fileName.startsWith("//")) {
+                if (fileLine.startsWith("//")) {
                   
                 } 
         
         //Do not count lines of multiple comments
-                if (fileName.startsWith("/*")) {
+                if (fileLine.startsWith("/*")) {
                    
-                        while(!fileName.endsWith("*/")) {
-                            fileName = reader.readLine();
+                        while(!fileLine.endsWith("*/")) {
+                            fileLine = reader.readLine();
                         }
                 }
 
-                fileName = reader.readLine();
+                fileLine = reader.readLine();
                 
             }
-            System.out.println("LOC Called");
+            System.out.println("FileName " + fileName  + " " + LOC);
             file.close();
         }
         
@@ -77,7 +79,7 @@ public class LOCreader {
 	}
 
 	public void setFileName(String fileName) {
-		this.fileName = fileName;
+		this.fileLine = fileName;
 	}
     
 	public int getLOC() {
