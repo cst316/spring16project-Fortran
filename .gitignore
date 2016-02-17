@@ -1,9 +1,10 @@
+.settings
 bin
 build
-README.txt
+
 .classpath
-.settings
 .project
-.DS_Store
 build.number
+.DS_Store
+*.class
 /classes/
