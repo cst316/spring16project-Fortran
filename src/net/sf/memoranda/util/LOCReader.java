@@ -33,7 +33,7 @@ public class LOCReader {
             file = new FileReader(readFile);
             
             BufferedReader reader = new BufferedReader(file);
-            //Quy Im going to refactor this to fileContent for line 
+       
             fileLine = reader.readLine();
      
 //Read until end of file
@@ -79,7 +79,7 @@ public class LOCReader {
 	}
 
 	public void setFileName(String fileName) {
-		this.fileLine = fileName;
+		this.fileName = fileName;
 	}
     
 	public int getLOC() {

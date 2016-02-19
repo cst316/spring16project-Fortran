@@ -1101,7 +1101,7 @@ public class AppFrame extends JFrame {
                  chooser.setDialogTitle(Local.getString("Import Code"));
                  chooser.setAcceptAllFileFilterUsed(false);
                  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                 chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));///having some problems here
+                 chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
                  chooser.setPreferredSize(new Dimension(550, 375));
                  
             	 int val = chooser.showOpenDialog(this);
@@ -1111,6 +1111,7 @@ public class AppFrame extends JFrame {
             		LOCReader Srcreader = new LOCReader(f);
             		//save to file calling LOCWriter then load LOCTable
             		LOCWriter write = new LOCWriter(Srcreader);
+            		//create SAvedLOCREader and return the data as 2Darray 
             		
             	}
             	
