@@ -37,7 +37,7 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
               "Patrick Bielen (bielen@stafa.nl)",
               "Ryan Ho (rawsushi@users.sourceforge.net)",
               "Ivan Ribas (ivanrise@users.sourceforge.net)",
-              "Jyrki Velhonoja (velhonoja@kapsi.fi>)",
+              "Jyrki Velhonoja (velhonoja@kapsi.fi)",
   			  "Jeremy Whitlock (jwhitlock@starprecision.com)"              
   };
   String othersHead = Local.getString("Other contributors") + ":";
@@ -50,6 +50,14 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
               "Carel-J Rischmuller (carel-j.rischmuller@epiuse.com)",
               "Milena Vitali-Charewicz (milo22370@yahoo.com)",
               "Toru Watanabe (t-wata@cablenet.ne.jp)"                            
+ };
+  String studentsHead = Local.getString("CST316-'Team Fortran' Student contributors") + ":";
+  String[] CST316_students = {
+			  "Talab Hussein (thhussei@asu.edu)",
+			  "Saul Lopez (slopez15@asu.edu)",
+			  "Quy ly (qnly1@asu.edu)",
+			  "Michael Zaragoza (mazarag2@asu.edu)",
+			  "Miguel Zavala (mazaval4@asu.edu)"
  };
     
   JLayeredPane layeredPane;
@@ -65,19 +73,25 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
     catch(Exception e) {
       e.printStackTrace();
     }
-    setSize(400, 500);
+    setSize(400, 580);
   }
   //Component initialization
   private void jbInit() throws Exception  {    
     String text = "<html>";
     text += "<b>"+product+"</b><br><br>";
     text += copyright + "<br>" + url + "<br><br>";
-    text += "<b>" + developersHead + "</b><br>";    
+    //developers' names
+    text += "<b>" + developersHead + "</b><br>"; 
     for (int i = 0; i < developers.length; i++)
         text += developers[i]+"<br>";    
+    //others' names
     text += "<br><b>" + othersHead + "</b><br>";    
     for (int i = 0; i < others.length; i++)
         text += others[i]+"<br>"; 
+    //students' names
+    text += "<br><b>" + studentsHead + "</b><br>";    
+    for (int i = 0; i < CST316_students.length; i++)
+        text += CST316_students[i]+"<br>"; 
     
     text += "</html>";
     
@@ -87,11 +101,11 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
     // Initialize Objects
     lblText.setFont(new java.awt.Font("Dialog", 0, 11));
     lblText.setText(text);
-    lblText.setBounds(10, 55, 300, 400);
+    lblText.setBounds(10, 55, 350, 472);
 
     
     button1.setText(Local.getString("Ok"));
-    button1.setBounds(150, 415, 95, 30);
+    button1.setBounds(150, 515, 95, 30); //location and size
     button1.addActionListener(this);
     button1.setPreferredSize(new Dimension(95, 30));
     button1.setBackground(new Color(69, 125, 186));
