@@ -358,9 +358,9 @@ public class TaskDialog extends JDialog {
         jPanel6.add(setStartDateB, null);
         jPanel2.add(jPanel1, null);
 		jPanel1.add(timer, null);
+		jPanel1.add(timer, null);
 		jPanel1.add(chkEndDate, null);
         jPanel1.add(jLabel2, null);
-        jPanel1.add(timer, null);
         jPanel1.add(endDate, null);
         jPanel1.add(setEndDateB, null);
         // added by rawsushi
