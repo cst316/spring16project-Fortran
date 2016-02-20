@@ -141,8 +141,10 @@ public class App {
 	public static void closeWindow() {
 		if (frame == null)
 			return;
-		frame.dispose();
+		//frame.dispose();
+		System.exit(0);
 	}
+	/*hide window here?-check other memoranda files*/
 
 	/**
 	 * Method showSplash.
