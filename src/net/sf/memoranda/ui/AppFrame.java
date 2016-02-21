@@ -80,7 +80,6 @@ public class AppFrame extends JFrame {
 	ProjectsPanel projectsPanel = new ProjectsPanel();
 	boolean prPanelExpanded = false;
 
-	
 	public WorkPanel workPanel = new WorkPanel();
 	HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
@@ -124,7 +123,7 @@ public class AppFrame extends JFrame {
 			p1Import_actionPerformed(e);
 		}
 	};
-	//Even Implementation of import source code module
+	// Even Implementation of import source code module
 	public Action importSourceAction = new AbstractAction(Local.getString("Import Code")) {
 
 		public void actionPerformed(ActionEvent e) {
@@ -144,7 +143,7 @@ public class AppFrame extends JFrame {
 
 	};
 
-	/* creating objects - menu,items,etc.*/
+	/* creating objects - menu,items,etc. */
 	JMenu jMenuFile = new JMenu();
 	JMenu jMenuView = new JMenu();
 	JMenu jMenuEdit = new JMenu();
@@ -152,7 +151,7 @@ public class AppFrame extends JFrame {
 	JMenu jMenuFormat = new JMenu();
 	JMenu jMenuGo = new JMenu();
 	JMenu jMenuHelp = new JMenu();
-	
+
 	JMenuItem jMenuFileExit = new JMenuItem();
 	JMenuItem jMenuFileNewPrj = new JMenuItem();
 	JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
@@ -161,7 +160,8 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFileExportPrj = new JMenuItem(exportNotesAction);
 	JMenuItem jMenuFileImportPrj = new JMenuItem(importNotesAction);
 	JMenuItem jMenuFileImportNote = new JMenuItem(importOneNoteAction);
-	JMenuItem jMenuViewCode = new JMenuItem(viewSourceAction);	// added import source code
+	JMenuItem jMenuViewCode = new JMenuItem(viewSourceAction); // added import
+																// source code
 	JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
 	// JMenuItem jMenuViewSource = new JMenuItem(viewSourceAction);
 	JMenuItem jMenuFileExportNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.exportAction);
@@ -254,18 +254,22 @@ public class AppFrame extends JFrame {
 		// Added a space to App.VERSION_INFO to make it look some nicer
 		statusBar.setText(" Version:" + App.VERSION_INFO + " (Build " + App.BUILD_INFO + " )");
 
-		/*Following code, in jbInit, are for setting text,action,etc., and adding tabs and sub-options*/
+		/*
+		 * Following code, in jbInit, are for setting text,action,etc., and
+		 * adding tabs and sub-options
+		 */
 
 		jMenuFile.setText(Local.getString("File"));
 		jMenuView.setText("View");
-		// JMenuView.setText(Local.getString("View")); //shouldn't do this since not in language properties
+		// JMenuView.setText(Local.getString("View")); //shouldn't do this since
+		// not in language properties
 		jMenuEdit.setText(Local.getString("Edit"));
 		jMenuInsert.setText(Local.getString("Insert"));
 		jMenuFormat.setText(Local.getString("Format"));
 		jMenuGo.setText(Local.getString("Go"));
 		jMenuHelp.setText(Local.getString("Help"));
-		
-		//MenuFile parts
+
+		// MenuFile parts
 		jMenuFileExit.setText(Local.getString("Exit"));
 		jMenuFileExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -302,10 +306,10 @@ public class AppFrame extends JFrame {
 		 * actionPerformed(ActionEvent e) { ProjectDialog.newProject(); } });
 		 */
 		jMenuFileNewPrj.setAction(projectsPanel.newProjectAction);
-		
-		//MenuView parts
-		
-		//MenuEdit parts
+
+		// MenuView parts
+
+		// MenuEdit parts
 		jMenuEditUndo.setText(Local.getString("Undo"));
 		jMenuEditUndo.setToolTipText(Local.getString("Undo"));
 		jMenuEditRedo.setText(Local.getString("Redo"));
@@ -321,7 +325,7 @@ public class AppFrame extends JFrame {
 		jMenuEditSelectAll.setText(Local.getString("Select all"));
 		jMenuEditFind.setText(Local.getString("Find & replace") + "...");
 		jMenuEditPref.setText(Local.getString("Preferences") + "...");
-		//MenuInsert parts
+		// MenuInsert parts
 		jMenuInsertImage.setText(Local.getString("Image") + "...");
 		jMenuInsertImage.setToolTipText(Local.getString("Insert Image"));
 		jMenuInsertTable.setText(Local.getString("Table") + "...");
@@ -346,7 +350,7 @@ public class AppFrame extends JFrame {
 		jMenuInsertBR.setToolTipText(Local.getString("Insert break"));
 		jMenuInsertHR.setText(Local.getString("Horizontal rule"));
 		jMenuInsertHR.setToolTipText(Local.getString("Insert Horizontal rule"));
-		//MenuFormat parts
+		// MenuFormat parts
 		jMenuFormatPStyle.setText(Local.getString("Paragraph style"));
 		jMenuFormatP.setText(Local.getString("Paragraph"));
 		jMenuFormatH1.setText(Local.getString("Header") + " 1");
@@ -384,7 +388,7 @@ public class AppFrame extends JFrame {
 		jMenuFormatTableInsC.setText(Local.getString("Insert cell"));
 		jMenuFormatProperties.setText(Local.getString("Object properties") + "...");
 		jMenuFormatProperties.setToolTipText(Local.getString("Object properties"));
-		//MenuGo parts
+		// MenuGo parts
 		jMenuGoHBack.setText(Local.getString("History back"));
 		jMenuGoHBack.setToolTipText(Local.getString("History back"));
 		jMenuGoFwd.setText(Local.getString("History forward"));
@@ -392,7 +396,7 @@ public class AppFrame extends JFrame {
 		jMenuGoDayBack.setText(Local.getString("One day back"));
 		jMenuGoDayFwd.setText(Local.getString("One day forward"));
 		jMenuGoToday.setText(Local.getString("To today"));
-		//MenuHelp parts
+		// MenuHelp parts
 		jMenuHelpGuide.setText(Local.getString("Online user's guide"));
 		jMenuHelpGuide.setIcon(new ImageIcon(AppFrame.class.getResource("resources/icons/help.png")));
 		jMenuHelpGuide.addActionListener(new ActionListener() {
@@ -419,9 +423,9 @@ public class AppFrame extends JFrame {
 				jMenuHelpAbout_actionPerformed(e);
 			}
 		});
-		
-		/*adding components*/
-		//MenuFile
+
+		/* adding components */
+		// MenuFile
 		toolBar.add(jButton3);
 		jMenuFile.add(jMenuFileNewPrj);
 		jMenuFile.add(jMenuFileNewNote);
@@ -440,9 +444,9 @@ public class AppFrame extends JFrame {
 		jMenuFile.add(jMenuFileMin);
 		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFileExit);
-		//MenuView
+		// MenuView
 		jMenuView.add(jMenuViewCode);///////////////////////////////////////////
-		//MenuEdit
+		// MenuEdit
 		jMenuEdit.add(jMenuEditUndo);
 		jMenuEdit.add(jMenuEditRedo);
 		jMenuEdit.addSeparator();
@@ -454,7 +458,7 @@ public class AppFrame extends JFrame {
 		jMenuEdit.add(jMenuEditSelectAll);
 		jMenuEdit.addSeparator();
 		jMenuEdit.add(jMenuEditFind);
-		//MenuInsert
+		// MenuInsert
 		jMenuInsert.add(jMenuInsertImage);
 		jMenuInsert.add(jMenuInsertTable);
 		jMenuInsert.add(jMenuInsertLink);
@@ -471,7 +475,7 @@ public class AppFrame extends JFrame {
 		jMenuInsert.add(jMenuInsertTime);
 		jMenuInsert.addSeparator();
 		jMenuInsert.add(jMenuInsertFile);
-		//MenuFormat
+		// MenuFormat
 		jMenuFormat.add(jMenuFormatPStyle);
 		jMenuFormat.add(jjMenuFormatChStyle);
 		jMenuFormat.add(jMenuFormatAlign);
@@ -510,21 +514,21 @@ public class AppFrame extends JFrame {
 		jMenuFormatAlign.add(jMenuFormatAlignR);
 		jMenuFormatTable.add(jMenuFormatTableInsR);
 		jMenuFormatTable.add(jMenuFormatTableInsC);
-		//MenuGo
+		// MenuGo
 		jMenuGo.add(jMenuGoHBack);
 		jMenuGo.add(jMenuGoFwd);
 		jMenuGo.addSeparator();
 		jMenuGo.add(jMenuGoDayBack);
 		jMenuGo.add(jMenuGoDayFwd);
 		jMenuGo.add(jMenuGoToday);
-		//MenuHelp
+		// MenuHelp
 		jMenuHelp.add(jMenuHelpGuide);
 		jMenuHelp.add(jMenuHelpWeb);
 		jMenuHelp.add(jMenuHelpBug);
 		jMenuHelp.addSeparator();
 		jMenuHelp.add(jMenuHelpAbout);
-		
-		//add tabs
+
+		// add tabs
 		menuBar.add(jMenuFile);
 		menuBar.add(jMenuView);// Added View
 		menuBar.add(jMenuEdit);
@@ -608,7 +612,7 @@ public class AppFrame extends JFrame {
 			}
 		});
 
-	}//jbInit
+	}// jbInit
 
 	protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
 		Util.runBrowser(App.BUGS_TRACKER_URL);

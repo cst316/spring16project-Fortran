@@ -7,30 +7,32 @@
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda;
+
 import java.util.Collection;
 
 import net.sf.memoranda.date.CalendarDate;
+
 /**
  * 
  */
-/*$Id: NoteList.java,v 1.5 2004/10/07 21:33:36 ivanrise Exp $*/
+/* $Id: NoteList.java,v 1.5 2004/10/07 21:33:36 ivanrise Exp $ */
 public interface NoteList {
-    
-    Collection getAllNotes();
-    
-    Collection getMarkedNotes();
 
-    Collection getNotesForPeriod(CalendarDate startDate, CalendarDate endDate);
+	Collection getAllNotes();
 
-    Note getNoteForDate(CalendarDate date);
-    
-    Note createNoteForDate(CalendarDate date);
-    
-//    void removeNoteForDate(CalendarDate date);
+	Collection getMarkedNotes();
+
+	Collection getNotesForPeriod(CalendarDate startDate, CalendarDate endDate);
+
+	Note getNoteForDate(CalendarDate date);
+
+	Note createNoteForDate(CalendarDate date);
+
+	// void removeNoteForDate(CalendarDate date);
 	void removeNote(CalendarDate date, String id);
 
-    Note getActiveNote();
-    
-    nu.xom.Document getXMLContent();
+	Note getActiveNote();
+
+	nu.xom.Document getXMLContent();
 
 }

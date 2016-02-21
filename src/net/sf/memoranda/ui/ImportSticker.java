@@ -6,22 +6,21 @@ import net.sf.memoranda.util.Local;
 
 public class ImportSticker {
 
-String name;        
-        
-        public ImportSticker(String x) {
-                name = x;
-        }
+	String name;
 
-        public boolean import_file(){
-                /*
-                 We are working on this =)
-                  
-                  
-                  */
-        	
-                JOptionPane.showMessageDialog(null,Local.getString("We still can not import your document"));
-                return true;
-        }
-        
-        
+	public ImportSticker(String x) {
+		name = x;
+	}
+
+	public boolean import_file() {
+		/*
+		 * We are working on this =)
+		 * 
+		 * 
+		 */
+
+		JOptionPane.showMessageDialog(null, Local.getString("We still can not import your document"));
+		return true;
+	}
+
 }

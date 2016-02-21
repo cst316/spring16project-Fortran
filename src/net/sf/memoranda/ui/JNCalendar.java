@@ -27,7 +27,7 @@ import net.sf.memoranda.util.Configuration;
 /**
  *  
  */
-/*$Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $*/
+/* $Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $ */
 public class JNCalendar extends JTable {
 
 	private CalendarDate _date = null;
@@ -40,6 +40,7 @@ public class JNCalendar extends JTable {
 	public JNCalendar() {
 		this(CurrentDate.get());
 	}
+
 	/**
 	 * Constructor for JNCalendar.
 	 */
@@ -57,8 +58,8 @@ public class JNCalendar extends JTable {
 		final ListSelectionModel colSM = getColumnModel().getSelectionModel();
 		ListSelectionListener lsl = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-					//Ignore extra messages.
-	if (e.getValueIsAdjusting())
+				// Ignore extra messages.
+				if (e.getValueIsAdjusting())
 					return;
 				if (ignoreChange)
 					return;
@@ -66,18 +67,12 @@ public class JNCalendar extends JTable {
 				int col = getSelCol();
 				Object val = getModel().getValueAt(row, col);
 				if (val != null) {
-					if (val
-						.toString()
-						.equals(new Integer(_date.getDay()).toString()))
+					if (val.toString().equals(new Integer(_date.getDay()).toString()))
 						return;
-					_date =
-						new CalendarDate(
-							new Integer(val.toString()).intValue(),
-							_date.getMonth(),
-							_date.getYear());
+					_date = new CalendarDate(new Integer(val.toString()).intValue(), _date.getMonth(), _date.getYear());
 					notifyListeners();
 				} else {
-					//getSelectionModel().clearSelection();
+					// getSelectionModel().clearSelection();
 					doSelection();
 				}
 			}
@@ -123,9 +118,8 @@ public class JNCalendar extends JTable {
 	}
 
 	private void notifyListeners() {
-		for(int i=0;i<selectionListeners.size();i++) {
-			((ActionListener) selectionListeners.get(i)).actionPerformed(
-				new ActionEvent(this, 0, "Calendar event"));
+		for (int i = 0; i < selectionListeners.size(); i++) {
+			((ActionListener) selectionListeners.get(i)).actionPerformed(new ActionEvent(this, 0, "Calendar event"));
 		}
 	}
 
@@ -137,11 +131,7 @@ public class JNCalendar extends JTable {
 		 * _date.getYear()));
 		 */
 		if (d != null)
-			renderer.setDate(
-				new CalendarDate(
-					new Integer(d.toString()).intValue(),
-					_date.getMonth(),
-					_date.getYear()));
+			renderer.setDate(new CalendarDate(new Integer(d.toString()).intValue(), _date.getMonth(), _date.getYear()));
 		else
 			renderer.setDate(null);
 		return renderer;
@@ -186,8 +176,8 @@ public class JNCalendar extends JTable {
 		daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 
-	/*$Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $*/
-public class JNCalendarModel extends AbstractTableModel {
+	/* $Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $ */
+	public class JNCalendarModel extends AbstractTableModel {
 
 		private String[] dayNames = Local.getWeekdayNames();
 
@@ -200,7 +190,7 @@ public class JNCalendarModel extends AbstractTableModel {
 		}
 
 		public Object getValueAt(int row, int col) {
-			//int pos = (row * 7 + col) - firstDay + 1;
+			// int pos = (row * 7 + col) - firstDay + 1;
 			int pos = (row * 7 + (col + 1)) - firstDay;
 			if ((pos > 0) && (pos <= daysInMonth))
 				return new Integer(pos);

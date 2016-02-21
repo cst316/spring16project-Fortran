@@ -49,7 +49,7 @@ public class JTreeTable extends JTable {
 	public JTreeTable() {
 		super();
 	}
-	
+
 	public JTreeTable(TreeTableModel treeTableModel) {
 		super();
 		model = treeTableModel;
@@ -94,8 +94,7 @@ public class JTreeTable extends JTable {
 		}
 		// Use the tree's default foreground and background colors in the
 		// table.
-		LookAndFeel.installColorsAndFont(this, "Tree.background",
-				"Tree.foreground", "Tree.font");
+		LookAndFeel.installColorsAndFont(this, "Tree.background", "Tree.foreground", "Tree.font");
 	}
 
 	/*
@@ -106,8 +105,7 @@ public class JTreeTable extends JTable {
 	 * ensures the editor is never painted.
 	 */
 	public int getEditingRow() {
-		return (getColumnClass(editingColumn) == TreeTableModel.class) ? -1
-				: editingRow;
+		return (getColumnClass(editingColumn) == TreeTableModel.class) ? -1 : editingRow;
 	}
 
 	/**
@@ -130,8 +128,7 @@ public class JTreeTable extends JTable {
 	/**
 	 * A TreeCellRenderer that displays a JTree.
 	 */
-	public class TreeTableCellRenderer extends JTree implements
-			TableCellRenderer {
+	public class TreeTableCellRenderer extends JTree implements TableCellRenderer {
 		/** Last table/tree row asked to renderer. */
 		protected int visibleRow;
 
@@ -139,9 +136,9 @@ public class JTreeTable extends JTable {
 			super(model);
 			this.setRootVisible(false);
 			this.setShowsRootHandles(true);
-			((DefaultTreeCellRenderer)this.getCellRenderer()).setLeafIcon(null);
-			((DefaultTreeCellRenderer)this.getCellRenderer()).setOpenIcon(null);
-			((DefaultTreeCellRenderer)this.getCellRenderer()).setClosedIcon(null);
+			((DefaultTreeCellRenderer) this.getCellRenderer()).setLeafIcon(null);
+			((DefaultTreeCellRenderer) this.getCellRenderer()).setOpenIcon(null);
+			((DefaultTreeCellRenderer) this.getCellRenderer()).setClosedIcon(null);
 		}
 
 		/**
@@ -159,13 +156,11 @@ public class JTreeTable extends JTable {
 				// exception to be thrown if the border selection color is
 				// null.
 				// dtcr.setBorderSelectionColor(null);
-				dtcr.setTextSelectionColor(UIManager
-						.getColor("Table.selectionForeground"));
-				dtcr.setBackgroundSelectionColor(UIManager
-						.getColor("Table.selectionBackground"));
-				((DefaultTreeCellRenderer)this.getCellRenderer()).setLeafIcon(null);
-				((DefaultTreeCellRenderer)this.getCellRenderer()).setOpenIcon(null);
-				((DefaultTreeCellRenderer)this.getCellRenderer()).setClosedIcon(null);
+				dtcr.setTextSelectionColor(UIManager.getColor("Table.selectionForeground"));
+				dtcr.setBackgroundSelectionColor(UIManager.getColor("Table.selectionBackground"));
+				((DefaultTreeCellRenderer) this.getCellRenderer()).setLeafIcon(null);
+				((DefaultTreeCellRenderer) this.getCellRenderer()).setOpenIcon(null);
+				((DefaultTreeCellRenderer) this.getCellRenderer()).setClosedIcon(null);
 			}
 		}
 
@@ -176,8 +171,7 @@ public class JTreeTable extends JTable {
 		public void setRowHeight(int rowHeight) {
 			if (rowHeight > 0) {
 				super.setRowHeight(rowHeight);
-				if (JTreeTable.this != null
-						&& JTreeTable.this.getRowHeight() != rowHeight) {
+				if (JTreeTable.this != null && JTreeTable.this.getRowHeight() != rowHeight) {
 					JTreeTable.this.setRowHeight(getRowHeight());
 				}
 			}
@@ -202,15 +196,14 @@ public class JTreeTable extends JTable {
 		/**
 		 * TreeCellRenderer method. Overridden to update the visible row.
 		 */
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
 			if (isSelected)
 				setBackground(table.getSelectionBackground());
 			else
 				setBackground(table.getBackground());
 			if (value instanceof Task) {
-				
+
 			}
 			visibleRow = row;
 			return this;
@@ -220,10 +213,8 @@ public class JTreeTable extends JTable {
 	/**
 	 * TreeTableCellEditor implementation. Component returned is the JTree.
 	 */
-	public class TreeTableCellEditor extends AbstractCellEditor implements
-			TableCellEditor {
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int r, int c) {
+	public class TreeTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int r, int c) {
 			return tree;
 		}
 
@@ -251,10 +242,9 @@ public class JTreeTable extends JTable {
 				for (int counter = getColumnCount() - 1; counter >= 0; counter--) {
 					if (getColumnClass(counter) == TreeTableModel.class) {
 						MouseEvent me = (MouseEvent) e;
-						MouseEvent newME = new MouseEvent(tree, me.getID(), me
-								.getWhen(), me.getModifiers(), me.getX()
-								- getCellRect(0, counter, true).x, me.getY(),
-								me.getClickCount(), me.isPopupTrigger());
+						MouseEvent newME = new MouseEvent(tree, me.getID(), me.getWhen(), me.getModifiers(),
+								me.getX() - getCellRect(0, counter, true).x, me.getY(), me.getClickCount(),
+								me.isPopupTrigger());
 						tree.dispatchEvent(newME);
 						break;
 					}
@@ -276,8 +266,7 @@ public class JTreeTable extends JTable {
 
 		public ListToTreeSelectionModelWrapper() {
 			super();
-			getListSelectionModel().addListSelectionListener(
-					createListSelectionListener());
+			getListSelectionModel().addListSelectionListener(createListSelectionListener());
 		}
 
 		/**
@@ -290,8 +279,8 @@ public class JTreeTable extends JTable {
 		}
 
 		/**
-		 * This is overridden to set <code>updatingListSelectionModel</code>
-		 * and message super. This is the only place DefaultTreeSelectionModel
+		 * This is overridden to set <code>updatingListSelectionModel</code> and
+		 * message super. This is the only place DefaultTreeSelectionModel
 		 * alters the ListSelectionModel.
 		 */
 		public void resetRowSelection() {
@@ -318,8 +307,8 @@ public class JTreeTable extends JTable {
 		}
 
 		/**
-		 * If <code>updatingListSelectionModel</code> is false, this will
-		 * reset the selected paths from the selected rows in the list selection
+		 * If <code>updatingListSelectionModel</code> is false, this will reset
+		 * the selected paths from the selected rows in the list selection
 		 * model.
 		 */
 		protected void updateSelectedPathsFromSelectedRows() {
