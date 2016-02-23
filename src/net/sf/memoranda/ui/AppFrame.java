@@ -1112,7 +1112,7 @@ public class AppFrame extends JFrame {
             		//save to file calling LOCWriter then load LOCTable
             		LOCWriter write = new LOCWriter(Srcreader);
             		//create SAvedLOCREader and return the data as 2Darray 
-            		
+            		LOCReader.xmlToArray();
             	}
             	
             	

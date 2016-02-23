@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
+
 /**
 *
 * @author Quy Ly and Saul Lopez
@@ -63,7 +66,6 @@ public class LOCReader {
                 fileLine = reader.readLine();
                 
             }
-            System.out.println("FileName " + fileName  + " " + LOC);
             file.close();
         }
         
@@ -72,7 +74,55 @@ public class LOCReader {
             System.err.println(e.getMessage());
         }
     }
+    
+	private static String configPath = System.getProperty("user.home") + File.separator 
+			+ ".memoranda" + File.separator;
    
+    public static void xmlToArray() {
+
+	 try {
+		File inputFile = new File(configPath + "SavedLOC.xml");
+        DocumentBuilderFactory dbFactory 
+           = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(inputFile);
+        
+        doc.getDocumentElement().normalize();
+        System.out.println("Root element: " 
+           + doc.getDocumentElement().getNodeName());
+        
+        NodeList nList = doc.getDocumentElement().getChildNodes();
+        System.out.println("----------------------------");
+        
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+           Node nNode = nList.item(temp);
+
+           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+              Element eElement = (Element) nNode;
+              System.out.println("Filename: " 
+                 + eElement
+                 .getElementsByTagName("SOURCEFILE")
+                 .item(0)
+                 .getChildNodes()
+                 .item(0)
+                 .getNodeValue());
+              
+              System.out.println("Lines of Code: "
+                 + eElement
+                 .getElementsByTagName("LOC")
+                 .item(0)
+                 .getChildNodes()
+                 .item(0)
+                 .getNodeValue());
+           }
+        } 
+	  }
+    
+	  catch (Exception e) {
+          e.printStackTrace();
+      }
+    }
+    
 //Setters and getters    
 	public void setLOC(int loc) {
 		LOC = loc;
