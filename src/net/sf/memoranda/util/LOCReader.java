@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 
 /**
@@ -18,6 +19,7 @@ public class LOCReader {
 	int LOC;
 	String fileLine;
 	String fileName;
+	static int row;
 	
     public LOCReader () {
     	LOC = 0;
@@ -51,9 +53,7 @@ public class LOCReader {
                 }
     
         //Do not count comments
-                if (fileLine.startsWith("//")) {
-                  
-                } 
+                if (fileLine.startsWith("//")) {} 
         
         //Do not count lines of multiple comments
                 if (fileLine.startsWith("/*")) {
@@ -80,47 +80,68 @@ public class LOCReader {
    
     public static void xmlToArray() {
 
-	 try {
-		File inputFile = new File(configPath + "SavedLOC.xml");
-        DocumentBuilderFactory dbFactory 
-           = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
-        
-        doc.getDocumentElement().normalize();
-        System.out.println("Root element: " 
-           + doc.getDocumentElement().getNodeName());
-        
-        NodeList nList = doc.getDocumentElement().getChildNodes();
-        System.out.println("----------------------------");
-        
-        for (int temp = 0; temp < nList.getLength(); temp++) {
-           Node nNode = nList.item(temp);
+    	String fN;
+    	String loc;
+    	int column = 2;
+    	
+		try {
+			File inputFile = new File("SavedLOC.xml");
+	        DocumentBuilderFactory dbFactory 
+	           = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(inputFile);
+	        
+	        doc.getDocumentElement().normalize();
+	        
+	        System.out.println("Root element: " 
+	           + doc.getDocumentElement().getNodeName());
+	        
+	        NodeList nList = doc.getElementsByTagName("LOCFILE");
+	        System.out.println("----------------------------");
 
-           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-              Element eElement = (Element) nNode;
-              System.out.println("Filename: " 
-                 + eElement
-                 .getElementsByTagName("SOURCEFILE")
-                 .item(0)
-                 .getChildNodes()
-                 .item(0)
-                 .getNodeValue());
-              
-              System.out.println("Lines of Code: "
-                 + eElement
-                 .getElementsByTagName("LOC")
-                 .item(0)
-                 .getChildNodes()
-                 .item(0)
-                 .getNodeValue());
-           }
-        } 
-	  }
-    
-	  catch (Exception e) {
-          e.printStackTrace();
-      }
+	        row = nList.getLength();
+	        String [][] array = new String[row][column];
+	        
+	        for (int temp = 0; temp < nList.getLength(); temp++) {
+	           Node nNode = nList.item(temp);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              Element eElement = (Element) nNode;
+
+	              fN = ("Filename: " 
+			              + eElement
+			              .getElementsByTagName("SOURCEFILE")
+			              .item(0)
+			              .getChildNodes()
+			              .item(0)
+			              .getNodeValue());
+	                		
+	              loc = ("Lines of Code: " 
+	    	              + eElement
+	    	              .getElementsByTagName("LOC")
+	    	              .item(0)
+	    	              .getChildNodes()
+	    	              .item(0)
+	    	              .getNodeValue());  
+ 
+            	  array [temp][0] = fN;
+            	  array [temp][1] = loc;  
+	           }
+	        }
+	        print(array);
+		}  
+		    catch (Exception e) {
+	        e.printStackTrace();
+	    }
+    }
+
+    public static void print(String [][]array) {
+    	for (int i = 0; i < row; i++) {
+    		System.out.print(array [i][0] + " || ");
+    		System.out.print(array [i][1]);
+    		System.out.println();
+    		System.out.println();
+    	}
     }
     
 //Setters and getters    
