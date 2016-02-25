@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 
 /**
@@ -18,6 +19,9 @@ public class LOCReader {
 	int LOC;
 	String fileLine;
 	String fileName;
+	static int row;
+	static String [][] array;
+	private static final int COLUMN = 2;
 	
     public LOCReader () {
     	LOC = 0;
@@ -51,9 +55,7 @@ public class LOCReader {
                 }
     
         //Do not count comments
-                if (fileLine.startsWith("//")) {
-                  
-                } 
+                if (fileLine.startsWith("//")) {} 
         
         //Do not count lines of multiple comments
                 if (fileLine.startsWith("/*")) {
@@ -78,49 +80,58 @@ public class LOCReader {
 	private static String configPath = System.getProperty("user.home") + File.separator 
 			+ ".memoranda" + File.separator;
    
-    public static void xmlToArray() {
+    public static Object[][] xmlToArray() {
 
-	 try {
-		File inputFile = new File(configPath + "SavedLOC.xml");
-        DocumentBuilderFactory dbFactory 
-           = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
-        
-        doc.getDocumentElement().normalize();
-        System.out.println("Root element: " 
-           + doc.getDocumentElement().getNodeName());
-        
-        NodeList nList = doc.getElementsByTagName("LOCFILE");//getDocumentElement().getChildNodes();
-        System.out.println("----------------------------" + nList.getLength());
-        
-        for (int temp = 0; temp < nList.getLength(); temp++) {
-           Node nNode = nList.item(temp);
+    	String fN;
+    	String loc;
+    	
+		try {
+			File inputFile = new File(configPath + "SavedLOC.xml");
+	        DocumentBuilderFactory dbFactory 
+	           = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(inputFile);
+	        
+	        doc.getDocumentElement().normalize();
 
-           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-              Element eElement = (Element) nNode;
-              System.out.println("Filename: " 
-                 + eElement
-                 .getElementsByTagName("SOURCEFILE")
-                 .item(0)
-                 .getChildNodes()
-                 .item(0)
-                 .getNodeValue());
-              
-              System.out.println("Lines of Code: "
-                 + eElement
-                 .getElementsByTagName("LOC")
-                 .item(0)
-                 .getChildNodes()
-                 .item(0)
-                 .getNodeValue());
-           }
-        } 
-	  }
-    
-	  catch (Exception e) {
-          e.printStackTrace();
-      }
+
+	        NodeList nList = doc.getElementsByTagName("LOCFILE");
+
+	        row = nList.getLength();
+	        array = new String[row][COLUMN];
+	        
+	        for (int temp = 0; temp < nList.getLength(); temp++) {
+	           Node nNode = nList.item(temp);
+	           
+	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	              Element eElement = (Element) nNode;
+
+	              fN = ("Filename: " 
+			              + eElement
+			              .getElementsByTagName("SOURCEFILE")
+			              .item(0)
+			              .getChildNodes()
+			              .item(0)
+			              .getNodeValue());
+	                		
+	              loc = ("Lines of Code: " 
+	    	              + eElement
+	    	              .getElementsByTagName("LOC")
+	    	              .item(0)
+	    	              .getChildNodes()
+	    	              .item(0)
+	    	              .getNodeValue());  
+ 
+            	  array [temp][0] = fN;
+            	  array [temp][1] = loc;  
+	           }
+	        }
+		}  
+		    catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+		return (array);
     }
     
 //Setters and getters    
