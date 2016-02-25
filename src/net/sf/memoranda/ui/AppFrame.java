@@ -33,6 +33,7 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.JTable;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
@@ -95,7 +96,9 @@ public class AppFrame extends JFrame {
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
     static Vector exitListeners = new Vector();
-
+    private final Object[] COLUMNAMES = {"SourceFile","LOC"};
+    
+    
     public Action prjPackAction = new AbstractAction("Pack current project") {
         public void actionPerformed(ActionEvent e) {
             doPrjPack();
@@ -161,6 +164,9 @@ public class AppFrame extends JFrame {
         public Action viewSourceAction = new AbstractAction(Local.getString("Imported Code")) {
         	
         	public void actionPerformed(ActionEvent e) {
+        		
+        		Object[][] temp = LOCReader.xmlToArray();
+        	    LOCTable table = new LOCTable(temp,COLUMNAMES);
         		
         	}
         	
@@ -1112,7 +1118,9 @@ public class AppFrame extends JFrame {
             		//save to file calling LOCWriter then load LOCTable
             		LOCWriter write = new LOCWriter(Srcreader);
             		//create SAvedLOCREader and return the data as 2Darray 
-            		LOCReader.xmlToArray();
+            		 Object[][] temp = LOCReader.xmlToArray();
+            		 
+            	    LOCTable table = new LOCTable(temp,COLUMNAMES);
             	}
             	
             	

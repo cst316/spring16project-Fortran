@@ -106,16 +106,14 @@ public class LOCReader {
 	           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	              Element eElement = (Element) nNode;
 
-	              fN = ("Filename: " 
-			              + eElement
+	              fN = (eElement
 			              .getElementsByTagName("SOURCEFILE")
 			              .item(0)
 			              .getChildNodes()
 			              .item(0)
 			              .getNodeValue());
 	                		
-	              loc = ("Lines of Code: " 
-	    	              + eElement
+	              loc = (eElement
 	    	              .getElementsByTagName("LOC")
 	    	              .item(0)
 	    	              .getChildNodes()
