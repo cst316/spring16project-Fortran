@@ -20,6 +20,8 @@ public class LOCReader {
 	String fileLine;
 	String fileName;
 	static int row;
+	static String [][] array;
+	private static final int COLUMN = 2;
 	
     public LOCReader () {
     	LOC = 0;
@@ -78,11 +80,10 @@ public class LOCReader {
 	private static String configPath = System.getProperty("user.home") + File.separator 
 			+ ".memoranda" + File.separator;
    
-    public static void xmlToArray() {
+    public static Object[][] xmlToArray() {
 
     	String fN;
     	String loc;
-    	int column = 2;
     	
 		try {
 			File inputFile = new File(configPath + "SavedLOC.xml");
@@ -92,15 +93,11 @@ public class LOCReader {
 	        Document doc = dBuilder.parse(inputFile);
 	        
 	        doc.getDocumentElement().normalize();
-	        
-	        System.out.println("Root element: " 
-	           + doc.getDocumentElement().getNodeName());
-	        
+
 	        NodeList nList = doc.getElementsByTagName("LOCFILE");
-	        System.out.println("----------------------------");
 
 	        row = nList.getLength();
-	        String [][] array = new String[row][column];
+	        array = new String[row][COLUMN];
 	        
 	        for (int temp = 0; temp < nList.getLength(); temp++) {
 	           Node nNode = nList.item(temp);
@@ -128,20 +125,12 @@ public class LOCReader {
             	  array [temp][1] = loc;  
 	           }
 	        }
-	        print(array);
 		}  
 		    catch (Exception e) {
 	        e.printStackTrace();
 	    }
-    }
-
-    public static void print(String [][]array) {
-    	for (int i = 0; i < row; i++) {
-    		System.out.print(array [i][0] + " || ");
-    		System.out.print(array [i][1]);
-    		System.out.println();
-    		System.out.println();
-    	}
+		
+		return (array);
     }
     
 //Setters and getters    
