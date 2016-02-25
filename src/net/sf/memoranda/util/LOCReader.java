@@ -85,7 +85,7 @@ public class LOCReader {
     	int column = 2;
     	
 		try {
-			File inputFile = new File("SavedLOC.xml");
+			File inputFile = new File(configPath + "SavedLOC.xml");
 	        DocumentBuilderFactory dbFactory 
 	           = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
