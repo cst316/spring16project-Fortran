@@ -91,8 +91,8 @@ public class LOCReader {
         System.out.println("Root element: " 
            + doc.getDocumentElement().getNodeName());
         
-        NodeList nList = doc.getDocumentElement().getChildNodes();
-        System.out.println("----------------------------");
+        NodeList nList = doc.getElementsByTagName("LOCFILE");//getDocumentElement().getChildNodes();
+        System.out.println("----------------------------" + nList.getLength());
         
         for (int temp = 0; temp < nList.getLength(); temp++) {
            Node nNode = nList.item(temp);
