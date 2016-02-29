@@ -41,6 +41,7 @@ import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.ui.StopWatch;
+import net.sf.memoranda.ui.TimerTask;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -98,6 +99,7 @@ public class TaskDialog extends JDialog {
     JLabel jLabelEffort = new JLabel();
     JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
+	JCheckBox stopWatch = new JCheckBox();
 	JCheckBox timer = new JCheckBox();
 	
 	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -149,14 +151,21 @@ public class TaskDialog extends JDialog {
 
         startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
         endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+		stopWatch.setSelected(false);
 		timer.setSelected(false);
-		//timer.setSelected(false);
+		//stopWatch.setSelected(false);
+		stopWatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				stopWatch_actionPerformed(e);
+			}
+		});
 		timer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				timer_actionPerformed(e);
 			}
 		});
 		
+        stopWatch.setSelected(false);
         timer.setSelected(false);
         chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
@@ -273,13 +282,17 @@ public class TaskDialog extends JDialog {
             }
         });
 
-        timer.setBounds(100, 100, 15, 15);
+        stopWatch.setBounds(100, 100, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
         timer.setText(Local.getString("Timer"));
         
         jLabel2.setMaximumSize(new Dimension(270, 16));
         //jLabel2.setPreferredSize(new Dimension(60, 16));
         jLabel2.setText(Local.getString("End date"));
-        timer.setBounds(200, 200, 15, 15);
+        stopWatch.setBounds(200, 200, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
         timer.setText(Local.getString("Timer"));
         endDate.setBorder(border8);
         endDate.setPreferredSize(new Dimension(80, 24));
@@ -357,7 +370,8 @@ public class TaskDialog extends JDialog {
         jPanel6.add(startDate, null);
         jPanel6.add(setStartDateB, null);
         jPanel2.add(jPanel1, null);
-		jPanel1.add(timer, null);
+		jPanel1.add(stopWatch, null);
+		jPanel1.add(stopWatch, null);
 		jPanel1.add(timer, null);
 		jPanel1.add(chkEndDate, null);
         jPanel1.add(jLabel2, null);
@@ -420,7 +434,14 @@ public class TaskDialog extends JDialog {
 
     	CANCELLED = false;
         this.dispose();
-    	if(timer.isSelected()){
+        if(timer.isSelected()){
+        	if(todoField.getText() != null){
+        		TimerTask t = new TimerTask(todoField.getText());
+        	}else{
+        		TimerTask t = new TimerTask("Timer");
+        	}
+        }
+    	if(stopWatch.isSelected()){
     		if(todoField.getText() != null){
     			StopWatch s = new StopWatch(todoField.getText());
     		}else{
@@ -432,11 +453,14 @@ public class TaskDialog extends JDialog {
     void cancelB_actionPerformed(ActionEvent e) {
         this.dispose();
     }
-	void timer_actionPerformed(ActionEvent e){/////////////////////////////////
+	void stopWatch_actionPerformed(ActionEvent e){/////////////////////////////////
 		
 		//StopWatch s = new StopWatch();
 		
 		
+	}
+	void timer_actionPerformed(ActionEvent e){
+		//TimerTask t = new TimerTask
 	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());

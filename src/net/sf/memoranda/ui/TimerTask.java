@@ -4,7 +4,9 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class StopWatch extends JFrame{
+import net.sf.memoranda.ui.StopWatch.TimeClass;
+
+public class TimerTask extends JFrame{
 	
 	/**
 	 * 
@@ -17,7 +19,7 @@ public class StopWatch extends JFrame{
 	JButton button;
 	Timer timer;
 	
-	public StopWatch(String temp) {
+	public TimerTask(String temp) {
 		super(temp);
 		setVisible(true);
 		setResizable(true);
@@ -26,12 +28,12 @@ public class StopWatch extends JFrame{
 		
 		setLayout(new GridLayout(2, 2, 5, 5));
 		
-		promptLabel = new JLabel("Enter seconds:", SwingConstants.CENTER);
-		add(promptLabel);
+		
 		
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
+		
 		add(hours);
 		add(minutes);
 		add(seconds);
@@ -39,7 +41,7 @@ public class StopWatch extends JFrame{
 		button = new JButton("Start timing");
 		add(button);
 		
-		timerLabel = new JLabel("Waiting", SwingConstants.CENTER);
+		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
 		add(timerLabel);
 
 		event e = new event();
@@ -50,36 +52,40 @@ public class StopWatch extends JFrame{
 		// TODO Auto-generated method stub
 		
 	}
-
+	int h=0,m=0,s=0;
 	public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int count = (int)(Double.parseDouble(seconds.getText()));
-			timerLabel.setText("Time left: " + count);
 			
-			TimeClass tc = new TimeClass(count);
-			timer = new Timer(1000, tc);
+			
+			timer = new Timer(1000, new TimeClass());
 			timer.start();
 		}
 	}
 	
 	public class TimeClass implements ActionListener {
-		int counter;
-		
-		public TimeClass(int counter){
-			this.counter = counter;
-		}
-
+	
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			counter--;
-			
-			if(counter >= 1){
-				timerLabel.setText("Time left: " + counter);
-				
-			}else{
-				timer.stop();
-				timerLabel.setText("Done!");
-			}
+				if(s<59){
+					s++;
+					String sec= (s<10?"0":"")+s;
+					seconds.setText(""+sec);
+				}else{
+					s=0;
+					seconds.setText(""+s);
+					if(m<59){
+						m++;
+						String min = (m<10?"0":"")+m;
+						minutes.setText(""+min);
+					}else{
+						m = 0;
+						
+						h++;
+						String hr = (h<10?"0":"")+h;
+						hours.setText(""+hr);
+						hours.setText(""+h);
+					}
+				}
 		}
 	}
 }
