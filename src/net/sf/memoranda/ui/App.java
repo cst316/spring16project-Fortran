@@ -3,12 +3,15 @@ package net.sf.memoranda.ui;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+
+import com.sun.glass.ui.Cursor;
 
 import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.util.Configuration;
@@ -18,27 +21,33 @@ import net.sf.memoranda.util.Configuration;
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
-/*$Id: App.java,v 1.28 2007/03/20 06:21:46 alexeya Exp $*/
+/* $Id: App.java,v 1.28 2007/03/20 06:21:46 alexeya Exp $ */
 public class App {
 	// boolean packFrame = false;
 
 	static AppFrame frame = null;
-	
+
 	public static final String GUIDE_URL = "http://memoranda.sourceforge.net/guide.html";
 	public static final String BUGS_TRACKER_URL = "http://sourceforge.net/tracker/?group_id=90997&atid=595566";
 	public static final String WEBSITE_URL = "http://memoranda.sourceforge.net";
 
 	private JFrame splash = null;
 
-	/*========================================================================*/ 
-	/* Note: Please DO NOT edit the version/build info manually!
-       The actual values are substituted by the Ant build script using 
-       'version' property and datestamp.*/
+	/*
+	 * ========================================================================
+	 */
+	/*
+	 * Note: Please DO NOT edit the version/build info manually! The actual
+	 * values are substituted by the Ant build script using 'version' property
+	 * and datestamp.
+	 */
 
 	public static final String VERSION_INFO = "1.0-rc3.1";
 	public static final String BUILD_INFO = "20160122.28";
-	
-	/*========================================================================*/
+
+	/*
+	 * ========================================================================
+	 */
 
 	public static AppFrame getFrame() {
 		return frame;
@@ -65,18 +74,15 @@ public class App {
 		System.out.println(Configuration.get("LOOK_AND_FEEL"));
 		try {
 			if (Configuration.get("LOOK_AND_FEEL").equals("system"))
-				UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			else if (Configuration.get("LOOK_AND_FEEL").equals("default"))
-				UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName());					
-			else if (
-				Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
-				UIManager.setLookAndFeel(
-					Configuration.get("LOOK_AND_FEEL").toString());
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
+				UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL").toString());
 
-		} catch (Exception e) {		    
-			new ExceptionDialog(e, "Error when initializing a pluggable look-and-feel. Default LF will be used.", "Make sure that specified look-and-feel library classes are on the CLASSPATH.");
+		} catch (Exception e) {
+			new ExceptionDialog(e, "Error when initializing a pluggable look-and-feel. Default LF will be used.",
+					"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
 		}
 		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("")) {
 			String fdow;
@@ -117,10 +123,7 @@ public class App {
 		 */
 		/* Used to maximize the screen if the JVM Version if 1.4 or higher */
 		/* --------------------------------------------------------------- */
-		double JVMVer =
-			Double
-				.valueOf(System.getProperty("java.version").substring(0, 3))
-				.doubleValue();
+		double JVMVer = Double.valueOf(System.getProperty("java.version").substring(0, 3)).doubleValue();
 
 		frame.pack();
 		if (JVMVer >= 1.4) {
@@ -141,7 +144,21 @@ public class App {
 	public static void closeWindow() {
 		if (frame == null)
 			return;
-		frame.dispose();
+		System.out.println("inCloWin");
+		// frame.dispose();
+		// System.exit(0);
+		// frame.setEnabled(true);
+
+		// frame.setEnabled(false); //freezes application
+		// frame.setState(Frame.ICONIFIED);
+		// frame.setExtendedState(Cursor.CURSOR_CROSSHAIR);
+		// frame.setVisible(false); //replaces deprecated show(). minimumSize
+		// deprecated.
+
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		// this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		// this.setDefaultCloseOperation(ICONIFIED);
 	}
 
 	/**
@@ -149,17 +166,14 @@ public class App {
 	 */
 	private void showSplash() {
 		splash = new JFrame();
-		ImageIcon spl =
-			new ImageIcon(App.class.getResource("resources/splash.png"));
+		ImageIcon spl = new ImageIcon(App.class.getResource("resources/splash.png"));
 		JLabel l = new JLabel();
 		l.setSize(400, 300);
 		l.setIcon(spl);
 		splash.getContentPane().add(l);
 		splash.setSize(400, 300);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		splash.setLocation(
-			(screenSize.width - 400) / 2,
-			(screenSize.height - 300) / 2);
+		splash.setLocation((screenSize.width - 400) / 2, (screenSize.height - 300) / 2);
 		splash.setUndecorated(true);
 		splash.setVisible(true);
 	}
