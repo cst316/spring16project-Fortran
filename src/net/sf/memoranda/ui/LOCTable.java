@@ -1,21 +1,23 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
-public class LOCTable extends JFrame {
+
+public class LOCTable extends JFrame  {
 
 	private JPanel contentPane;
 	private JTable table;
 	private final int COLUMN = 2;
 	private final Object[] COLUMNNAMES	= {"Source File","LOC"};
+	
+	
 	public LOCTable(int row) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -48,7 +50,7 @@ public class LOCTable extends JFrame {
 		this.setTitle("Import LOC");
 		JScrollPane scroll = new JScrollPane(table);
 		contentPane.add(scroll);
-		
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
 
 }

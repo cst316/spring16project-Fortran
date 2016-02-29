@@ -1121,6 +1121,7 @@ public class AppFrame extends JFrame {
             		 Object[][] temp = LOCReader.xmlToArray();
             		 
             	    LOCTable table = new LOCTable(temp,COLUMNAMES);
+            	    
             	}
             	
             	
