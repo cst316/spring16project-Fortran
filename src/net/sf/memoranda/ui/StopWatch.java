@@ -7,7 +7,8 @@ import javax.swing.*;
 public class StopWatch extends JFrame{
 	
 	/**
-	 * 
+	 * added a new pause and reset button
+	 * added dropdowns to only let the user choose a certain digit
 	 */
 	JLabel promptLabel, timerLabel;
 	int counter;
@@ -30,7 +31,7 @@ public class StopWatch extends JFrame{
 		tf = new JTextField(5);
 		add(tf);
 		
-		button = new JButton("Start timing");
+		button = new JButton("Start");
 		add(button);
 		
 		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
