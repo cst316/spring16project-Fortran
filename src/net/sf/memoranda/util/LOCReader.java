@@ -2,11 +2,14 @@ package net.sf.memoranda.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import org.w3c.dom.*;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
 /**
@@ -87,6 +90,10 @@ public class LOCReader {
     	
 		try {
 			File inputFile = new File(configPath + "SavedLOC.xml");
+			if (!inputFile.exists()) {
+				throw new FileNotFoundException();
+			}
+			
 	        DocumentBuilderFactory dbFactory 
 	           = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -124,10 +131,14 @@ public class LOCReader {
             	  array [temp][1] = loc;  
 	           }
 	        }
-		}  
+		}   catch (FileNotFoundException e) {
+				JFrame frame = new JFrame();
+			    JOptionPane.showMessageDialog(null,"Error",
+			    		"Cannot Found File.",JOptionPane.ERROR_MESSAGE);
+			}   
 		    catch (Exception e) {
-	        e.printStackTrace();
-	    }
+	            e.printStackTrace();
+	        }
 		
 		return (array);
     }
