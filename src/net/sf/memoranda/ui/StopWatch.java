@@ -11,9 +11,7 @@ public class StopWatch extends JFrame{
 	 */
 	JLabel promptLabel, timerLabel;
 	int counter;
-	JLabel hours;
-	JLabel minutes;
-	JLabel seconds;
+	JTextField tf;
 	JButton button;
 	Timer timer;
 	
@@ -29,17 +27,13 @@ public class StopWatch extends JFrame{
 		promptLabel = new JLabel("Enter seconds:", SwingConstants.CENTER);
 		add(promptLabel);
 		
-		hours = new JLabel("00");
-		minutes = new JLabel("00");
-		seconds = new JLabel("00");
-		add(hours);
-		add(minutes);
-		add(seconds);
+		tf = new JTextField(5);
+		add(tf);
 		
 		button = new JButton("Start timing");
 		add(button);
 		
-		timerLabel = new JLabel("Waiting", SwingConstants.CENTER);
+		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
 		add(timerLabel);
 
 		event e = new event();
@@ -53,7 +47,7 @@ public class StopWatch extends JFrame{
 
 	public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int count = (int)(Double.parseDouble(seconds.getText()));
+			int count = (int)(Double.parseDouble(tf.getText()));
 			timerLabel.setText("Time left: " + count);
 			
 			TimeClass tc = new TimeClass(count);
