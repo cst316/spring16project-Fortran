@@ -2,11 +2,14 @@ package net.sf.memoranda.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import org.w3c.dom.*;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
 /**
@@ -85,6 +88,7 @@ public class LOCReader {
 
 		try {
 			File inputFile = new File(configPath + "SavedLOC.xml");
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
@@ -96,24 +100,38 @@ public class LOCReader {
 			row = nList.getLength();
 			array = new String[row][COLUMN];
 
-			for (int temp = 0; temp < nList.getLength(); temp++) {
-				Node nNode = nList.item(temp);
+	        for (int temp = 0; temp < nList.getLength(); temp++) {
+		           Node nNode = nList.item(temp);
+		           
+		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		              Element eElement = (Element) nNode;
 
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-
-					fN = (eElement.getElementsByTagName("SOURCEFILE").item(0).getChildNodes().item(0).getNodeValue());
-
-					loc = (eElement.getElementsByTagName("LOC").item(0).getChildNodes().item(0).getNodeValue());
-
-					array[temp][0] = fN;
-					array[temp][1] = loc;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		              fN = (eElement
+				              .getElementsByTagName("SOURCEFILE")
+				              .item(0)
+				              .getChildNodes()
+				              .item(0)
+				              .getNodeValue());
+		                		
+		              loc = (eElement
+		    	              .getElementsByTagName("LOC")
+		    	              .item(0)
+		    	              .getChildNodes()
+		    	              .item(0)
+		    	              .getNodeValue());  
+	 
+	            	  array [temp][0] = fN;
+	            	  array [temp][1] = loc;  
+		           }
+		        }
+		}   catch (FileNotFoundException e) {
+			JFrame frame = new JFrame();
+		    JOptionPane.showMessageDialog(null,"Error",
+		    		"Cannot Found File.",JOptionPane.ERROR_MESSAGE);
+		}   
+	    catch (Exception e) {
+            e.printStackTrace();
+        }
 		return (array);
 	}
 
