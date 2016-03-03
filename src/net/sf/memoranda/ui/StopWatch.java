@@ -25,7 +25,7 @@ public class StopWatch extends JFrame{
 	JComboBox cb4 = new JComboBox(minString);
 	JComboBox cb5 = new JComboBox(minString);
 	JComboBox cb6 = new JComboBox(minString);
-	static int count = 100;
+	static int count;
 	static Integer value;
 	Timer timer;
 	String temp;
@@ -93,10 +93,10 @@ public class StopWatch extends JFrame{
 	public class StartEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
+			stri = (String) cb.getSelectedItem();
+			count = Integer.parseInt(stri);
 			jta.setText( Integer.toString(count));
 			String stri = new String();
-			stri = (String) cb.getSelectedItem();
-			count = Integer.getInteger(stri);
 			TimeClass tc = new TimeClass(count);
 			timer = new Timer(1000, tc);
 			timer.start();
