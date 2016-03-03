@@ -29,7 +29,13 @@ public class LOCWriter {
 	
 	private String configPath = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
-	
+	/**
+	 * 
+	 * @param document document to be wrote to 
+	 * @param reader reader object that contains LOC and fileName from Source File
+	 * @param root the root node to append to 
+	 * @return an Element containing LOC and fileName from LOCReader
+	 */
 	private Element toElement(Document document,LOCReader reader,Node root){
 		
 		
@@ -94,12 +100,20 @@ public class LOCWriter {
 				TransformerFactory tf = TransformerFactory.newInstance();
 				Transformer t = tf.newTransformer();
 				t.setOutputProperty(OutputKeys.INDENT, "yes");
-				DOMSource dom = new DOMSource(root);//used to be document
+				DOMSource dom = new DOMSource(root);
 				StreamResult stream = new StreamResult(file);
 				t.transform(dom,stream);
 			}
 			
-		} catch (Exception e) {
+		} 
+		catch(FileNotFoundException f){
+			
+			JFrame frame = new JFrame();
+		    JOptionPane.showMessageDialog(null,"File Not Found Error",
+		    		"File could not be found",JOptionPane.ERROR_MESSAGE);
+			
+		}
+		catch (Exception e) {
 			JFrame frame = new JFrame();
 		    JOptionPane.showMessageDialog(null,"Error",
 		    		"Oops something went wrong try importing Source Code again",JOptionPane.ERROR_MESSAGE);
