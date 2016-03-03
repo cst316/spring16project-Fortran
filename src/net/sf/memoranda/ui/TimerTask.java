@@ -11,48 +11,57 @@ public class TimerTask extends JFrame{
 	/**
 	 * 
 	 */
-	JLabel promptLabel, timerLabel;
-	int counter;
-	JLabel hours;
-	JLabel minutes;
-	JLabel seconds;
-	JButton button;
-	Timer timer;
+	static JFrame mainframe;
+	static JLabel title;
+	static JPanel controlPanel;
+	static Timer timer;
+	static JButton startButton;
+	static JLabel hours, minutes, seconds;
+	int h=0,m=0,s=0;
 	
 	public TimerTask(String temp) {
-		super(temp);
-		setVisible(true);
-		setResizable(true);
-		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
-		setSize(300,150);
 		
-		setLayout(new GridLayout(2, 2, 5, 5));
-		
-		
-		
+		prepareGUI();
+		title.setText("This is Timer Tool");
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
-		
-		add(hours);
-		add(minutes);
-		add(seconds);
-		
-		button = new JButton("Start timing");
-		add(button);
-		
-		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
-		add(timerLabel);
-
+		hours.setSize(100,100);
+		minutes.setSize(100,100);
+		seconds.setSize(100,100);
+		controlPanel.add(hours);
+		controlPanel.add(minutes);
+		controlPanel.add(seconds);
+		JButton startButton = new JButton("Start");
 		event e = new event();
-		button.addActionListener(e);
-	}
-	
-	private void closeOperationOnDefault(int exitOnClose) {
-		// TODO Auto-generated method stub
+		startButton.addActionListener(e);
+		
+		mainframe.add(startButton);
+		mainframe.setVisible(true);
 		
 	}
-	int h=0,m=0,s=0;
+	public static void prepareGUI(){
+		mainframe = new JFrame("Timer");
+		mainframe.setSize(400,400);
+		mainframe.setLayout(new GridLayout(3,1));
+		title = new JLabel("",JLabel.CENTER);
+		
+		title.setSize(350, 100);
+		mainframe.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+			}
+		});
+		controlPanel = new JPanel();
+		controlPanel.setLayout(new FlowLayout());
+		
+		mainframe.add(title);
+		mainframe.add(controlPanel);
+		mainframe.setVisible(true);
+	}
+	public static void showEvent(){
+		
+	}
 	public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -63,8 +72,6 @@ public class TimerTask extends JFrame{
 	}
 	
 	public class TimeClass implements ActionListener {
-	
-		
 		public void actionPerformed(ActionEvent e) {
 				if(s<59){
 					s++;
