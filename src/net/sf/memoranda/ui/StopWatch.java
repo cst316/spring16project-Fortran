@@ -9,6 +9,8 @@ public class StopWatch extends JFrame{
 	/**
 	 * added a new pause and reset button
 	 * added dropdowns to only let the user choose a certain digit
+	 * this is an edit
+	 * 
 	 */
 	JLabel promptLabel, timerLabel;
 	int counter;
