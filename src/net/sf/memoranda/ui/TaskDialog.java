@@ -41,6 +41,7 @@ import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.ui.StopWatch;
+import net.sf.memoranda.ui.TimerTask;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -97,7 +98,9 @@ public class TaskDialog extends JDialog {
 	JLabel jLabelEffort = new JLabel();
 	JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
+	JCheckBox stopWatch = new JCheckBox();
 	JCheckBox timer = new JCheckBox();
+	JCheckBox Stopwatch = new JCheckBox();
 
 	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	JLabel jLabelProgress = new JLabel();
@@ -108,53 +111,63 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
+    
+    public TaskDialog(Frame frame, String title) {
+        super(frame, title, true);
+        try {
+            jbInit();            
+            pack();
+        }
+        catch (Exception ex) {
+            new ExceptionDialog(ex);
+        }
+    }
+    
+    void jbInit() throws Exception {
+	this.setResizable(false);
+	this.setSize(new Dimension(430,300));
+        border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        border2 = BorderFactory.createEtchedBorder(Color.white, 
+            new Color(142, 142, 142));
+        border3 = new TitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), 
+        Local.getString("To Do"), TitledBorder.LEFT, TitledBorder.BELOW_TOP);
+        border4 = BorderFactory.createEmptyBorder(0, 5, 0, 5);
+//        border5 = BorderFactory.createEmptyBorder();
+//        border6 = BorderFactory.createBevelBorder(BevelBorder.LOWERED,
+//            Color.white, Color.white, new Color(178, 178, 178),
+//            new Color(124, 124, 124));
+//        border7 = BorderFactory.createLineBorder(Color.white, 2);
+        border8 = BorderFactory.createEtchedBorder(Color.white, 
+            new Color(178, 178, 178));
+        cancelB.setMaximumSize(new Dimension(100, 26));
+        cancelB.setMinimumSize(new Dimension(100, 26));
+        cancelB.setPreferredSize(new Dimension(100, 26));
+        cancelB.setText(Local.getString("Cancel"));
+        cancelB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cancelB_actionPerformed(e);
+            }
+        });
 
-	public TaskDialog(Frame frame, String title) {
-		super(frame, title, true);
-		try {
-			jbInit();
-			pack();
-		} catch (Exception ex) {
-			new ExceptionDialog(ex);
-		}
-	}
-
-	void jbInit() throws Exception {
-		this.setResizable(false);
-		this.setSize(new Dimension(430, 300));
-		border1 = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		border2 = BorderFactory.createEtchedBorder(Color.white, new Color(142, 142, 142));
-		border3 = new TitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), Local.getString("To Do"),
-				TitledBorder.LEFT, TitledBorder.BELOW_TOP);
-		border4 = BorderFactory.createEmptyBorder(0, 5, 0, 5);
-		// border5 = BorderFactory.createEmptyBorder();
-		// border6 = BorderFactory.createBevelBorder(BevelBorder.LOWERED,
-		// Color.white, Color.white, new Color(178, 178, 178),
-		// new Color(124, 124, 124));
-		// border7 = BorderFactory.createLineBorder(Color.white, 2);
-		border8 = BorderFactory.createEtchedBorder(Color.white, new Color(178, 178, 178));
-		cancelB.setMaximumSize(new Dimension(100, 26));
-		cancelB.setMinimumSize(new Dimension(100, 26));
-		cancelB.setPreferredSize(new Dimension(100, 26));
-		cancelB.setText(Local.getString("Cancel"));
-		cancelB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cancelB_actionPerformed(e);
+        startDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+        endDate = new JSpinner(new SpinnerDateModel(new Date(),null,null,Calendar.DAY_OF_WEEK));
+		stopWatch.setSelected(false);
+		timer.setSelected(false);
+		//stopWatch.setSelected(false);
+		stopWatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				stopWatch_actionPerformed(e);
 			}
 		});
-
-		startDate = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_WEEK));
-		endDate = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_WEEK));
-		timer.setSelected(false);
-		// timer.setSelected(false);
 		timer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				timer_actionPerformed(e);
 			}
 		});
-
-		timer.setSelected(false);
-		chkEndDate.setSelected(false);
+		
+        stopWatch.setSelected(false);
+        timer.setSelected(false);
+        chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
 		chkEndDate.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -253,59 +266,60 @@ public class TaskDialog extends JDialog {
 					startDate.getModel().setValue(startDateMax.getDate());
 					sd = startDateMax.getDate();
 				}
-				if ((startDateMin != null) && sd.before(startDateMin.getDate())) {
-					startDate.getModel().setValue(startDateMin.getDate());
-					sd = startDateMin.getDate();
-				}
-				startCalFrame.cal.set(new CalendarDate(sd));
-				ignoreStartChanged = false;
-			}
-		});
 
-		jLabel6.setText(Local.getString("Start date"));
-		// jLabel6.setPreferredSize(new Dimension(60, 16));
-		jLabel6.setMinimumSize(new Dimension(60, 16));
-		jLabel6.setMaximumSize(new Dimension(100, 16));
-		setStartDateB.setMinimumSize(new Dimension(24, 24));
-		setStartDateB.setPreferredSize(new Dimension(24, 24));
-		setStartDateB.setText("");
-		setStartDateB
-				.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
-		setStartDateB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setStartDateB_actionPerformed(e);
-			}
-		});
+                if ((startDateMin != null) && sd.before(startDateMin.getDate())) {
+                    startDate.getModel().setValue(startDateMin.getDate());
+                    sd = startDateMin.getDate();
+                }
+                startCalFrame.cal.set(new CalendarDate(sd));
+                ignoreStartChanged = false;
+            }
+        });
 
-		timer.setBounds(100, 100, 15, 15);
-		timer.setText(Local.getString("Timer"));
+        jLabel6.setText(Local.getString("Start date"));
+        //jLabel6.setPreferredSize(new Dimension(60, 16));
+        jLabel6.setMinimumSize(new Dimension(60, 16));
+        jLabel6.setMaximumSize(new Dimension(100, 16));
+        setStartDateB.setMinimumSize(new Dimension(24, 24));
+        setStartDateB.setPreferredSize(new Dimension(24, 24));
+        setStartDateB.setText("");
+        setStartDateB.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
+        setStartDateB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setStartDateB_actionPerformed(e);
+            }
+        });
 
-		jLabel2.setMaximumSize(new Dimension(270, 16));
-		// jLabel2.setPreferredSize(new Dimension(60, 16));
-		jLabel2.setText(Local.getString("End date"));
-		timer.setBounds(200, 200, 15, 15);
-		timer.setText(Local.getString("Timer"));
-		endDate.setBorder(border8);
-		endDate.setPreferredSize(new Dimension(80, 24));
-
-		endDate.setEditor(new JSpinner.DateEditor(endDate, sdf.toPattern())); // Added
-																				// by
-																				// (jcscoobyrs)
-																				// on
-		// 14-Nov-2003 at 10:45:16PM
-
-		endDate.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				// it's an ugly hack so that the spinner can increase day by day
-				SpinnerDateModel sdm = new SpinnerDateModel((Date) endDate.getModel().getValue(), null, null,
-						Calendar.DAY_OF_WEEK);
-				endDate.setModel(sdm);
-
-				if (ignoreEndChanged)
-					return;
-				ignoreEndChanged = true;
-				Date sd = (Date) startDate.getModel().getValue();
-				Date ed = (Date) endDate.getModel().getValue();
+        stopWatch.setBounds(100, 100, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        
+        jLabel2.setMaximumSize(new Dimension(270, 16));
+        //jLabel2.setPreferredSize(new Dimension(60, 16));
+        jLabel2.setText(Local.getString("End date"));
+        stopWatch.setBounds(200, 200, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        endDate.setBorder(border8);
+        endDate.setPreferredSize(new Dimension(80, 24));
+        
+		endDate.setEditor(new JSpinner.DateEditor(endDate, sdf.toPattern())); //Added by (jcscoobyrs) on
+		//14-Nov-2003 at 10:45:16PM
+        
+        endDate.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+            	// it's an ugly hack so that the spinner can increase day by day
+            	SpinnerDateModel sdm = new SpinnerDateModel((Date)endDate.getModel().getValue(),null,null,Calendar.DAY_OF_WEEK);
+            	endDate.setModel(sdm);
+            	
+                if (ignoreEndChanged)
+                    return;
+                ignoreEndChanged = true;
+                Date sd = (Date) startDate.getModel().getValue();
+                Date ed = (Date) endDate.getModel().getValue();				
 				if (ed.before(sd)) {
 					endDate.getModel().setValue(ed);
 					ed = sd;
@@ -319,90 +333,95 @@ public class TaskDialog extends JDialog {
 					ed = endDateMin.getDate();
 				}
 				endCalFrame.cal.set(new CalendarDate(ed));
-				ignoreEndChanged = false;
-			}
-		});
-		setEndDateB.setMinimumSize(new Dimension(24, 24));
-		setEndDateB.setPreferredSize(new Dimension(24, 24));
-		setEndDateB.setText("");
-		setEndDateB
-				.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
-		setEndDateB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setEndDateB_actionPerformed(e);
-			}
-		});
 
-		setNotifB.setText(Local.getString("Set notification"));
-		setNotifB.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/notify.png")));
-		setNotifB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setNotifB_actionPerformed(e);
-			}
-		});
-		jLabel7.setMaximumSize(new Dimension(100, 16));
-		jLabel7.setMinimumSize(new Dimension(60, 16));
-		// jLabel7.setPreferredSize(new Dimension(60, 16));
-		jLabel7.setText(Local.getString("Priority"));
+                ignoreEndChanged = false;
+            }
+        });
+        setEndDateB.setMinimumSize(new Dimension(24, 24));
+        setEndDateB.setPreferredSize(new Dimension(24, 24));
+        setEndDateB.setText("");
+        setEndDateB.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
+        setEndDateB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setEndDateB_actionPerformed(e);
+            }
+        });
+        
+        setNotifB.setText(Local.getString("Set notification"));
+        setNotifB.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/notify.png")));
+        setNotifB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setNotifB_actionPerformed(e);
+            }
+        });
+        jLabel7.setMaximumSize(new Dimension(100, 16));
+        jLabel7.setMinimumSize(new Dimension(60, 16));
+        //jLabel7.setPreferredSize(new Dimension(60, 16));
+        jLabel7.setText(Local.getString("Priority"));
 
-		priorityCB.setFont(new java.awt.Font("Dialog", 0, 11));
-		jPanel4.add(jLabel7, null);
-		getContentPane().add(mPanel);
-		mPanel.add(areaPanel, BorderLayout.CENTER);
-		mPanel.add(buttonsPanel, BorderLayout.SOUTH);
-		buttonsPanel.add(okB, null);
-		buttonsPanel.add(cancelB, null);
-		this.getContentPane().add(dialogTitlePanel, BorderLayout.NORTH);
-		dialogTitlePanel.add(header, null);
-		areaPanel.add(jPanel8, BorderLayout.NORTH);
-		jPanel8.add(todoField, null);
-		jPanel8.add(jLabelDescription);
-		jPanel8.add(descriptionScrollPane, null);
-		areaPanel.add(jPanel2, BorderLayout.CENTER);
-		jPanel2.add(jPanel6, null);
-		jPanel6.add(jLabel6, null);
-		jPanel6.add(startDate, null);
-		jPanel6.add(setStartDateB, null);
-		jPanel2.add(jPanel1, null);
+        priorityCB.setFont(new java.awt.Font("Dialog", 0, 11));
+        jPanel4.add(jLabel7, null);
+        getContentPane().add(mPanel);
+        mPanel.add(areaPanel, BorderLayout.CENTER);
+        mPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        buttonsPanel.add(okB, null);
+        buttonsPanel.add(cancelB, null);
+        this.getContentPane().add(dialogTitlePanel, BorderLayout.NORTH);
+        dialogTitlePanel.add(header, null);
+        areaPanel.add(jPanel8, BorderLayout.NORTH);
+        jPanel8.add(todoField, null);
+        jPanel8.add(jLabelDescription);
+        jPanel8.add(descriptionScrollPane, null);
+        areaPanel.add(jPanel2, BorderLayout.CENTER);
+        jPanel2.add(jPanel6, null);
+        jPanel6.add(jLabel6, null);
+        jPanel6.add(startDate, null);
+        jPanel6.add(setStartDateB, null);
+        jPanel2.add(jPanel1, null);
+		jPanel1.add(stopWatch, null);
+		jPanel1.add(stopWatch, null);
 		jPanel1.add(timer, null);
-		jPanel1.add(timer, null);
+		jPanel1.add(Stopwatch, null);
 		jPanel1.add(chkEndDate, null);
-		jPanel1.add(jLabel2, null);
-		jPanel1.add(endDate, null);
-		jPanel1.add(setEndDateB, null);
-		// added by rawsushi
-		jPanel2.add(jPanelEffort, null);
-		jPanelEffort.add(jLabelEffort, null);
-		jPanelEffort.add(effortField, null);
 
-		jPanel2.add(jPanel4, null);
-		jPanel4.add(priorityCB, null);
-		jPanel2.add(jPanel3, null);
+        jPanel1.add(jLabel2, null);
+        jPanel1.add(endDate, null);
+        jPanel1.add(setEndDateB, null);
+        // added by rawsushi
+        jPanel2.add(jPanelEffort, null);
+        jPanelEffort.add(jLabelEffort, null);
+        jPanelEffort.add(effortField, null);
 
-		jPanel3.add(setNotifB, null);
-
-		jLabelProgress.setText(Local.getString("Progress"));
-		jPanelProgress.add(jLabelProgress, null);
-		jPanelProgress.add(progress, null);
-		jPanel2.add(jPanelProgress);
-
-		priorityCB.setSelectedItem(Local.getString("Normal"));
-		startCalFrame.cal.addSelectionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (ignoreStartChanged)
-					return;
-				startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
-			}
-		});
-
-		endCalFrame.cal.addSelectionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (ignoreEndChanged)
-					return;
-				endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
-			}
-		});
-	}
+        jPanel2.add(jPanel4, null);
+        jPanel4.add(priorityCB, null);
+        jPanel2.add(jPanel3, null);
+        
+        jPanel3.add(setNotifB, null);
+        
+        jLabelProgress.setText(Local.getString("Progress"));
+        jPanelProgress.add(jLabelProgress, null);
+        jPanelProgress.add(progress, null);
+        jPanel2.add(jPanelProgress);
+        
+        priorityCB.setSelectedItem(Local.getString("Normal"));
+        startCalFrame.cal.addSelectionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ignoreStartChanged)
+                    return;
+                startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
+            }
+        });
+        
+        endCalFrame.cal.addSelectionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (ignoreEndChanged)
+                    return;
+                endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
+            }
+        });
+    }
 
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
@@ -427,6 +446,13 @@ public class TaskDialog extends JDialog {
 
 		CANCELLED = false;
 		this.dispose();
+		if(Stopwatch.isSelected()) {
+			if (todoField.getText() != null) {
+				TimerTask t = new TimerTask(todoField.getText());
+			}else {
+				TimerTask t = new TimerTask(todoField.getText());
+			}
+		}
 		if (timer.isSelected()) {
 			if (todoField.getText() != null) {
 				StopWatch s = new StopWatch(todoField.getText());
@@ -445,7 +471,39 @@ public class TaskDialog extends JDialog {
 		// StopWatch s = new StopWatch();
 
 	}
+	
+    void okB_actionPerformed(ActionEvent e) {
 
+    	CANCELLED = false;
+        this.dispose();
+        if(timer.isSelected()){
+        	if(todoField.getText() != null){
+        		TimerTask t = new TimerTask(todoField.getText());
+        	}else{
+        		TimerTask t = new TimerTask("Timer");
+        	}
+        }
+    	if(stopWatch.isSelected()){
+    		if(todoField.getText() != null){
+    			StopWatch s = new StopWatch(todoField.getText());
+    		}else{
+    			StopWatch s = new StopWatch("StopWatch");
+    		}
+    	}//creates StopWatch GUI after clicking GUI
+    }
+
+    void cancelB_actionPerformed(ActionEvent e) {
+        this.dispose();
+    }
+	void stopWatch_actionPerformed(ActionEvent e){/////////////////////////////////
+		
+		//StopWatch s = new StopWatch();
+				
+		//Timetask t = new TimerTask();
+	}
+	void timer_actionPerformed(ActionEvent e){
+		//TimerTask t = new TimerTask
+	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());
 		setEndDateB.setEnabled(chkEndDate.isSelected());
