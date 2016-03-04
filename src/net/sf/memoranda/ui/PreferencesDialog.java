@@ -124,7 +124,7 @@ public class PreferencesDialog extends JDialog {
 	JRadioButton soundCustomRB = new JRadioButton();
 
 	BorderLayout borderLayout2 = new BorderLayout();
-	
+
 	JPanel editorConfigPanel = new JPanel(new BorderLayout());
 	JPanel econfPanel = new JPanel(new GridLayout(5, 2));
 	Vector fontnames = getFontNames();
@@ -152,9 +152,8 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void jbInit() throws Exception {
-		titledBorder1 = new TitledBorder(BorderFactory.createEtchedBorder(
-				Color.white, new Color(156, 156, 158)), Local
-				.getString("Sound"));
+		titledBorder1 = new TitledBorder(BorderFactory.createEtchedBorder(Color.white, new Color(156, 156, 158)),
+				Local.getString("Sound"));
 		this.setResizable(false);
 		// Build Tab1
 		jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -422,8 +421,8 @@ public class PreferencesDialog extends JDialog {
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		resourceTypePanel.setBorder(rstPanelBorder);
 		resourcePanel.add(resourceTypePanel, BorderLayout.CENTER);
-		rsbpBorder = new TitledBorder(BorderFactory.createEmptyBorder(5, 5, 5,
-				5), Local.getString("Web browser executable"));
+		rsbpBorder = new TitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
+				Local.getString("Web browser executable"));
 		rsBottomPanel.setBorder(rsbpBorder);
 		jLabel5.setText(Local.getString("Path") + ":");
 		gbc = new GridBagConstraints();
@@ -455,7 +454,7 @@ public class PreferencesDialog extends JDialog {
 		rsBottomPanel.add(browseB, gbc);
 
 		resourcePanel.add(rsBottomPanel, BorderLayout.SOUTH);
-		
+
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -466,7 +465,7 @@ public class PreferencesDialog extends JDialog {
 		baseFontSizeLabel.setText(Local.getString("Base font size"));
 		baseFontSizeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		antialiasChB.setText(Local.getString("Antialias text"));
-		JPanel bfsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
+		JPanel bfsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		bfsPanel.add(baseFontSize);
 		econfPanel.add(normalFontLabel);
 		econfPanel.add(normalFontCB);
@@ -477,9 +476,9 @@ public class PreferencesDialog extends JDialog {
 		econfPanel.add(baseFontSizeLabel);
 		econfPanel.add(bfsPanel);
 		econfPanel.add(antialiasChB);
-		econfPanel.setBorder(BorderFactory.createEmptyBorder(10,5,10,10));
-		((GridLayout)econfPanel.getLayout()).setHgap(10);
-		((GridLayout)econfPanel.getLayout()).setVgap(5);
+		econfPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 10));
+		((GridLayout) econfPanel.getLayout()).setHgap(10);
+		((GridLayout) econfPanel.getLayout()).setVgap(5);
 		editorConfigPanel.add(econfPanel, BorderLayout.NORTH);
 		// Build TabbedPanel
 		tabbedPanel.add(GeneralPanel, Local.getString("General"));
@@ -522,16 +521,11 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void setValues() {
-		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString()
-				.equalsIgnoreCase("yes"));
-		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString()
-				.equalsIgnoreCase("no"));
-		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY")
-				.toString().equalsIgnoreCase("yes"));
-		startMinimizedChB.setSelected(Configuration.get("START_MINIMIZED")
-				.toString().equalsIgnoreCase("yes"));
-		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
-				.equalsIgnoreCase("mon"));
+		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("yes"));
+		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString().equalsIgnoreCase("no"));
+		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY").toString().equalsIgnoreCase("yes"));
+		startMinimizedChB.setSelected(Configuration.get("START_MINIMIZED").toString().equalsIgnoreCase("yes"));
+		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString().equalsIgnoreCase("mon"));
 
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
@@ -546,8 +540,7 @@ public class PreferencesDialog extends JDialog {
 		} else
 			lfJavaRB.setSelected(true);
 
-		askConfirmChB.setSelected(!Configuration.get("ASK_ON_EXIT").toString()
-				.equalsIgnoreCase("no"));
+		askConfirmChB.setSelected(!Configuration.get("ASK_ON_EXIT").toString().equalsIgnoreCase("no"));
 		String onclose = Configuration.get("ON_CLOSE").toString();
 		if (onclose.equals("exit")) {
 			this.closeExitRB.setSelected(true);
@@ -561,49 +554,42 @@ public class PreferencesDialog extends JDialog {
 		this.minTaskbarRB.setSelected(true);
 
 		if (!System.getProperty("os.name").startsWith("Win"))
-			this.browserPath.setText(MimeTypesList.getAppList()
-					.getBrowserExec());
+			this.browserPath.setText(MimeTypesList.getAppList().getBrowserExec());
 		if (Configuration.get("NOTIFY_SOUND").equals("")) {
 			Configuration.put("NOTIFY_SOUND", "DEFAULT");
 		}
 
-		boolean enableSnd = !Configuration.get("NOTIFY_SOUND").toString()
-				.equalsIgnoreCase("DISABLED");
+		boolean enableSnd = !Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("DISABLED");
 		enableSoundCB.setSelected(enableSnd);
-		if (Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase(
-				"DEFAULT")
-				|| Configuration.get("NOTIFY_SOUND").toString()
-						.equalsIgnoreCase("DISABLED")) {
+		if (Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("DEFAULT")
+				|| Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("DISABLED")) {
 			this.soundDefaultRB.setSelected(true);
 			this.enableCustomSound(false);
-		} else if (Configuration.get("NOTIFY_SOUND").toString()
-				.equalsIgnoreCase("BEEP")) {
+		} else if (Configuration.get("NOTIFY_SOUND").toString().equalsIgnoreCase("BEEP")) {
 			this.soundBeepRB.setSelected(true);
 			this.enableCustomSound(false);
 		} else {
 			System.out.println(Configuration.get("NOTIFY_SOUND").toString());
 			this.soundCustomRB.setSelected(true);
-			this.soundFile
-					.setText(Configuration.get("NOTIFY_SOUND").toString());
+			this.soundFile.setText(Configuration.get("NOTIFY_SOUND").toString());
 			this.enableCustomSound(true);
 		}
 		this.enableSound(enableSnd);
-		
-		antialiasChB.setSelected(Configuration.get("ANTIALIAS_TEXT")
-				.toString().equalsIgnoreCase("yes"));
-		if (Configuration.get("NORMAL_FONT").toString().length() >0)
+
+		antialiasChB.setSelected(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
+		if (Configuration.get("NORMAL_FONT").toString().length() > 0)
 			normalFontCB.setSelectedItem(Configuration.get("NORMAL_FONT").toString());
 		else
 			normalFontCB.setSelectedItem("serif");
-		if (Configuration.get("HEADER_FONT").toString().length() >0)
+		if (Configuration.get("HEADER_FONT").toString().length() > 0)
 			headerFontCB.setSelectedItem(Configuration.get("HEADER_FONT").toString());
 		else
 			headerFontCB.setSelectedItem("sans-serif");
-		if (Configuration.get("MONO_FONT").toString().length() >0)
+		if (Configuration.get("MONO_FONT").toString().length() > 0)
 			monoFontCB.setSelectedItem(Configuration.get("MONO_FONT").toString());
 		else
 			monoFontCB.setSelectedItem("monospaced");
-		if (Configuration.get("BASE_FONT_SIZE").toString().length() >0)
+		if (Configuration.get("BASE_FONT_SIZE").toString().length() > 0)
 			baseFontSize.setValue(Integer.decode(Configuration.get("BASE_FONT_SIZE").toString()));
 		else
 			baseFontSize.setValue(new Integer(16));
@@ -661,22 +647,17 @@ public class PreferencesDialog extends JDialog {
 			Configuration.put("LOOK_AND_FEEL", newlf);
 			try {
 				if (Configuration.get("LOOK_AND_FEEL").equals("system"))
-					UIManager.setLookAndFeel(UIManager
-							.getSystemLookAndFeelClassName());
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				else if (Configuration.get("LOOK_AND_FEEL").equals("default"))
-					UIManager.setLookAndFeel(UIManager
-							.getCrossPlatformLookAndFeelClassName());
+					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
-					UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL")
-							.toString());
+					UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL").toString());
 
 				SwingUtilities.updateComponentTreeUI(App.getFrame());
 
 			} catch (Exception e) {
 				Configuration.put("LOOK_AND_FEEL", lf);
-				new ExceptionDialog(
-						e,
-						"Error when initializing a pluggable look-and-feel. Default LF will be used.",
+				new ExceptionDialog(e, "Error when initializing a pluggable look-and-feel. Default LF will be used.",
 						"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
 			}
 		}
@@ -692,15 +673,14 @@ public class PreferencesDialog extends JDialog {
 			Configuration.put("NOTIFY_SOUND", "DEFAULT");
 		else if (this.soundBeepRB.isSelected())
 			Configuration.put("NOTIFY_SOUND", "BEEP");
-		else if ((this.soundCustomRB.isSelected())
-				&& (this.soundFile.getText().trim().length() > 0))
+		else if ((this.soundCustomRB.isSelected()) && (this.soundFile.getText().trim().length() > 0))
 			Configuration.put("NOTIFY_SOUND", this.soundFile.getText().trim());
 
 		if (antialiasChB.isSelected())
 			Configuration.put("ANTIALIAS_TEXT", "yes");
 		else
 			Configuration.put("ANTIALIAS_TEXT", "no");
-		
+
 		Configuration.put("NORMAL_FONT", normalFontCB.getSelectedItem());
 		Configuration.put("HEADER_FONT", headerFontCB.getSelectedItem());
 		Configuration.put("MONO_FONT", monoFontCB.getSelectedItem());
@@ -708,9 +688,9 @@ public class PreferencesDialog extends JDialog {
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.editor.setAntiAlias(antialiasChB.isSelected());
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.initCSS();
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.repaint();
-		
+
 		Configuration.saveConfig();
-		
+
 	}
 
 	void enableCustomLF(boolean is) {
@@ -791,32 +771,21 @@ public class PreferencesDialog extends JDialog {
 
 	void browseB_actionPerformed(ActionEvent e) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
-		chooser.setDialogTitle(Local
-				.getString("Select the web-browser executable"));
+		chooser.setDialogTitle(Local.getString("Select the web-browser executable"));
 		chooser.setAcceptAllFileFilterUsed(true);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setPreferredSize(new Dimension(550, 375));
@@ -834,27 +803,17 @@ public class PreferencesDialog extends JDialog {
 
 	void soundFileBrowseB_actionPerformed(ActionEvent e) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
@@ -878,17 +837,16 @@ public class PreferencesDialog extends JDialog {
 	void soundCustomRB_actionPerformed(ActionEvent e) {
 		this.enableCustomSound(true);
 	}
-	
+
 	Vector getFontNames() {
-		GraphicsEnvironment gEnv = 
-        	GraphicsEnvironment.getLocalGraphicsEnvironment();
-        String envfonts[] = gEnv.getAvailableFontFamilyNames();
-        Vector fonts = new Vector();
-        fonts.add("serif");
-        fonts.add("sans-serif");
-        fonts.add("monospaced");
-        for (int i = 0; i < envfonts.length; i++)
-            fonts.add(envfonts[i]);
+		GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		String envfonts[] = gEnv.getAvailableFontFamilyNames();
+		Vector fonts = new Vector();
+		fonts.add("serif");
+		fonts.add("sans-serif");
+		fonts.add("monospaced");
+		for (int i = 0; i < envfonts.length; i++)
+			fonts.add(envfonts[i]);
 		return fonts;
 	}
 }

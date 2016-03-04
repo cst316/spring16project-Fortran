@@ -9,22 +9,26 @@
 package net.sf.memoranda;
 
 import net.sf.memoranda.date.CalendarDate;
+
 /**
  * 
  */
-/*$Id: Note.java,v 1.4 2004/09/30 17:19:52 ivanrise Exp $*/
+/* $Id: Note.java,v 1.4 2004/09/30 17:19:52 ivanrise Exp $ */
 public interface Note {
-    
-    CalendarDate getDate();
-    
-    String getTitle();
-    void setTitle(String s);
-    
+
+	CalendarDate getDate();
+
+	String getTitle();
+
+	void setTitle(String s);
+
 	String getId();
+
 	void setId(String s);
-	
-    boolean isMarked();
-    void setMark(boolean mark);
-        
-    Project getProject();
+
+	boolean isMarked();
+
+	void setMark(boolean mark);
+
+	Project getProject();
 }

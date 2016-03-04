@@ -95,19 +95,15 @@ public class EditorPanel extends JPanel {
 		}
 	}
 
-	public Action insertTimeAction = new AbstractAction(Local
-			.getString("Insert current time"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/time.png"))) {
+	public Action insertTimeAction = new AbstractAction(Local.getString("Insert current time"),
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/time.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			insTimeB_actionPerformed(e);
 		}
 	};
 
-	public Action insertDateAction = new AbstractAction(Local
-			.getString("Insert current date"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/date.png"))) {
+	public Action insertDateAction = new AbstractAction(Local.getString("Insert current date"),
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/date.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			insDateB_actionPerformed(e);
 		}
@@ -115,40 +111,34 @@ public class EditorPanel extends JPanel {
 
 	/*
 	 * public Action printAction = new AbstractAction( "Print", new
-	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
-	 * public void actionPerformed(ActionEvent e) { doPrint(); } };
+	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource(
+	 * "resources/icons/print.png"))) { public void actionPerformed(ActionEvent
+	 * e) { doPrint(); } };
 	 */
 
 	public Action newAction = new AbstractAction(Local.getString("New note"),
-			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/filenew.png"))) {
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/filenew.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			newB_actionPerformed(e);
 		}
 	};
 
-	public Action exportAction = new AbstractAction(Local
-			.getString("Export note to file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/export.png"))) {
+	public Action exportAction = new AbstractAction(Local.getString("Export note to file"),
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/export.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			exportB_actionPerformed(e);
 		}
 	};
 
-	public Action importAction = new AbstractAction(Local
-			.getString("Insert file"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/import.png"))) {
+	public Action importAction = new AbstractAction(Local.getString("Insert file"),
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/import.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			importB_actionPerformed(e);
 		}
 	};
 
-	public Action previewAction = new AbstractAction(Local
-			.getString("Preview note in browser"), new ImageIcon(
-			net.sf.memoranda.ui.AppFrame.class
-					.getResource("resources/icons/preview.png"))) {
+	public Action previewAction = new AbstractAction(Local.getString("Preview note in browser"),
+			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/preview.png"))) {
 		public void actionPerformed(ActionEvent e) {
 			previewB_actionPerformed(e);
 		}
@@ -157,8 +147,7 @@ public class EditorPanel extends JPanel {
 	void jbInit() throws Exception {
 
 		if (!Configuration.get("DISABLE_L10N").equals("yes"))
-			net.sf.memoranda.ui.htmleditor.util.Local.setMessages(Local
-					.getMessages());
+			net.sf.memoranda.ui.htmleditor.util.Local.setMessages(Local.getMessages());
 
 		editor = new HTMLEditor();
 
@@ -358,8 +347,7 @@ public class EditorPanel extends JPanel {
 
 	public void initCSS() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				net.sf.memoranda.ui.EditorPanel.class
-						.getResourceAsStream("resources/css/default.css")));
+				net.sf.memoranda.ui.EditorPanel.class.getResourceAsStream("resources/css/default.css")));
 		String css = "";
 		try {
 			String s = br.readLine();
@@ -374,22 +362,17 @@ public class EditorPanel extends JPanel {
 		String HEADER_FONT = Configuration.get("HEADER_FONT").toString();
 		String MONO_FONT = Configuration.get("MONO_FONT").toString();
 		String BASE_FONT_SIZE = Configuration.get("BASE_FONT_SIZE").toString();
-		css = css.replaceAll("%NORMAL_FONT%", NORMAL_FONT.length() > 0 ? "\""+NORMAL_FONT+"\""
-				: "serif");
-		css = css.replaceAll("%HEADER_FONT%", HEADER_FONT.length() > 0 ? "\""+HEADER_FONT+"\""
-				: "sans-serif");
-		css = css.replaceAll("%MONO_FONT%", MONO_FONT.length() > 0 ? "\""+MONO_FONT+"\""
-				: "monospaced");
-		css = css.replaceAll("%BASE_FONT_SIZE%",
-				BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");		
+		css = css.replaceAll("%NORMAL_FONT%", NORMAL_FONT.length() > 0 ? "\"" + NORMAL_FONT + "\"" : "serif");
+		css = css.replaceAll("%HEADER_FONT%", HEADER_FONT.length() > 0 ? "\"" + HEADER_FONT + "\"" : "sans-serif");
+		css = css.replaceAll("%MONO_FONT%", MONO_FONT.length() > 0 ? "\"" + MONO_FONT + "\"" : "monospaced");
+		css = css.replaceAll("%BASE_FONT_SIZE%", BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");
 		editor.setStyleSheet(new StringReader(css));
 		String usercss = (String) Configuration.get("USER_CSS");
 		if (usercss.length() > 0)
 			try {
 				// DEBUG
 				System.out.println("***[DEBUG] User css used: " + usercss);
-				editor.setStyleSheet(new InputStreamReader(
-						new java.io.FileInputStream(usercss)));
+				editor.setStyleSheet(new InputStreamReader(new java.io.FileInputStream(usercss)));
 			} catch (Exception ex) {
 				System.out.println("***[DEBUG] Failed to open: " + usercss);
 				ex.printStackTrace();
@@ -403,41 +386,30 @@ public class EditorPanel extends JPanel {
 
 	void insTimeB_actionPerformed(ActionEvent e) {
 		java.util.Date d = new java.util.Date();
-		editor.editor.replaceSelection(DateFormat.getTimeInstance(
-				DateFormat.SHORT, Local.getCurrentLocale()).format(d));
+		editor.editor
+				.replaceSelection(DateFormat.getTimeInstance(DateFormat.SHORT, Local.getCurrentLocale()).format(d));
 	}
 
 	void exportB_actionPerformed(ActionEvent e) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Save in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Save in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.saveButtonText", Local.getString("Save"));
-		UIManager.put("FileChooser.saveButtonToolTipText", Local
-				.getString("Save selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		UIManager.put("FileChooser.saveButtonToolTipText", Local.getString("Save selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
 		chooser.setDialogTitle(Local.getString("Export note"));
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser
-				.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
 		// chooser.addChoosableFileFilter(new
 		// AllFilesFilter(AllFilesFilter.RTF));
@@ -445,8 +417,7 @@ public class EditorPanel extends JPanel {
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
 
-		FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local
-				.getString("Export note"), chooser);
+		FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local.getString("Export note"), chooser);
 		String enc = (String) Context.get("EXPORT_FILE_ENCODING");
 		if (enc != null)
 			dlg.encCB.setSelectedItem(enc);
@@ -463,14 +434,12 @@ public class EditorPanel extends JPanel {
 		dlg.setSize(dlgSize);
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
-		dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x,
-				(frmSize.height - dlgSize.height) / 2 + loc.y);
+		dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
 		dlg.setVisible(true);
 		if (dlg.CANCELLED)
 			return;
 
-		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile()
-				.getPath());
+		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile().getPath());
 		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
 		Context.put("EXPORT_NUMENT", dlg.numentChB.isSelected() ? "YES" : "NO");
 		Context.put("EXPORT_XHTML", dlg.xhtmlChB.isSelected() ? "YES" : "NO");
@@ -489,8 +458,8 @@ public class EditorPanel extends JPanel {
 		if (ei == 1)
 			enc = "UTF-8";
 		File f = chooser.getSelectedFile();
-		new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-				dlg.numentChB.isSelected(), template, dlg.xhtmlChB.isSelected());
+		new HTMLFileExport(f, editor.document, CurrentNote.get(), enc, dlg.numentChB.isSelected(), template,
+				dlg.xhtmlChB.isSelected());
 	}
 
 	String initialTitle = "";
@@ -522,33 +491,22 @@ public class EditorPanel extends JPanel {
 	}
 
 	public boolean isDocumentChanged() {
-		return editor.isDocumentChanged()
-				|| !titleField.getText().equals(initialTitle);
+		return editor.isDocumentChanged() || !titleField.getText().equals(initialTitle);
 	}
 
 	void importB_actionPerformed(ActionEvent e) {
 		// Fix until Sun's JVM supports more locales...
-		UIManager.put("FileChooser.lookInLabelText", Local
-				.getString("Look in:"));
-		UIManager.put("FileChooser.upFolderToolTipText", Local
-				.getString("Up One Level"));
-		UIManager.put("FileChooser.newFolderToolTipText", Local
-				.getString("Create New Folder"));
-		UIManager.put("FileChooser.listViewButtonToolTipText", Local
-				.getString("List"));
-		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local
-				.getString("Details"));
-		UIManager.put("FileChooser.fileNameLabelText", Local
-				.getString("File Name:"));
-		UIManager.put("FileChooser.filesOfTypeLabelText", Local
-				.getString("Files of Type:"));
+		UIManager.put("FileChooser.lookInLabelText", Local.getString("Look in:"));
+		UIManager.put("FileChooser.upFolderToolTipText", Local.getString("Up One Level"));
+		UIManager.put("FileChooser.newFolderToolTipText", Local.getString("Create New Folder"));
+		UIManager.put("FileChooser.listViewButtonToolTipText", Local.getString("List"));
+		UIManager.put("FileChooser.detailsViewButtonToolTipText", Local.getString("Details"));
+		UIManager.put("FileChooser.fileNameLabelText", Local.getString("File Name:"));
+		UIManager.put("FileChooser.filesOfTypeLabelText", Local.getString("Files of Type:"));
 		UIManager.put("FileChooser.openButtonText", Local.getString("Open"));
-		UIManager.put("FileChooser.openButtonToolTipText", Local
-				.getString("Open selected file"));
-		UIManager
-				.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
-		UIManager.put("FileChooser.cancelButtonToolTipText", Local
-				.getString("Cancel"));
+		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
+		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
+		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
@@ -563,8 +521,7 @@ public class EditorPanel extends JPanel {
 		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
 
-		Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile()
-				.getPath());
+		Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile().getPath());
 
 		File f = chooser.getSelectedFile();
 		new HTMLFileImport(f, editor);
@@ -580,8 +537,7 @@ public class EditorPanel extends JPanel {
 		File f;
 		try {
 			f = Util.getTempFile();
-			new HTMLFileExport(f, editor.document, CurrentNote.get(), "UTF-8",
-					false, null, false);
+			new HTMLFileExport(f, editor.document, CurrentNote.get(), "UTF-8", false, null, false);
 			Util.runBrowser("file:" + f.getAbsolutePath());
 		} catch (IOException ioe) {
 			new ExceptionDialog(ioe, "Cannot create temporary file", null);

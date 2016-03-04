@@ -5,57 +5,124 @@ import java.awt.*;
 import javax.swing.*;
 
 public class StopWatch extends JFrame{
+	//field variables
+	JPanel numbers = new JPanel();
+	JPanel buttons = new JPanel();
+	JPanel display = new JPanel();
+	JLabel jta = new JLabel("00:00:00");
+	JLabel colon = new JLabel(":");
+	JLabel colon2 = new JLabel(":");
 	
-	/**
-	 * 
-	 */
-	JLabel promptLabel, timerLabel;
-	int counter;
-	JTextField tf;
-	JButton button;
+	JButton start;
+	JButton stop;
+	JButton reset;
+	
+	FlowLayout fl = new FlowLayout();
+	
+	//EmptyBorder border = new EmptyBorder(10,0,0,0);
+	//EmptyBorder border2 = new EmptyBorder(0,0,10,0);
+	
+	String [] minString = {"0","1","2","3","4","5","6","7","8","9"};
+	
+	JComboBox cb = new JComboBox(minString);
+	JComboBox cb2 = new JComboBox(minString);
+	JComboBox cb3 = new JComboBox(minString);
+	JComboBox cb4 = new JComboBox(minString);
+	JComboBox cb5 = new JComboBox(minString);
+	JComboBox cb6 = new JComboBox(minString);
+	
+	static int count;
+	static Integer value;
 	Timer timer;
+	String temp;
+	String stri = new String();
 	
-	public StopWatch(String temp) {
-		super(temp);
-		setVisible(true);
-		setResizable(true);
-		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
-		setSize(300,150);
-		
-		setLayout(new GridLayout(2, 2, 5, 5));
-		
-		promptLabel = new JLabel("Enter seconds:", SwingConstants.CENTER);
-		add(promptLabel);
-		
-		tf = new JTextField(5);
-		add(tf);
-		
-		button = new JButton("Start timing");
-		add(button);
-		
-		timerLabel = new JLabel("Waiting...", SwingConstants.CENTER);
-		add(timerLabel);
-
-		event e = new event();
-		button.addActionListener(e);
+	//constructor
+	public StopWatch() {
+		gui();	
 	}
 	
+	
+	//setters
+	//getters
+	
+	//methods
+	public void gui(){
+		//super("Window");
+		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new GridLayout(3,1));
+		numbers.setLayout(fl);
+		setVisible(true);
+		setResizable(true);
+		setSize(300,200);
+		start = new JButton("Start");
+		stop = new JButton("Stop");
+		reset = new JButton("Reset");
+		
+		
+		
+		
+		numbers.add(cb);
+		numbers.add(cb2);
+		numbers.add(colon);
+		
+		
+		numbers.add(cb3);
+		numbers.add(cb4);
+		numbers.add(colon2);
+		
+		
+		numbers.add(cb5);
+		numbers.add(cb6);
+		
+		
+		buttons.setLayout(fl);
+		buttons.add(start);
+		buttons.add(stop);
+		buttons.add(reset);
+		
+		//numbers.setBorder(border);
+		//jta.setBorder(border);
+		
+		display.add(jta);
+		getContentPane().add(display);
+		getContentPane().add(numbers);
+		getContentPane().add(buttons);
+		
+		StartEvent startEvent = new StartEvent();
+		StopEvent stopEvent = new StopEvent();
+		start.addActionListener(startEvent);
+		stop.addActionListener(stopEvent);
+		
+		
+		
+	}
+
 	private void closeOperationOnDefault(int exitOnClose) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public class event implements ActionListener {
+	
+	//misc-OtherClasses
+	public class StartEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int count = (int)(Double.parseDouble(tf.getText()));
-			timerLabel.setText("Time left: " + count);
 			
+			stri = (String) cb.getSelectedItem();
+			count = Integer.parseInt(stri);
+			jta.setText( Integer.toString(count));
+			String stri = new String();
 			TimeClass tc = new TimeClass(count);
 			timer = new Timer(1000, tc);
 			timer.start();
+			
 		}
 	}
-	
+	public class StopEvent implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			timer.stop();
+		}
+	}
 	public class TimeClass implements ActionListener {
 		int counter;
 		
@@ -68,12 +135,17 @@ public class StopWatch extends JFrame{
 			counter--;
 			
 			if(counter >= 1){
-				timerLabel.setText("Time left: " + counter);
+				jta.setText("Time left: " + counter);
+				count--;
 				
 			}else{
 				timer.stop();
-				timerLabel.setText("Done!");
+				jta.setText("Done!");
 			}
 		}
+	}
+	public static void main(String [] args){
+		StopWatch s = new StopWatch();
+		s.gui();
 	}
 }

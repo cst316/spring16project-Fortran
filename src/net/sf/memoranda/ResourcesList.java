@@ -11,28 +11,29 @@ package net.sf.memoranda;
 import java.util.Vector;
 
 import nu.xom.Document;
+
 /**
  * 
  */
-/*$Id: ResourcesList.java,v 1.4 2007/03/20 06:21:46 alexeya Exp $*/
+/* $Id: ResourcesList.java,v 1.4 2007/03/20 06:21:46 alexeya Exp $ */
 public interface ResourcesList {
-    
-    Vector getAllResources();
-    
-    //Vector getResourcesForTask(String taskId);
-    
-    Resource getResource(String path);
-    
-    void addResource(String path, boolean isInternetShortcut, boolean isProjectFile);
-    
-    void addResource(String path);
-    
-    //void addResource(String path, String taskId);
-    
-    void removeResource(String path);
-        
-    int getAllResourcesCount();
-    
-    Document getXMLContent();
+
+	Vector getAllResources();
+
+	// Vector getResourcesForTask(String taskId);
+
+	Resource getResource(String path);
+
+	void addResource(String path, boolean isInternetShortcut, boolean isProjectFile);
+
+	void addResource(String path);
+
+	// void addResource(String path, String taskId);
+
+	void removeResource(String path);
+
+	int getAllResourcesCount();
+
+	Document getXMLContent();
 
 }

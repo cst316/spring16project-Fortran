@@ -25,7 +25,7 @@ import net.sf.memoranda.ui.StickerDialog.ComboBoxRenderer;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
-public class StickerExpand extends JDialog{
+public class StickerExpand extends JDialog {
 	String txt;
 	Color backGroundColor, foreGroundColor;
 	public boolean CANCELLED = true;
@@ -43,11 +43,12 @@ public class StickerExpand extends JDialog{
 
 	Border border1;
 	Border border2;
-	public StickerExpand(Frame frame,String txt, String backcolor, String fontcolor, String priority) {
-		super(frame, Local.getString("Sticker")+" ["+priority+"]" , true);
-		this.txt=txt;
-		this.backGroundColor=Color.decode(backcolor);
-		this.foreGroundColor=Color.decode(fontcolor);
+
+	public StickerExpand(Frame frame, String txt, String backcolor, String fontcolor, String priority) {
+		super(frame, Local.getString("Sticker") + " [" + priority + "]", true);
+		this.txt = txt;
+		this.backGroundColor = Color.decode(backcolor);
+		this.foreGroundColor = Color.decode(fontcolor);
 		try {
 			jbInit();
 			pack();
@@ -55,13 +56,11 @@ public class StickerExpand extends JDialog{
 			new ExceptionDialog(ex);
 		}
 	}
+
 	void jbInit() throws Exception {
-		border1 =
-				BorderFactory.createCompoundBorder(
-						BorderFactory.createEtchedBorder(
-								Color.white,
-								new Color(156, 156, 158)),
-								BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		border1 = BorderFactory.createCompoundBorder(
+				BorderFactory.createEtchedBorder(Color.white, new Color(156, 156, 158)),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		border2 = BorderFactory.createEmptyBorder(5, 0, 5, 0);
 		panel1.setLayout(borderLayout1);
 		this.getContentPane().setLayout(borderLayout2);

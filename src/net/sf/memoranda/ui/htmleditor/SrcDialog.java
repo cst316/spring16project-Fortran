@@ -9,10 +9,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2002</p>
- * <p>Company: </p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2002
+ * </p>
+ * <p>
+ * Company:
+ * </p>
+ * 
  * @author unascribed
  * @version 1.0
  */
@@ -37,7 +46,7 @@ public class SrcDialog extends JDialog {
 	public SrcDialog() {
 		this(null, "");
 	}
-	
+
 	void jbInit() throws Exception {
 		panel1.setLayout(borderLayout1);
 		jTextArea1.setEditable(false);

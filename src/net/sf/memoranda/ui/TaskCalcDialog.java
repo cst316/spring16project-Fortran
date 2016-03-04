@@ -24,7 +24,7 @@ public class TaskCalcDialog extends JDialog {
 	JPanel topPanel = new JPanel(new BorderLayout());
 	JPanel generalPanel = new JPanel(new GridBagLayout());
 	GridBagConstraints gbc;
-    public boolean CANCELLED = true;
+	public boolean CANCELLED = true;
 
 	ButtonGroup closeGroup = new ButtonGroup();
 	JCheckBox compactDatesChB = new JCheckBox();
@@ -48,11 +48,12 @@ public class TaskCalcDialog extends JDialog {
 	public TaskCalcDialog() {
 		this(null);
 	}
+
 	void jbInit() throws Exception {
-	    this.setResizable(false);
+		this.setResizable(false);
 		label1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label1.setText(Local.getString("Calculate and update data for this task using data from sub tasks."));
-		
+
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -70,15 +71,17 @@ public class TaskCalcDialog extends JDialog {
 		generalPanel.add(label2, gbc);
 
 		gbc = new GridBagConstraints();
-		gbc.gridx = 1; gbc.gridy = 3;
+		gbc.gridx = 1;
+		gbc.gridy = 3;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		compactDatesChB.setText(Local.getString("Compact task dates based on sub task dates"));
-//		compactDatesChB.addActionListener(new java.awt.event.ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				enSystrayChB_actionPerformed(e);
-//			}
-//		});
+		// compactDatesChB.addActionListener(new java.awt.event.ActionListener()
+		// {
+		// public void actionPerformed(ActionEvent e) {
+		// enSystrayChB_actionPerformed(e);
+		// }
+		// });
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 10;
@@ -99,11 +102,12 @@ public class TaskCalcDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		generalPanel.add(calcCompletionChB, gbc);
-//		calcCompletionChB.addActionListener(new java.awt.event.ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				enSplashChB_actionPerformed(e);
-//			}
-//		});
+		// calcCompletionChB.addActionListener(new
+		// java.awt.event.ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// enSplashChB_actionPerformed(e);
+		// }
+		// });
 		// Build TopPanel
 		topPanel.add(generalPanel, BorderLayout.CENTER);
 

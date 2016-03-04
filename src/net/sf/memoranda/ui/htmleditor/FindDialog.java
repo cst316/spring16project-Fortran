@@ -22,10 +22,19 @@ import javax.swing.JTextField;
 import net.sf.memoranda.ui.htmleditor.util.Local;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2002</p>
- * <p>Company: </p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2002
+ * </p>
+ * <p>
+ * Company:
+ * </p>
+ * 
  * @author unascribed
  * @version 1.0
  */
@@ -64,14 +73,12 @@ public class FindDialog extends JDialog {
 	void jbInit() throws Exception {
 		this.setResizable(false);
 		// Build Header and its layout
-		
+
 		header.setFont(new java.awt.Font("Dialog", 0, 20));
 		header.setForeground(new Color(0, 0, 124));
 		header.setText(Local.getString("Find & replace"));
-		header.setIcon(
-			new ImageIcon(
-				net.sf.memoranda.ui.htmleditor.ImageDialog.class.getResource(
-					"resources/icons/findbig.png")));
+		header.setIcon(new ImageIcon(
+				net.sf.memoranda.ui.htmleditor.ImageDialog.class.getResource("resources/icons/findbig.png")));
 		headerPanel.setBackground(Color.WHITE);
 		headerPanel.add(header);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
@@ -79,13 +86,15 @@ public class FindDialog extends JDialog {
 		// build areaPanel
 		lblSearch.setText(Local.getString("Search for") + ":");
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 0;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
 		gbc.insets = new Insets(10, 10, 5, 0);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(lblSearch, gbc);
 		txtSearch.setPreferredSize(new Dimension(300, 25));
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 1;
+		gbc.gridx = 0;
+		gbc.gridy = 1;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(5, 10, 5, 10);
@@ -93,19 +102,22 @@ public class FindDialog extends JDialog {
 		areaPanel.add(txtSearch, gbc);
 		chkWholeWord.setText(Local.getString("Whole words only"));
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
 		gbc.insets = new Insets(5, 10, 5, 25);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(chkWholeWord, gbc);
 		chkRegExp.setText(Local.getString("Regular expressions"));
 		gbc = new GridBagConstraints();
-		gbc.gridx = 1; gbc.gridy = 2;
+		gbc.gridx = 1;
+		gbc.gridy = 2;
 		gbc.insets = new Insets(5, 25, 5, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(chkRegExp, gbc);
 		chkCaseSens.setText(Local.getString("Case sensitive"));
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 3;
+		gbc.gridx = 0;
+		gbc.gridy = 3;
 		gbc.insets = new Insets(5, 10, 5, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(chkCaseSens, gbc);
@@ -116,21 +128,22 @@ public class FindDialog extends JDialog {
 			}
 		});
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 4;
+		gbc.gridx = 0;
+		gbc.gridy = 4;
 		gbc.insets = new Insets(5, 10, 5, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(chkReplace, gbc);
 		txtReplace.setPreferredSize(new Dimension(300, 25));
 		txtReplace.setEnabled(false);
 		gbc = new GridBagConstraints();
-		gbc.gridx = 0; gbc.gridy = 5;
+		gbc.gridx = 0;
+		gbc.gridy = 5;
 		gbc.gridwidth = 2;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(5, 10, 10, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		areaPanel.add(txtReplace, gbc);
-		areaPanel.setBorder(BorderFactory.createEtchedBorder(
-			Color.white, new Color(142, 142, 142)));
+		areaPanel.setBorder(BorderFactory.createEtchedBorder(Color.white, new Color(142, 142, 142)));
 		this.getContentPane().add(areaPanel, BorderLayout.CENTER);
 
 		// Initialize buttons
