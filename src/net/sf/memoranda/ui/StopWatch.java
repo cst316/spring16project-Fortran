@@ -5,39 +5,52 @@ import java.awt.*;
 import javax.swing.*;
 
 public class StopWatch extends JFrame{
-	
+	//field variables
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel display = new JPanel();
 	JLabel jta = new JLabel("00:00:00");
-	JButton start;
-	JButton stop;
-	FlowLayout fl = new FlowLayout();
 	JLabel colon = new JLabel(":");
 	JLabel colon2 = new JLabel(":");
+	
+	JButton start;
+	JButton stop;
 	JButton reset;
-	EmptyBorder border = new EmptyBorder(10,0,0,0);
-	EmptyBorder border2 = new EmptyBorder(0,0,10,0);
+	
+	FlowLayout fl = new FlowLayout();
+	
+	//EmptyBorder border = new EmptyBorder(10,0,0,0);
+	//EmptyBorder border2 = new EmptyBorder(0,0,10,0);
+	
 	String [] minString = {"0","1","2","3","4","5","6","7","8","9"};
+	
 	JComboBox cb = new JComboBox(minString);
 	JComboBox cb2 = new JComboBox(minString);
 	JComboBox cb3 = new JComboBox(minString);
 	JComboBox cb4 = new JComboBox(minString);
 	JComboBox cb5 = new JComboBox(minString);
 	JComboBox cb6 = new JComboBox(minString);
+	
 	static int count;
 	static Integer value;
 	Timer timer;
 	String temp;
 	String stri = new String();
 	
+	//constructor
+	public StopWatch() {
+		gui();	
+	}
 	
-	public Gui ()
-	{
-		
-		super("Window");
+	
+	//setters
+	//getters
+	
+	//methods
+	public void gui(){
+		//super("Window");
 		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(3,1));
+		getContentPane().setLayout(new GridLayout(3,1));
 		numbers.setLayout(fl);
 		setVisible(true);
 		setResizable(true);
@@ -68,13 +81,13 @@ public class StopWatch extends JFrame{
 		buttons.add(stop);
 		buttons.add(reset);
 		
-		numbers.setBorder(border);
-		jta.setBorder(border);
+		//numbers.setBorder(border);
+		//jta.setBorder(border);
 		
 		display.add(jta);
-		add(display);
-		add(numbers);
-		add(buttons);
+		getContentPane().add(display);
+		getContentPane().add(numbers);
+		getContentPane().add(buttons);
 		
 		StartEvent startEvent = new StartEvent();
 		StopEvent stopEvent = new StopEvent();
@@ -84,12 +97,13 @@ public class StopWatch extends JFrame{
 		
 		
 	}
+
 	private void closeOperationOnDefault(int exitOnClose) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	
+	//misc-OtherClasses
 	public class StartEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -103,15 +117,12 @@ public class StopWatch extends JFrame{
 			
 		}
 	}
-	
 	public class StopEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
 			timer.stop();
 		}
 	}
-	
-	
 	public class TimeClass implements ActionListener {
 		int counter;
 		
@@ -132,5 +143,9 @@ public class StopWatch extends JFrame{
 				jta.setText("Done!");
 			}
 		}
+	}
+	public static void main(String [] args){
+		StopWatch s = new StopWatch();
+		s.gui();
 	}
 }

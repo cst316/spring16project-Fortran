@@ -45,65 +45,72 @@ import net.sf.memoranda.ui.TimerTask;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
+	//field variables
+	JLabel header = new JLabel();
+	JLabel jLabel2 = new JLabel();
+	JLabel jLabel6 = new JLabel();
+	// added by rawsushi
+	JLabel jLabel7 = new JLabel();
+	JLabel jLabelEffort = new JLabel();
+	JLabel jLabelDescription = new JLabel();
+	JLabel jLabelProgress = new JLabel();
+
 	JPanel mPanel = new JPanel(new BorderLayout());
 	JPanel areaPanel = new JPanel(new BorderLayout());
 	JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	JPanel dialogTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	JPanel jPanel2 = new JPanel(new GridLayout(3, 2));
+	JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	// JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JPanel jPanel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	JPanel jPanel6 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JPanel jPanel8 = new JPanel(new GridBagLayout());
+	JPanel jPanelEffort = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	// JPanel jPanelNotes = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
 	JButton cancelB = new JButton();
 	JButton okB = new JButton();
+	JButton setStartDateB = new JButton();
+	JButton setEndDateB = new JButton();
+	JButton setNotifB = new JButton();
+
 	Border border1;
 	Border border2;
-	JPanel dialogTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	JLabel header = new JLabel();
-	public boolean CANCELLED = true;
-	JPanel jPanel8 = new JPanel(new GridBagLayout());
 	Border border3;
 	Border border4;
 	// Border border5;
 	// Border border6;
-	JPanel jPanel2 = new JPanel(new GridLayout(3, 2));
-	JTextField todoField = new JTextField();
+	Border border8;
 
 	// added by rawsushi
 	JTextField effortField = new JTextField();
+	JTextField todoField = new JTextField();
 	JTextArea descriptionField = new JTextArea();
+
 	JScrollPane descriptionScrollPane = new JScrollPane(descriptionField);
 
 	// Border border7;
-	Border border8;
 	CalendarFrame startCalFrame = new CalendarFrame();
 	CalendarFrame endCalFrame = new CalendarFrame();
-	String[] priority = { Local.getString("Lowest"), Local.getString("Low"), Local.getString("Normal"),
-			Local.getString("High"), Local.getString("Highest") };
+	
+	public boolean CANCELLED = true;
 	boolean ignoreStartChanged = false;
 	boolean ignoreEndChanged = false;
-	JPanel jPanel4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	JPanel jPanel6 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	JLabel jLabel6 = new JLabel();
-	JButton setStartDateB = new JButton();
-	JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	JLabel jLabel2 = new JLabel();
+	
+	String[] priority = { Local.getString("Lowest"), Local.getString("Low"), Local.getString("Normal"),
+			Local.getString("High"), Local.getString("Highest") };
+
 	JSpinner startDate;
 	JSpinner endDate;
 	// JSpinner endDate = new JSpinner(new SpinnerDateModel());
-	JButton setEndDateB = new JButton();
-	// JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	JPanel jPanelEffort = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	// JPanel jPanelNotes = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-	JButton setNotifB = new JButton();
+	JSpinner progress = new JSpinner(new SpinnerNumberModel(0, 0, 100, 5));
+	
 	JComboBox priorityCB = new JComboBox(priority);
-	JLabel jLabel7 = new JLabel();
-	// added by rawsushi
-	JLabel jLabelEffort = new JLabel();
-	JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
 	JCheckBox timer = new JCheckBox();
-	JCheckBox Stopwatch = new JCheckBox();
-
-	JPanel jPanelProgress = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	JLabel jLabelProgress = new JLabel();
-	JSpinner progress = new JSpinner(new SpinnerNumberModel(0, 0, 100, 5));
+	JCheckBox stopwatch = new JCheckBox();
 
 	// Forbid to set dates outside the bounds
 	CalendarDate startDateMin = CurrentProject.get().getStartDate();
@@ -111,6 +118,7 @@ public class TaskDialog extends JDialog {
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
 
+	//constructor
 	public TaskDialog(Frame frame, String title) {
 		super(frame, title, true);
 		try {
@@ -120,7 +128,8 @@ public class TaskDialog extends JDialog {
 			new ExceptionDialog(ex);
 		}
 	}
-
+	
+	//jbInit
 	void jbInit() throws Exception {
 		this.setResizable(false);
 		this.setSize(new Dimension(430, 300));
@@ -148,21 +157,20 @@ public class TaskDialog extends JDialog {
 		startDate = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_WEEK));
 		endDate = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_WEEK));
 		timer.setSelected(false);
-		Stopwatch.setSelected(false);
-		// timer.setSelected(false);
+		stopwatch.setSelected(false);
 		timer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				timer_actionPerformed(e);
 			}
 		});
-		Stopwatch.addActionListener(new ActionListener() {
+		stopwatch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Stopwatch_actionPerformed(e);
+				stopwatch_actionPerformed(e);
 			}
 		});
 
 		timer.setSelected(false);
-		Stopwatch.setSelected(false);
+		stopwatch.setSelected(false);
 		chkEndDate.setSelected(false);
 		chkEndDate_actionPerformed(null);
 		chkEndDate.addActionListener(new java.awt.event.ActionListener() {
@@ -212,15 +220,8 @@ public class TaskDialog extends JDialog {
 		gbLayout.setConstraints(jLabelDescription, gbCon);
 
 		descriptionField.setBorder(border8);
-		descriptionField.setPreferredSize(new Dimension(375, 387)); // 3
-																	// additional
-																	// pixels
-																	// from 384
-																	// so that
-																	// the last
-																	// line is
-																	// not cut
-																	// off
+		descriptionField.setPreferredSize(new Dimension(375, 387)); 
+		// 3 additional pixels from 384 so that the last line is not cut off
 		descriptionField.setLineWrap(true);
 		descriptionField.setWrapStyleWord(true);
 		gbCon = new GridBagConstraints();
@@ -287,14 +288,14 @@ public class TaskDialog extends JDialog {
 		});
 
 		timer.setBounds(100, 100, 15, 15);
-		timer.setText(Local.getString("Timer"));
-		Stopwatch.setBounds(100, 100, 15, 15);
-		Stopwatch.setText("StopWatch");
+		timer.setText(("Timer"));
+		stopwatch.setBounds(100, 100, 15, 15);
+		stopwatch.setText(("StopWatch"));
 		jLabel2.setMaximumSize(new Dimension(270, 16));
 		// jLabel2.setPreferredSize(new Dimension(60, 16));
 		jLabel2.setText(Local.getString("End date"));
-		timer.setBounds(200, 200, 15, 15);
-		timer.setText(Local.getString("Timer"));
+		stopwatch.setBounds(200, 200, 15, 15);
+		stopwatch.setText(Local.getString("StopWatch"));
 		endDate.setBorder(border8);
 		endDate.setPreferredSize(new Dimension(80, 24));
 
@@ -375,8 +376,7 @@ public class TaskDialog extends JDialog {
 		jPanel6.add(setStartDateB, null);
 		jPanel2.add(jPanel1, null);
 		jPanel1.add(timer, null);
-		jPanel1.add(timer, null);
-		jPanel1.add(Stopwatch, null);
+		jPanel1.add(stopwatch, null);
 		jPanel1.add(chkEndDate, null);
 		jPanel1.add(jLabel2, null);
 		jPanel1.add(endDate, null);
@@ -413,62 +413,55 @@ public class TaskDialog extends JDialog {
 				endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
 			}
 		});
-	}
+	}//jbinit
 
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
 	}
-
 	public void setEndDate(CalendarDate d) {
 		if (d != null)
 			this.endDate.getModel().setValue(d.getDate());
 	}
-
 	public void setStartDateLimit(CalendarDate min, CalendarDate max) {
 		this.startDateMin = min;
 		this.startDateMax = max;
 	}
-
 	public void setEndDateLimit(CalendarDate min, CalendarDate max) {
 		this.endDateMin = min;
 		this.endDateMax = max;
 	}
-
+	
 	void okB_actionPerformed(ActionEvent e) {
 
 		CANCELLED = false;
 		this.dispose();
-		if(Stopwatch.isSelected()) {
+		if(timer.isSelected()) {
 			if (todoField.getText() != null) {
-				TimerTask t = new TimerTask(todoField.getText());
+				TimerTask t = new TimerTask();
 			}else {
-				TimerTask t = new TimerTask(todoField.getText());
+				TimerTask t = new TimerTask();
 			}
 		}
-		if (timer.isSelected()) {
+		if (stopwatch.isSelected()) {
 			if (todoField.getText() != null) {
-				StopWatch s = new StopWatch(todoField.getText());
+				StopWatch s = new StopWatch();
 			} else {
-				StopWatch s = new StopWatch("StopWatch");
+				StopWatch s = new StopWatch();
 			}
-		} // creates StopWatch GUI after clicking GUI
+		} // creates stopwatch GUI after clicking GUI
 	}
-
 	void cancelB_actionPerformed(ActionEvent e) {
 		this.dispose();
 	}
+	void timer_actionPerformed(ActionEvent e) {
 
-	void timer_actionPerformed(ActionEvent e) {/////////////////////////////////
-
-		// StopWatch s = new StopWatch();
+		// stopwatch s = new stopwatch();
 
 	}
-	
-	void Stopwatch_actionPerformed(ActionEvent e){
+	void stopwatch_actionPerformed(ActionEvent e){
 		
 		//Timetask t = new TimerTask();
 	}
-
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());
 		setEndDateB.setEnabled(chkEndDate.isSelected());
@@ -481,7 +474,6 @@ public class TaskDialog extends JDialog {
 			}
 		}
 	}
-
 	void setStartDateB_actionPerformed(ActionEvent e) {
 		startCalFrame.setLocation(setStartDateB.getLocation());
 		startCalFrame.setSize(200, 200);
@@ -489,14 +481,12 @@ public class TaskDialog extends JDialog {
 		startCalFrame.show();
 
 	}
-
 	void setEndDateB_actionPerformed(ActionEvent e) {
 		endCalFrame.setLocation(setEndDateB.getLocation());
 		endCalFrame.setSize(200, 200);
 		this.getLayeredPane().add(endCalFrame);
 		endCalFrame.show();
 	}
-
 	void setNotifB_actionPerformed(ActionEvent e) {
 		((AppFrame) App.getFrame()).workPanel.dailyItemsPanel.eventsPanel.newEventB_actionPerformed(e,
 				this.todoField.getText(), (Date) startDate.getModel().getValue(), (Date) endDate.getModel().getValue());
