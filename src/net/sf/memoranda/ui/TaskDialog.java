@@ -100,7 +100,6 @@ public class TaskDialog extends JDialog {
 	boolean ignoreStartChanged = false;
 	boolean ignoreEndChanged = false;
 	
-	Date sd = new Date();
 	
 	String[] priority = { Local.getString("Lowest"), Local.getString("Low"), Local.getString("Normal"),
 			Local.getString("High"), Local.getString("Highest") };
@@ -310,11 +309,11 @@ public class TaskDialog extends JDialog {
 
 		endDate.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
+				Date sd = new Date();
 				// it's an ugly hack so that the spinner can increase day by day
 				SpinnerDateModel sdm = new SpinnerDateModel((Date) endDate.getModel().getValue(), null, null,
 						Calendar.DAY_OF_WEEK);
 				endDate.setModel(sdm);
-
                 if ((startDateMin != null) && sd.before(startDateMin.getDate())) {
                     startDate.getModel().setValue(startDateMin.getDate());
                     sd = startDateMin.getDate();
@@ -381,7 +380,6 @@ public class TaskDialog extends JDialog {
 					ed = endDateMin.getDate();
 				}
 				endCalFrame.cal.set(new CalendarDate(ed));
-
 				ignoreEndChanged = false;
 			}
 		});
@@ -468,7 +466,6 @@ public class TaskDialog extends JDialog {
 		});
 	}//jbinit
 
-
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
 	}
@@ -505,9 +502,12 @@ public class TaskDialog extends JDialog {
 			}
 		} // creates stopwatch GUI after clicking GUI
 	}
+	
+	
 	void cancelB_actionPerformed(ActionEvent e) {
 		this.dispose();
 	}
+	
 
 	void stopwatch_actionPerformed(ActionEvent e){
 

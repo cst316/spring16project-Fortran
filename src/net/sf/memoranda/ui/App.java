@@ -3,12 +3,15 @@ package net.sf.memoranda.ui;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+
+import com.sun.glass.ui.Cursor;
 
 import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.util.Configuration;
@@ -141,8 +144,21 @@ public class App {
 	public static void closeWindow() {
 		if (frame == null)
 			return;
+		System.out.println("inCloWin");
 		// frame.dispose();
-		System.exit(0);
+		// System.exit(0);
+		// frame.setEnabled(true);
+
+		// frame.setEnabled(false); //freezes application
+		// frame.setState(Frame.ICONIFIED);
+		// frame.setExtendedState(Cursor.CURSOR_CROSSHAIR);
+		// frame.setVisible(false); //replaces deprecated show(). minimumSize
+		// deprecated.
+
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		// this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		// this.setDefaultCloseOperation(ICONIFIED);
 	}
 	/* hide window here?-check other memoranda files */
 

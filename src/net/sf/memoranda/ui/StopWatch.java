@@ -10,6 +10,7 @@ public class StopWatch extends JFrame{
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel display = new JPanel();
+
 	JLabel timeDisplay = new JLabel("00:00:00");
 	JButton start;
 	JButton stop;
@@ -141,8 +142,4 @@ public class StopWatch extends JFrame{
 			}
 		}
 	}
-	public static void main(String [] args){
-		StopWatch s = new StopWatch();
-		s.gui();
-	}
-}
+}//StopWatch

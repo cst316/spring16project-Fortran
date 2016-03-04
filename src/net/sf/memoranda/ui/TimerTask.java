@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import net.sf.memoranda.ui.StopWatch.TimeClass;
-
 public class TimerTask extends JFrame {
 	//field variables
 	static JFrame mainframe;
@@ -79,7 +78,11 @@ public class TimerTask extends JFrame {
 	//misc - classes, impListeners
 	public class ActionClick implements ActionListener {
 /*		public ActionClick(int action){
+<<<<<<< HEAD
 
+=======
+>>>>>>> a00a0a319d8b3f5aa4d54214e36f262925f9eed8
+>>>>>>> 36873e93dd6579723561ab6eba1b00a73b30a6ac
 			
 		}
 		//use switch
@@ -138,10 +141,4 @@ public class TimerTask extends JFrame {
 			}
 		}
 	}
-
-	public static void main(String[] args) {
-		TimerTask s = new TimerTask();
-
-	}
-
-}
+}//TimerTask

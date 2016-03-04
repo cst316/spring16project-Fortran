@@ -36,6 +36,8 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 
 	JPanel mainPanel = new JPanel(new BorderLayout());
 
+
+	// constructor
 	public ExitConfirmationDialog(Frame frame, String title) {
 		super(frame, title, true);
 		try {
@@ -47,6 +49,7 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 		super.addWindowListener(this);
 	}
 
+	// initialize window with looks
 	void jbInit() throws Exception {
 		this.setResizable(false);
 
