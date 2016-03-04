@@ -9,7 +9,7 @@ public class StopWatch extends JFrame{
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel display = new JPanel();
-	JLabel jta = new JLabel("00:00:00");
+	JLabel timeDisplay = new JLabel("00:00:00");
 	JButton start;
 	JButton stop;
 	FlowLayout fl = new FlowLayout();
@@ -18,13 +18,14 @@ public class StopWatch extends JFrame{
 	JButton reset;
 	EmptyBorder border = new EmptyBorder(10,0,0,0);
 	EmptyBorder border2 = new EmptyBorder(0,0,10,0);
-	String [] minString = {"0","1","2","3","4","5","6","7","8","9"};
-	JComboBox cb = new JComboBox(minString);
-	JComboBox cb2 = new JComboBox(minString);
-	JComboBox cb3 = new JComboBox(minString);
-	JComboBox cb4 = new JComboBox(minString);
-	JComboBox cb5 = new JComboBox(minString);
-	JComboBox cb6 = new JComboBox(minString);
+	final String [] zeroThroughNine = {"0","1","2","3","4","5","6","7","8","9"};
+	final String [] zeroThroughFive = {"0","1","2","3","4","5"};
+	JComboBox cb = new JComboBox(zeroThroughFive);
+	JComboBox cb2 = new JComboBox(zeroThroughNine);
+	JComboBox cb3 = new JComboBox(zeroThroughFive );
+	JComboBox cb4 = new JComboBox(zeroThroughNine);
+	JComboBox cb5 = new JComboBox(zeroThroughFive);
+	JComboBox cb6 = new JComboBox(zeroThroughNine);
 	static int count;
 	static Integer value;
 	Timer timer;
@@ -69,9 +70,9 @@ public class StopWatch extends JFrame{
 		buttons.add(reset);
 		
 		numbers.setBorder(border);
-		jta.setBorder(border);
+		timeDisplay.setBorder(border);
 		
-		display.add(jta);
+		display.add(timeDisplay);
 		add(display);
 		add(numbers);
 		add(buttons);
@@ -95,7 +96,7 @@ public class StopWatch extends JFrame{
 			
 			stri = (String) cb.getSelectedItem();
 			count = Integer.parseInt(stri);
-			jta.setText( Integer.toString(count));
+			timeDisplay.setText( Integer.toString(count));
 			String stri = new String();
 			TimeClass tc = new TimeClass(count);
 			timer = new Timer(1000, tc);
@@ -124,12 +125,12 @@ public class StopWatch extends JFrame{
 			counter--;
 			
 			if(counter >= 1){
-				jta.setText("Time left: " + counter);
+				timeDisplay.setText("Time left: " + counter);
 				count--;
 				
 			}else{
 				timer.stop();
-				jta.setText("Done!");
+				timeDisplay.setText("Done!");
 			}
 		}
 	}
