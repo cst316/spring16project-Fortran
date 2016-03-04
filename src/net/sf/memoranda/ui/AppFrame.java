@@ -33,7 +33,7 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
-
+import javax.swing.JTable;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.Note;
@@ -51,7 +51,8 @@ import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
-import net.sf.memoranda.util.LOCreader;
+import net.sf.memoranda.util.LOCReader;
+import net.sf.memoranda.util.LOCWriter;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -84,6 +85,9 @@ public class AppFrame extends JFrame {
 	HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
 
 	static Vector exitListeners = new Vector();
+
+	private final Object[] COLUMNAMES = { "SourceFile", "LOC" };
+
 
 	public Action prjPackAction = new AbstractAction("Pack current project") {
 		public void actionPerformed(ActionEvent e) {
@@ -139,6 +143,10 @@ public class AppFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
+
+			Object[][] temp = LOCReader.xmlToArray();
+			LOCTable table = new LOCTable(temp, COLUMNAMES);
+
 		}
 
 	};
@@ -153,6 +161,10 @@ public class AppFrame extends JFrame {
 	JMenu jMenuHelp = new JMenu();
 
 	JMenuItem jMenuFileExit = new JMenuItem();
+
+
+	JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
+
 	JMenuItem jMenuFileNewPrj = new JMenuItem();
 	JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
 	JMenuItem jMenuFilePackPrj = new JMenuItem(prjPackAction);
@@ -165,7 +177,7 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
 	// JMenuItem jMenuViewSource = new JMenuItem(viewSourceAction);
 	JMenuItem jMenuFileExportNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.exportAction);
-	JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
+
 
 	JMenuItem jMenuItem1 = new JMenuItem();
 	JMenuItem jMenuEditUndo = new JMenuItem(editor.undoAction);
@@ -276,14 +288,19 @@ public class AppFrame extends JFrame {
 				doExit();
 			}
 		});
+
+		jMenuFileMin.setText(Local.getString("Close the window"));
+		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
+		// jMenuFileMin.setText(Local.getString("Close the window"));
+		// jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
+		// InputEvent.ALT_MASK));
 		jMenuFileUnpackPrj.setText(Local.getString("Unpack project") + "...");
 		jMenuFileExportNote.setText(Local.getString("Export current note") + "...");
 		jMenuFileImportNote.setText(Local.getString("Import one note")//////////////////////////////////////////
 				+ "...");
 		jMenuFileImportSource.setText(Local.getString("Import Code") + "...");
 		jMenuFilePackPrj.setText(Local.getString("Pack project") + "...");
-		jMenuFileMin.setText(Local.getString("Close the window"));
-		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
+
 		// jButton3.setIcon(image3);
 		jButton3.setToolTipText(Local.getString("Help"));
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -441,8 +458,9 @@ public class AppFrame extends JFrame {
 		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuEditPref);
 		jMenuFile.addSeparator();
+
+		// jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFileMin);
-		jMenuFile.addSeparator();
 		jMenuFile.add(jMenuFileExit);
 		// MenuView
 		jMenuView.add(jMenuViewCode);///////////////////////////////////////////
@@ -612,7 +630,8 @@ public class AppFrame extends JFrame {
 			}
 		});
 
-	}// jbInit
+	} // jbInit End
+
 
 	protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
 		Util.runBrowser(App.BUGS_TRACKER_URL);
@@ -636,9 +655,12 @@ public class AppFrame extends JFrame {
 			dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
 					(frmSize.height - dlg.getSize().height) / 2 + loc.y);
 			dlg.setVisible(true);
+			System.out.println("ask");
 			if (dlg.CANCELLED)
-				return;
+				System.out.println("dlg.cancle is true");
+			return;
 		}
+		System.out.println("not ask");
 
 		Context.put("FRAME_WIDTH", new Integer(this.getWidth()));
 		Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
@@ -649,8 +671,12 @@ public class AppFrame extends JFrame {
 	}
 
 	public void doMinimize() {
+
+		System.out.println("min()");
 		exitNotify();
-		App.closeWindow();
+		App.closeWindow(); // setEnabled if frame != null
+		// this.dispose();
+
 	}
 
 	// Help | About action performed
@@ -666,20 +692,28 @@ public class AppFrame extends JFrame {
 
 	protected void processWindowEvent(WindowEvent e) {
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-			if (Configuration.get("ON_CLOSE").equals("exit"))
-				doExit();
-			else
-				doMinimize();
-		} else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
-			super.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			doMinimize();
-		} else
-			super.processWindowEvent(e);
-	}
 
+			if (Configuration.get("ON_CLOSE").equals("exit")) {
+				System.out.println("1exit");
+				doExit();
+			} else {
+				System.out.println("2elseMin");
+				doExit();
+			}
+		} else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
+			// super.processWindowEvent(new WindowEvent(this,
+			// WindowEvent.WINDOW_ICONIFIED));
+			System.out.println("3elseIfMin"); // minimize goes here
+		} else
+			System.out.println("4elseOther");
+		super.processWindowEvent(e);
+	}
+	
 	public static void addExitListener(ActionListener al) {
 		exitListeners.add(al);
 	}
+	
+
 
 	public static Collection getExitListeners() {
 		return exitListeners;
@@ -978,7 +1012,15 @@ public class AppFrame extends JFrame {
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
-			LOCreader Srcreader = new LOCreader(f);
+
+			LOCReader Srcreader = new LOCReader(f);
+			// save to file calling LOCWriter then load LOCTable
+			LOCWriter write = new LOCWriter(Srcreader);
+			// create SAvedLOCREader and return the data as 2Darray
+			Object[][] temp = LOCReader.xmlToArray();
+
+			LOCTable table = new LOCTable(temp, COLUMNAMES);
+
 		}
 
 	}
