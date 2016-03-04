@@ -100,6 +100,8 @@ public class TaskDialog extends JDialog {
 	boolean ignoreStartChanged = false;
 	boolean ignoreEndChanged = false;
 	
+	Date sd = new Date();
+	
 	String[] priority = { Local.getString("Lowest"), Local.getString("Low"), Local.getString("Normal"),
 			Local.getString("High"), Local.getString("Highest") };
 
@@ -110,6 +112,7 @@ public class TaskDialog extends JDialog {
 	
 	JComboBox priorityCB = new JComboBox(priority);
 	JCheckBox chkEndDate = new JCheckBox();
+	JCheckBox stopWatch = new JCheckBox();
 	JCheckBox timer = new JCheckBox();
 	JCheckBox stopwatch = new JCheckBox();
 
@@ -118,7 +121,6 @@ public class TaskDialog extends JDialog {
 	CalendarDate startDateMax = CurrentProject.get().getEndDate();
 	CalendarDate endDateMin = startDateMin;
 	CalendarDate endDateMax = startDateMax;
-
 	//constructor
 	public TaskDialog(Frame frame, String title) {
 		super(frame, title, true);
@@ -313,11 +315,59 @@ public class TaskDialog extends JDialog {
 						Calendar.DAY_OF_WEEK);
 				endDate.setModel(sdm);
 
-				if (ignoreEndChanged)
-					return;
-				ignoreEndChanged = true;
-				Date sd = (Date) startDate.getModel().getValue();
-				Date ed = (Date) endDate.getModel().getValue();
+                if ((startDateMin != null) && sd.before(startDateMin.getDate())) {
+                    startDate.getModel().setValue(startDateMin.getDate());
+                    sd = startDateMin.getDate();
+                }
+                startCalFrame.cal.set(new CalendarDate(sd));
+                ignoreStartChanged = false;
+            }
+        });
+
+        jLabel6.setText(Local.getString("Start date"));
+        //jLabel6.setPreferredSize(new Dimension(60, 16));
+        jLabel6.setMinimumSize(new Dimension(60, 16));
+        jLabel6.setMaximumSize(new Dimension(100, 16));
+        setStartDateB.setMinimumSize(new Dimension(24, 24));
+        setStartDateB.setPreferredSize(new Dimension(24, 24));
+        setStartDateB.setText("");
+        setStartDateB.setIcon(
+            new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
+        setStartDateB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setStartDateB_actionPerformed(e);
+            }
+        });
+
+        stopWatch.setBounds(100, 100, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        
+        jLabel2.setMaximumSize(new Dimension(270, 16));
+        //jLabel2.setPreferredSize(new Dimension(60, 16));
+        jLabel2.setText(Local.getString("End date"));
+        stopWatch.setBounds(200, 200, 15, 15);
+        stopWatch.setText(Local.getString("StopWatch"));
+        timer.setBounds(50, 100, 15, 15);
+        timer.setText(Local.getString("Timer"));
+        endDate.setBorder(border8);
+        endDate.setPreferredSize(new Dimension(80, 24));
+        
+		endDate.setEditor(new JSpinner.DateEditor(endDate, sdf.toPattern())); //Added by (jcscoobyrs) on
+		//14-Nov-2003 at 10:45:16PM
+        
+        endDate.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+            	// it's an ugly hack so that the spinner can increase day by day
+            	SpinnerDateModel sdm = new SpinnerDateModel((Date)endDate.getModel().getValue(),null,null,Calendar.DAY_OF_WEEK);
+            	endDate.setModel(sdm);
+            	
+                if (ignoreEndChanged)
+                    return;
+                ignoreEndChanged = true;
+                Date sd = (Date) startDate.getModel().getValue();
+                Date ed = (Date) endDate.getModel().getValue();				
 				if (ed.before(sd)) {
 					endDate.getModel().setValue(ed);
 					ed = sd;
@@ -418,6 +468,7 @@ public class TaskDialog extends JDialog {
 		});
 	}//jbinit
 
+
 	public void setStartDate(CalendarDate d) {
 		this.startDate.getModel().setValue(d.getDate());
 	}
@@ -459,7 +510,10 @@ public class TaskDialog extends JDialog {
 	}
 
 	void stopwatch_actionPerformed(ActionEvent e){
+
 		
+		//StopWatch s = new StopWatch();
+				
 		//Timetask t = new TimerTask();
 	}
 	void timer_actionPerformed(ActionEvent e){

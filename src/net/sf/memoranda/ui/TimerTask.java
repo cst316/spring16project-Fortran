@@ -79,6 +79,7 @@ public class TimerTask extends JFrame {
 	//misc - classes, impListeners
 	public class ActionClick implements ActionListener {
 /*		public ActionClick(int action){
+
 			
 		}
 		//use switch
@@ -142,4 +143,5 @@ public class TimerTask extends JFrame {
 		TimerTask s = new TimerTask();
 
 	}
+
 }
