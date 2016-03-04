@@ -3,18 +3,21 @@ package net.sf.memoranda.ui;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class StopWatch extends JFrame{
-	
+	//field variables
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel display = new JPanel();
+
 	JLabel timeDisplay = new JLabel("00:00:00");
 	JButton start;
 	JButton stop;
 	FlowLayout fl = new FlowLayout();
 	JLabel colon = new JLabel(":");
 	JLabel colon2 = new JLabel(":");
+	
 	JButton reset;
 	EmptyBorder border = new EmptyBorder(10,0,0,0);
 	EmptyBorder border2 = new EmptyBorder(0,0,10,0);
@@ -32,13 +35,20 @@ public class StopWatch extends JFrame{
 	String temp;
 	String stri = new String();
 	
+	//constructor
+	public StopWatch() {
+		gui();	
+	}
 	
-	public Gui ()
-	{
-		
-		super("Window");
+	
+	//setters
+	//getters
+	
+	//methods
+	public void gui(){
+		//super("Window");
 		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(3,1));
+		getContentPane().setLayout(new GridLayout(3,1));
 		numbers.setLayout(fl);
 		setVisible(true);
 		setResizable(true);
@@ -85,12 +95,13 @@ public class StopWatch extends JFrame{
 		
 		
 	}
+
 	private void closeOperationOnDefault(int exitOnClose) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	
+	//misc-OtherClasses
 	public class StartEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -104,15 +115,12 @@ public class StopWatch extends JFrame{
 			
 		}
 	}
-	
 	public class StopEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
 			timer.stop();
 		}
 	}
-	
-	
 	public class TimeClass implements ActionListener {
 		int counter;
 		
@@ -134,4 +142,4 @@ public class StopWatch extends JFrame{
 			}
 		}
 	}
-}
+}//StopWatch
