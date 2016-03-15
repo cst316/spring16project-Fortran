@@ -126,8 +126,8 @@ public class LOCReader {
 		        }
 		}   catch (FileNotFoundException e) {
 			JFrame frame = new JFrame();
-		    JOptionPane.showMessageDialog(null,"Error",
-		    		"Cannot Found File.",JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
+		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}   
 	    catch (Exception e) {
             e.printStackTrace();
