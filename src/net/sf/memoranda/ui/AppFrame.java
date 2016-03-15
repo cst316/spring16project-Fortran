@@ -86,7 +86,7 @@ public class AppFrame extends JFrame {
 
 	static Vector exitListeners = new Vector();
 
-	private final Object[] COLUMNAMES = { "SourceFile", "LOC" };
+	private final Object[] COLUMNAMES = { "SourceFile", "LOC" }; //to add time spent, phase
 
 
 	public Action prjPackAction = new AbstractAction("Pack current project") {
@@ -655,12 +655,13 @@ public class AppFrame extends JFrame {
 			dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
 					(frmSize.height - dlg.getSize().height) / 2 + loc.y);
 			dlg.setVisible(true);
-			System.out.println("ask");
-			if (dlg.CANCELLED)
-				System.out.println("dlg.cancle is true");
-			return;
+			//System.out.println("ask");
+			if (dlg.CANCELLED){
+				//System.out.println("dlg.cancle is true");
+				return;
+			}
 		}
-		System.out.println("not ask");
+		//System.out.println("not ask");
 
 		Context.put("FRAME_WIDTH", new Integer(this.getWidth()));
 		Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
@@ -692,21 +693,21 @@ public class AppFrame extends JFrame {
 
 	protected void processWindowEvent(WindowEvent e) {
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-
 			if (Configuration.get("ON_CLOSE").equals("exit")) {
-				System.out.println("1exit");
+				//System.out.println("1exit");
 				doExit();
 			} else {
-				System.out.println("2elseMin");
+				//System.out.println("2elseExitWindow");
 				doExit();
 			}
 		} else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
 			// super.processWindowEvent(new WindowEvent(this,
 			// WindowEvent.WINDOW_ICONIFIED));
-			System.out.println("3elseIfMin"); // minimize goes here
-		} else
-			System.out.println("4elseOther");
+			//System.out.println("3elseIfMin"); // minimize goes here
+		} else{
+			//System.out.println("4elseOther--usuallyPopUp&PopDown");
 		super.processWindowEvent(e);
+		}
 	}
 	
 	public static void addExitListener(ActionListener al) {
@@ -1002,13 +1003,14 @@ public class AppFrame extends JFrame {
 		chooser.setDialogTitle(Local.getString("Import Code"));
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));/// having
-																				/// some
-																				/// problems
-																				/// here
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
+		
+		
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
+		System.out.println("?: " + JFileChooser.APPROVE_OPTION + ":?");
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
