@@ -128,7 +128,7 @@ public class StopWatch extends JFrame{
 			this.counter = counter;
 		}
 
-		@Override
+		
 		public void actionPerformed(ActionEvent e) {
 			counter--;
 			
