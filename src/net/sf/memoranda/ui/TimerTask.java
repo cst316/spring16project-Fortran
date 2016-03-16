@@ -1,26 +1,34 @@
 package net.sf.memoranda.ui;
 
+import net.sf.memoranda.ui.StopWatch.TimeClass;
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-import net.sf.memoranda.ui.StopWatch.TimeClass;
-public class TimerTask extends JFrame {
+public class TimerTask extends JFrame { 
 	//field variables
 	static JFrame mainframe;
 	static JLabel title;
 	static JPanel controlPanel;
-	static JLabel hours, minutes, seconds;
+	static JLabel hours;
+	static JLabel minutes;
+	static JLabel seconds;
 	static JButton startStopButton;
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
-	int h, m, s;
+	int h;
+	int m;
+	int s;
 
-	//constructor
+	
+	/**
+	 * This is the default Constructor. Do Not Remove 
+	 */
 	public TimerTask() {
 		ongoing = false;
-		prepareGUI();
+		prepareGui();
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
 		//ActionClick resetClick = new ActionClick("reset");
@@ -28,11 +36,16 @@ public class TimerTask extends JFrame {
 		
 	}
 	//setters & getters
-	public static boolean isOngoing() {
+	
+	public static boolean isOngoing() { 
 		return ongoing;
 	}
-	//methods
-	public static void prepareGUI() {
+	
+	/**
+	 * This method starts the gui for the time task
+	 * @return void
+	 */
+	public static void prepareGui() { 
 		mainframe = new JFrame("Timer");
 		mainframe.setSize(400, 400);
 		GridLayout gridLayout = new GridLayout(3, 1);
@@ -97,6 +110,10 @@ public class TimerTask extends JFrame {
                      break;
         }
 	*/
+		/**
+		 * This is the method called when the action is performed
+		 * @return void
+		 */
 		public void actionPerformed(ActionEvent actionEvent) {
 			//start clicked - ongoing
 			if (ongoing == false){
@@ -104,19 +121,20 @@ public class TimerTask extends JFrame {
 				timer.start();
 				startStopButton.setText("Pause");
 				ongoing = true;
-			}
-			//stop click - not ongoing
-			else{
+			}else{
 				timer.stop();
 				startStopButton.setText("Play");
 				ongoing = false;
 			}
-
 		}
 		
 	}
 
 	public class TimeClass implements ActionListener {
+		/**
+		 * This is the method called when the action is performed
+		 * @return void
+		 */
 		public void actionPerformed(ActionEvent actionEvent) {
 			// this should only be clicked once.
 			if (s < 59) {
