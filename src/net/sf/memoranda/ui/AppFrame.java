@@ -53,10 +53,14 @@ import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
 import net.sf.memoranda.util.LOCReader;
 import net.sf.memoranda.util.LOCWriter;
+import net.sf.memoranda.util.UnzipFolder;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
+
+
+
 
 /**
  * 
@@ -1003,7 +1007,7 @@ public class AppFrame extends JFrame {
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));/// having
-																				/// some
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));																		/// some
 																				/// problems
 																				/// here
 		chooser.setPreferredSize(new Dimension(550, 375));
@@ -1012,17 +1016,40 @@ public class AppFrame extends JFrame {
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
-
-			LOCReader Srcreader = new LOCReader(f);
-			// save to file calling LOCWriter then load LOCTable
-			LOCWriter write = new LOCWriter(Srcreader);
-			// create SAvedLOCREader and return the data as 2Darray
-			Object[][] temp = LOCReader.xmlToArray();
-
-			LOCTable table = new LOCTable(temp, COLUMNAMES);
+			//check to see what extesniom file it is
+			String extension = getExtension(f);
+			
+			if(extension.equals(".zip")){
+				UnzipFolder zip = new UnzipFolder(f);
+				
+			}
+			else{
+				
+				LOCReader Srcreader = new LOCReader(f);
+				// save to file calling LOCWriter then load LOCTable
+				LOCWriter write = new LOCWriter(Srcreader);
+				// create SavedLOCREader and return the data as 2Darray
+				Object[][] temp = LOCReader.xmlToArray();
+				LOCTable table = new LOCTable(temp, COLUMNAMES);
+				
+				
+			}
+		
+			
+			
 
 		}
+		
 
+	}
+	public static String getExtension(File f){
+		
+		
+		String fileName = f.getName();
+		StringBuilder sb = new StringBuilder(fileName);
+		int index = sb.lastIndexOf(".");
+		return sb.substring(index,fileName.length());
+		
 	}
 
 	/**
