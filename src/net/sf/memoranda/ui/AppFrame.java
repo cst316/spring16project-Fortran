@@ -1006,10 +1006,10 @@ public class AppFrame extends JFrame {
 		chooser.setDialogTitle(Local.getString("Import Code"));
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));/// having
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));																		/// some
-																				/// problems
-																				/// here
+
+																				
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
