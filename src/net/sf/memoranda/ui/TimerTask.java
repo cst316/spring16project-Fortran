@@ -9,12 +9,15 @@ import javax.swing.*;
 public class TimerTask extends JFrame { 
 	//field variables
 	static JFrame mainframe;
+	static JPanel north;
+	static JPanel center;
+	static JPanel south;
 	static JLabel title;
-	static JPanel controlPanel;
 	static JLabel hours;
 	static JLabel minutes;
 	static JLabel seconds;
 	static JButton startStopButton;
+	static JButton saveButton;
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
@@ -47,9 +50,11 @@ public class TimerTask extends JFrame {
 	 */
 	public static void prepareGui() { 
 		mainframe = new JFrame("Timer");
-		mainframe.setSize(400, 400);
-		GridLayout gridLayout = new GridLayout(3, 1);
-		mainframe.setLayout(gridLayout);
+		north = new JPanel();
+		north.setBackground((new Color(200,90,90)));
+		center = new JPanel();
+		south = new JPanel();
+		mainframe.setSize(350, 275);
 		//mainframe.setLayout();
 		mainframe.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -59,27 +64,27 @@ public class TimerTask extends JFrame {
 		// grid 1
 		title = new JLabel("", JLabel.CENTER);
 		title.setSize(350, 100);
+		title.setForeground(new Color(50,50,50));
 		title.setText("This is Timer Tool");
+		north.add(title);
 		// grid 2
-		controlPanel = new JPanel();
-		controlPanel.setLayout(new FlowLayout());
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
 		hours.setSize(100, 100);
 		minutes.setSize(100, 100);
 		seconds.setSize(100, 100);
+		center.add(hours);
+		center.add(minutes);
+		center.add(seconds);
 		// grid 3
-		startStopButton = new JButton("Start");
-
-		controlPanel.add(hours);
-		controlPanel.add(minutes);
-		controlPanel.add(seconds);
-
-		mainframe.add(title);
-		mainframe.add(controlPanel);
-		mainframe.add(startStopButton);
-
+		startStopButton = new JButton("Start"); ;
+		saveButton = new JButton("save");
+		south.add(startStopButton);
+        south.add(saveButton);
+        mainframe.getContentPane().add(BorderLayout.NORTH, north);
+        mainframe.getContentPane().add(BorderLayout.CENTER, center);
+        mainframe.getContentPane().add(BorderLayout.SOUTH, south);
 		mainframe.setVisible(true);
 	}
 
