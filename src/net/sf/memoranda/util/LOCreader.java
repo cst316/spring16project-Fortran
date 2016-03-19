@@ -25,6 +25,7 @@ public class LOCReader {
 	private int LOC;
 	private String fileLine;
 	private String fileName;
+	private static String fN;
 	private static int row;
 	private static String[][] array;
 
@@ -41,7 +42,6 @@ public class LOCReader {
 		fileLine = "";
 		fileName = readFile.getName();
 		ZipFile zipFile = null;
-		String fN = null;
 		
 		try {
 			file = new FileReader(readFile);
@@ -115,7 +115,6 @@ public class LOCReader {
 
 	public static Object[][] xmlToArray() {
 
-		String fN;
 		String loc;
 
 		try {
