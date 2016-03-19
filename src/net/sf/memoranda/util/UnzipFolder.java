@@ -23,31 +23,43 @@ public class UnzipFolder {
 		// Stringbuilder
 		//remove everyting after .
 		//return new string
+		
 		StringBuilder sb = new StringBuilder(fileName);
-		int index = sb.lastIndexOf(".");
-		String newStr = sb.substring(0,index);
-		return newStr;
+		int index = sb.lastIndexOf(".",0);
+		System.out.println(index);
+		sb = sb.delete(index,fileName.length());
+		return sb.toString();
 
 	}
 	
 	
 	public UnzipFolder(File zipFile){
 		
+		String s = zipFile.getName();
+		String folderName = s.substring(0,s.length() - 4);
+		new File(folderName).mkdir();
 	
 		 try {
-			 
+			 System.out.println(zipFile.getPath());
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
 	         ZipFile zipfile = new ZipFile(zipFile);
 	         Enumeration e = zipfile.entries();
 	         while(e.hasMoreElements()) {
+	        	 
+	        	 
 	            entry = (ZipEntry) e.nextElement();
-	            if(!entry.isDirectory()){
+	         
+	            	
+	            	
 	            String currentEntry = entry.getName();
 	            System.out.print(currentEntry);
-	            String newPath = removeZipExtension(currentEntry);
-	            File destFile = new File(newPath, currentEntry);
+	          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
+	            File destinationParent = destFile.getParentFile();
+	            destinationParent.mkdir();
+	            
+	            if(!entry.isDirectory()) {
 	            
 	            System.out.println("Extracting: " +entry);
 	            is = new BufferedInputStream
@@ -55,7 +67,8 @@ public class UnzipFolder {
 	            int count;
 	            byte data[] = new byte[MAXLIMIT];
 	            FileOutputStream fos = new 
-	              FileOutputStream(destFile);
+	              FileOutputStream(destFile);//needs to have the file to be written to  concat 
+	            //fileNamezipFile.getPath() + File.separator + entry.toString()
 	            dest = new 
 	              BufferedOutputStream(fos, MAXLIMIT);
 	            while ((count = is.read(data, 0, MAXLIMIT)) 
@@ -65,9 +78,10 @@ public class UnzipFolder {
 	            dest.flush();
 	            dest.close();
 	            is.close();
-	            }
+	            } 
 			 
 	         }
+	          
 			 /*
 			 String outputFolder = removeZipExtension(zipFile.getName());
 			 //folder destination
