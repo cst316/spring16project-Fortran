@@ -1,10 +1,13 @@
 package net.sf.memoranda.util;
 
+import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.*;
 
 import org.w3c.dom.*;
 
@@ -37,41 +40,70 @@ public class LOCReader {
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
+		ZipFile zipFile = null;
+		String fN = null;
 		
 		try {
 			file = new FileReader(readFile);
-
-			BufferedReader reader = new BufferedReader(file);
-
-			fileLine = reader.readLine();
-
-			// Read until end of file
-			while (fileLine != null) {
-
-				// Remove all spaces in the beginning
-				fileLine = fileLine.replaceAll("\\s+", "");
-
-				// Counts all but empty lines
-				if (fileLine.length() > 0) {
-					LOC++;
+			if (fileName.contains(".java")) { 
+			
+				BufferedReader reader = new BufferedReader(file);
+	
+				fileLine = reader.readLine();
+	
+				// Read until end of file
+				while (fileLine != null) {
+	
+					// Remove all spaces in the beginning
+					fileLine = fileLine.replaceAll("\\s+", "");
+	
+					// Counts all but empty lines
+					if (fileLine.length() > 0) {
+						LOC++;
+					}
+	
+					// Do not count comments
+					if (fileLine.startsWith("//")) {
+					}
+	
+					// Do not count lines of multiple comments
+					if (fileLine.startsWith("/*")) {
+	
+						while (!fileLine.endsWith("*/")) {
+							fileLine = reader.readLine();
+						}
+					}
+	
+					fileLine = reader.readLine();
+	
 				}
-
-				// Do not count comments
-				if (fileLine.startsWith("//")) {
-				}
-
-				// Do not count lines of multiple comments
-				if (fileLine.startsWith("/*")) {
-
-					while (!fileLine.endsWith("*/")) {
-						fileLine = reader.readLine();
+				file.close();
+			}
+			
+			//Read zip file and search for .java files
+			if (fileName.contains(".zip")) {
+				zipFile = new ZipFile(fileName);
+		        
+				Enumeration<? extends ZipEntry> e = zipFile.entries();
+				
+				//Loop zip if it has folders, it checks the folders too
+				while (e.hasMoreElements()) {
+					ZipEntry entry = e.nextElement();
+					
+					//Get the full path name
+					String entryName = entry.getName();
+					if (entryName.contains(".java")) {
+						
+						//If lastindexof is ".java", does not give the full name
+						//therefore, lastindexof is "/" and get anything after the "/" 
+						int index = entryName.lastIndexOf("/");
+						fN = entryName.substring(index + 1);
+						//for testing purposes
+						System.out.println(fN);
 					}
 				}
-
-				fileLine = reader.readLine();
-
+		        zipFile.close();
 			}
-			file.close();
 		}
 
 		catch (IOException e) {

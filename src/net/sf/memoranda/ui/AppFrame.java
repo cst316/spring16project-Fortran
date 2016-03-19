@@ -1003,8 +1003,7 @@ public class AppFrame extends JFrame {
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));/// having
-																				/// some
-																				/// problems
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));	/// problems
 																				/// here
 		chooser.setPreferredSize(new Dimension(550, 375));
 
