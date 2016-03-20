@@ -5,6 +5,16 @@ import net.sf.memoranda.ui.StopWatch.TimeClass;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Text;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 public class TimerTask extends JFrame { 
 	//field variables
@@ -38,7 +48,16 @@ public class TimerTask extends JFrame {
 		//startStopButton.addActionListener(resetClick);
 		
 	}
-	//setters & getters
+	
+	public void writeXML(){
+	 Document doc  = new Document();
+	 
+	 Element root = new Element("tasks_list");
+	 doc.setRootElement(root);
+	 
+	 Element taskTime = new Element("");
+	}
+	
 	
 	public static boolean isOngoing() { 
 		return ongoing;
