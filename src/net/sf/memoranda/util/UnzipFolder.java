@@ -12,26 +12,6 @@ public class UnzipFolder {
 	private final int MAXLIMIT = 2048;
 	private String FOLDERDEST = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
-	/*
-	 * Removes the .zip extension from fileName in order to be used 
-	 * for making new Directory
-	 * @param fileName File name to be usd
-	 */
-	public static String removeZipExtension(String fileName){
-		
-		//findindex of .??
-		// Stringbuilder
-		//remove everyting after .
-		//return new string
-		
-		StringBuilder sb = new StringBuilder(fileName);
-		int index = sb.lastIndexOf(".",0);
-		System.out.println(index);
-		sb = sb.delete(index,fileName.length());
-		return sb.toString();
-
-	}
-	
 	
 	public UnzipFolder(File zipFile){
 		
@@ -48,11 +28,8 @@ public class UnzipFolder {
 	         Enumeration e = zipfile.entries();
 	         while(e.hasMoreElements()) {
 	        	 
-	        	 
 	            entry = (ZipEntry) e.nextElement();
 	         
-	            	
-	            	
 	            String currentEntry = entry.getName();
 	            System.out.print(currentEntry);
 	          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
@@ -61,75 +38,39 @@ public class UnzipFolder {
 	            
 	            if(!entry.isDirectory()) {
 	            
-	            System.out.println("Extracting: " +entry);
-	            is = new BufferedInputStream
-	              (zipfile.getInputStream(entry));
-	            int count;
-	            byte data[] = new byte[MAXLIMIT];
-	            FileOutputStream fos = new 
-	              FileOutputStream(destFile);//needs to have the file to be written to  concat 
-	            //fileNamezipFile.getPath() + File.separator + entry.toString()
-	            dest = new 
-	              BufferedOutputStream(fos, MAXLIMIT);
-	            while ((count = is.read(data, 0, MAXLIMIT)) 
-	              != -1) {
-	               dest.write(data, 0, count);
-	            }
-	            dest.flush();
-	            dest.close();
-	            is.close();
+	            	System.out.println("Extracting: " +entry);
+	            	//Quy Ly's Code 43-51
+	            	if (currentEntry.contains(".java")) {
+						//If current Entry is 
+						//If lastindexof is ".java", does not give the full name
+						//therefore, lastindexof is "/" and get anything after the "/" 
+						int index = currentEntry.lastIndexOf("/");
+						 String fN = currentEntry.substring(index + 1);
+						//for testing purposes
+						System.out.println(fN);
+					}
+	            	
+	            	is = new BufferedInputStream
+	            			(zipfile.getInputStream(entry));
+	            	int count;
+	            	byte data[] = new byte[MAXLIMIT];
+	            	FileOutputStream fos = new 
+	                FileOutputStream(destFile);
+	           
+	            	dest = new 
+	            	BufferedOutputStream(fos, MAXLIMIT);
+	            	while ((count = is.read(data, 0, MAXLIMIT)) != -1) 
+	            	{
+	            		dest.write(data, 0, count);
+	            	}
+	            	dest.flush();
+	            	dest.close();
+	            	is.close();
 	            } 
 			 
 	         }
 	          
-			 /*
-			 String outputFolder = removeZipExtension(zipFile.getName());
-			 //folder destination
-			 String FolderName = FOLDERDEST + outputFolder;
-			 File folder = new File(FolderName);
-			 if(!folder.exists()){
-				 
-				 folder.mkdir();
-				 System.out.println("made Dir");
-			 }
-			 
-			 ZipInputStream zip = new ZipInputStream(new FileInputStream(zipFile));
-			 
-			 ZipEntry z = zip.getNextEntry();
-			 
-			 while(z != null){
-				 
-				 if(z.isDirectory()){
-					 
-					 z = zip.getNextEntry();
-					 
-					 
-				 }
-				 String fileName = z.getName();
-				 File f = new File(FolderName +File.separator + fileName);
-				 System.out.println("file unzip : "+ f.getAbsoluteFile());
-				 new File(f.getParent()).mkdirs();
-				 
-				 FileOutputStream os = new FileOutputStream(f);
-				 
-				 int length = 0;
-				 while((length = zip.read(buffer)) > 0){
-					 
-					 os.write(buffer,0,length);
-					 
-					 
-				 }
-				 
-				 os.close();	 
-				 z = zip.getNextEntry();		 
-				 
-			 }
-			 zip.closeEntry();
-			 zip.close();
-			 */
-			 
-			
-		 }catch (IOException e) {
+		 } catch (IOException e) {
 			
 			e.printStackTrace();
 			// TODO: handle exception
@@ -137,13 +78,5 @@ public class UnzipFolder {
 		 
 	 }
 		
-	
-	
 }
 	
-	
-	
-
-
-
-

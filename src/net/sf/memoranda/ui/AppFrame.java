@@ -1020,8 +1020,8 @@ public class AppFrame extends JFrame {
 			String extension = getExtension(f);
 			
 			if(extension.equals(".zip")){
-				UnzipFolder zip = new UnzipFolder(f);
-				//LOCReader Srcreader = new LOCReader(f);
+				//UnzipFolder zip = new UnzipFolder(f);
+				LOCReader Srcreader = new LOCReader(f);
 			}
 			else{
 				
