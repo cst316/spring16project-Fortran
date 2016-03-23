@@ -63,7 +63,7 @@ import nu.xom.Elements;
 
 
 /**
- * 
+ *
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
@@ -103,11 +103,13 @@ public class AppFrame extends JFrame {
 			doPrjUnPack();
 		}
 	};
-	public Action minimizeAction = new AbstractAction("Close the window") {
+	/*
+   	public Action minimizeAction = new AbstractAction("Close the window") {
 		public void actionPerformed(ActionEvent e) {
 			doMinimize();
 		}
 	};
+	*/
 	public Action preferencesAction = new AbstractAction("Preferences") {
 		public void actionPerformed(ActionEvent e) {
 			showPreferences();
@@ -167,7 +169,7 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFileExit = new JMenuItem();
 
 
-	JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
+//	JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
 
 	JMenuItem jMenuFileNewPrj = new JMenuItem();
 	JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
@@ -293,8 +295,8 @@ public class AppFrame extends JFrame {
 			}
 		});
 
-		jMenuFileMin.setText(Local.getString("Close the window"));
-		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
+//		jMenuFileMin.setText(Local.getString("Close the window"));
+//		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
 		// jMenuFileMin.setText(Local.getString("Close the window"));
 		// jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
 		// InputEvent.ALT_MASK));
@@ -464,7 +466,7 @@ public class AppFrame extends JFrame {
 		jMenuFile.addSeparator();
 
 		// jMenuFile.addSeparator();
-		jMenuFile.add(jMenuFileMin);
+//		jMenuFile.add(jMenuFileMin);
 		jMenuFile.add(jMenuFileExit);
 		// MenuView
 		jMenuView.add(jMenuViewCode);///////////////////////////////////////////
@@ -708,15 +710,16 @@ public class AppFrame extends JFrame {
 			// super.processWindowEvent(new WindowEvent(this,
 			// WindowEvent.WINDOW_ICONIFIED));
 			System.out.println("3elseIfMin"); // minimize goes here
-		} else
+		} else{
 			System.out.println("4elseOther");
-		super.processWindowEvent(e);
+			super.processWindowEvent(e);
+		}
 	}
-	
+
 	public static void addExitListener(ActionListener al) {
 		exitListeners.add(al);
 	}
-	
+
 
 
 	public static Collection getExitListeners() {
@@ -983,7 +986,7 @@ public class AppFrame extends JFrame {
 
 	/**
 	 * Action event for Import Source Code
-	 * 
+	 *
 	 * @param e
 	 *            The action event that triggred the button press
 	 */
@@ -1007,49 +1010,49 @@ public class AppFrame extends JFrame {
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
-		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));																		/// some
+		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
 
-																				
+
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
 		if (val == JFileChooser.APPROVE_OPTION) {
 
-			File f = chooser.getSelectedFile();
+			File file = chooser.getSelectedFile();
 			//check to see what extesniom file it is
-			String extension = getExtension(f);
-			
+			String extension = getExtension(file);
+
 			if(extension.equals(".zip")){
-				//UnzipFolder zip = new UnzipFolder(f);
-				LOCReader Srcreader = new LOCReader(f);
+				//UnzipFolder zip = new UnzipFolder(file);
+				LOCReader Srcreader = new LOCReader(file);
 			}
 			else{
-				
-				LOCReader Srcreader = new LOCReader(f);
+
+				LOCReader Srcreader = new LOCReader(file);
 				// save to file calling LOCWriter then load LOCTable
 				LOCWriter write = new LOCWriter(Srcreader);
 				// create SavedLOCREader and return the data as 2Darray
 				Object[][] temp = LOCReader.xmlToArray();
 				LOCTable table = new LOCTable(temp, COLUMNAMES);
-				
-				
+
+
 			}
-		
-			
-			
+
+
+
 
 		}
-		
+
 
 	}
 	public static String getExtension(File f){
-		
-		
+
+
 		String fileName = f.getName();
 		StringBuilder sb = new StringBuilder(fileName);
 		int index = sb.lastIndexOf(".");
 		return sb.substring(index,fileName.length());
-		
+
 	}
 
 	/**

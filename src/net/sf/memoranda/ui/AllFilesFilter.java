@@ -25,7 +25,6 @@ public class AllFilesFilter extends FileFilter {
 	public static final String HTM = "HTM";
 	public static final String XHTML = "XHTML";
 	public static final String XML = "XML";
-	public static final String ZIP = "ZIP";
 	public static final String EXE = "EXE";
 	public static final String COM = "COM";
 	public static final String BAT = "BAT";
@@ -34,6 +33,7 @@ public class AllFilesFilter extends FileFilter {
 	public static final String WAV = "WAV";
 	// added for import source code module
 	public static final String JAVA = "JAVA";
+	public static final String ZIP = "ZIP";
 
 	String _type = "";
 
