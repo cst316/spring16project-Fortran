@@ -49,13 +49,22 @@ public class TimerTask extends JFrame {
 		
 	}
 	
+	//This is a test. 
+	
+	//write functionality
 	public void writeXML(){
 	 Document doc  = new Document();
 	 
+	
 	 Element root = new Element("tasks_list");
 	 doc.setRootElement(root);
 	 
 	 Element taskTime = new Element("");
+	}
+	
+	 //read functionality
+	public void readXML(){
+		
 	}
 	
 	
