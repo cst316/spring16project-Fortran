@@ -27,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -47,13 +48,14 @@ import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.ExtensionException;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
 import net.sf.memoranda.util.LOCReader;
 import net.sf.memoranda.util.LOCWriter;
-import net.sf.memoranda.util.UnzipFolder;
+import net.sf.memoranda.util.UnZipFolder;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -1019,34 +1021,42 @@ public class AppFrame extends JFrame {
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File file = chooser.getSelectedFile();
-			//check to see what extesniom file it is
+			//check to see what extension file it is
 			String extension = getExtension(file);
 
 			if(extension.equals(".zip")){
-				//UnzipFolder zip = new UnzipFolder(file);
-				LOCReader Srcreader = new LOCReader(file);
+				try {
+					UnZipFolder zip = new UnZipFolder(file);
+					for(File someFile : zip.getFiles()){
+						LOCReader Srcreader = new LOCReader(someFile);
+						@SuppressWarnings("unused")
+						LOCWriter write = new LOCWriter(Srcreader);
+						// create SavedLOCREader and return the data as 2Darray
+						Object[][] temp = LOCReader.xmlToArray();
+						@SuppressWarnings("unused")
+						LOCTable table = new LOCTable(temp, COLUMNAMES);
+					}
+				} catch (ExtensionException e1){
+					JOptionPane.showMessageDialog(null,"1imported file not a valid extension or containing files read by LOC not java file", "Error",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
 			}
 			else{
-
-				LOCReader Srcreader = new LOCReader(file);
-				// save to file calling LOCWriter then load LOCTable
-				LOCWriter write = new LOCWriter(Srcreader);
-				// create SavedLOCREader and return the data as 2Darray
-				Object[][] temp = LOCReader.xmlToArray();
-				LOCTable table = new LOCTable(temp, COLUMNAMES);
-
-
+				try {
+					LOCReader Srcreader = new LOCReader(file);
+					// save to file calling LOCWriter then load LOCTable
+					LOCWriter write = new LOCWriter(Srcreader);
+					// create SavedLOCREader and return the data as 2Darray
+					Object[][] temp = LOCReader.xmlToArray();
+					LOCTable table = new LOCTable(temp, COLUMNAMES);
+				} catch (ExtensionException e1) {
+					JOptionPane.showMessageDialog(null,"2imported file not a valid extension or containing files read by LOC not java file", "Error",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
 			}
-
-
-
-
 		}
-
-
-	}
+	}//importSource_actionPerformed
 	public static String getExtension(File f){
-
 
 		String fileName = f.getName();
 		StringBuilder sb = new StringBuilder(fileName);

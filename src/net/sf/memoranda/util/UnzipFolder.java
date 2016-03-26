@@ -3,88 +3,94 @@ package net.sf.memoranda.util;
 import java.io.*;
 import java.util.zip.*;
 
-import org.apache.commons.io.FilenameUtils;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
-import java.io.IOException;
+import java.util.List;
 
 public class UnZipFolder{
 	//constants & field names
 	private final int MAXLIMIT = 2048;
-	/** .memoranda location:: drive:\Users\<user>\.memoranda*/
+		///** zip folder destination <p>Example: drive:\Users\<user>\*/
+	/** extraction destination <p>.memoranda location:: drive:\Users\<user>\.memoranda*/
 	private String FOLDERDEST = System.getProperty("user.home") + File.separator
 	     	+ ".memoranda" + File.separator;
-	/** file held <p>Ex: ZipFullOfJava.zip*/
-	private String file;
-	/** fileName only <p>Ex: ZipFullOfJava*/
-	private String zipFileName;
+	/** name of file with extension <p>Example: ZipFullOfJava.zip*/
+	private String zipFolder;
+	/** name of file only, no extension <p>Example: ZipFullOfJava*/
+	private String zipFolderName;
+	/** */
+	private List<File> files;
 
-	//construct(s)
+	//constructor(s)
 	/**Constructs UnzipFolder object with predefined and/or passed value(s).
-	 * @param zipFile File to unzip. Assumes file has '.zip' extension.
+	 * @param file File to unzip. Assumes file has '.zip' extension.
 	 */
-	public UnZipFolder(File zipFile){
-		extract (zipFile);
+	public UnZipFolder(File file) throws ExtensionException{
+		zipFolder = file.getName();
+
+		StringBuilder builder = new StringBuilder(zipFolder);
+		int index = builder.lastIndexOf(".");
+		String extension = builder.substring(index,zipFolder.length());
+		if (extension.equalsIgnoreCase("zip")){
+			throw new ExtensionException();
+		}
+
+		zipFolderName = zipFolder.substring(0,zipFolder.length() - 4);
+		//FOLDERDEST = file.getAbsolutePath(); //C:\temp\..\\..\file.txt
+
+		extract (file);
+		files = getFiles();
 	}
-	//getters & setters
-	/**  @return FOLDERDEST folder destination
+
+	//Getters & Setters
+	/** gets the folder destination of zipFile
+	 * @return FOLDERDEST folder destination
 	 */
 	public String getFOLDERDEST() {
 		return FOLDERDEST;
 	}
-
-	/**  @return file name of zip file Example:'ZipFile.zip'
+	/** gets the zip file
+	 * <p> Example: 'ZipName.zip'
+	 * @return zipFile name of zip file <p> Example:'ZipFile.zip'
 	 */
-	public String getFile() {
-		return file;
+	public String getZipFile() {
+		return zipFolder;
 	}
-
-	/**  @return zipFileName name of zip file 'ZipFile', not extensions included
+	/** gets the zip file name
+	 * <p> Example: 'ZipName'
+	 * @return zipFileName name of zip file, no extensions included
 	 */
 	public String getZipFileName() {
-		return zipFileName;
+		return zipFolderName;
+	}
+	public List<File> getFiles() {
+		return files;
 	}
 
 	//method(s)
-	/**  @param zipFile File to unzip. Assumes file has '.zip' extension.
+	/** extracts all contents of zip file.
+	 * @param file zip file to unzip. Assumes file has '.zip' extension.
 	 */
-	public void extract (File zipFile){
-		//obtain zipfile's files
-		file = zipFile.getName();
-		zipFileName = file.substring(0,file.length() - 4);
-		new File(zipFileName).mkdir();
+	public void extract (File file){
+		new File(zipFolderName).mkdir();
 		//unzip file and extract java files
-		 try {
-			 System.out.println(zipFile.getPath());
+		try {
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
-	         ZipFile zipfile = new ZipFile(zipFile);
-	         Enumeration e = zipfile.entries();
+	         ZipFile zipfile = new ZipFile(file);
+	         Enumeration<? extends ZipEntry> e = zipfile.entries();
 	         while(e.hasMoreElements()) {
 
 	            entry = (ZipEntry) e.nextElement();
 
 	            String currentEntry = entry.getName();
-	            System.out.print(currentEntry);
-	          	File destFile = new File(FOLDERDEST + zipFileName, currentEntry);
+	          	File destFile = new File(FOLDERDEST + zipFolderName, currentEntry);
 	            File destinationParent = destFile.getParentFile();
 	            destinationParent.mkdir();
 
 	            if(!entry.isDirectory()) {
-
-	            	System.out.println("Extracting: " +entry);
-	            	//Quy Ly's Code 43-51 prints filename
-	            	if (currentEntry.contains(".java")) {
-						//If current Entry is
-						//If lastindexof is ".java", does not give the full name
-						//therefore, lastindexof is "/" and get anything after the "/"
-						int index = currentEntry.lastIndexOf("/");
-						String fN = currentEntry.substring(index + 1);
-						//for testing purposes
-						System.out.println(fN);
-					}
-
 	            	is = new BufferedInputStream
 	            			(zipfile.getInputStream(entry));
 	            	int count;
@@ -108,5 +114,19 @@ public class UnZipFolder{
 			System.out.println(e.getMessage() + "Error in reading/extracting zip.");
 			// TODO: handle exception
 		}
+	 }//extract method
+
+	public List<File> getExtractedFiles() {
+		File folder = new File(FOLDERDEST + zipFolderName);
+		//File file = null;
+		//File newFile; //= new File(FOLDERDEST + "name");
+		File[] listOfFiles = folder.listFiles(); //Returns an array of abstract pathnames denoting the files in the directory denoted by this abstract pathname
+		files = new ArrayList<File>(Arrays.asList(listOfFiles));
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).isDirectory()) {
+				files.remove(i);
+			}
+		}
+		return files;
 	 }//extract method
 }//UnzipFolder class
