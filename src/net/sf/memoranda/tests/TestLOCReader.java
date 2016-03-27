@@ -4,6 +4,7 @@
 
 package net.sf.memoranda.tests;
 import org.junit.Test;
+import net.sf.memoranda.util.LOCReader;
 import net.sf.memoranda.util.UnzipFolder;
 import net.sf.memoranda.util.NestedZipException;
 import java.io.*;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.rules.ExpectedException;
 import org.junit.Rule;
 /**
- * @author Mike
+ * @author Mike and Quy
  *
  */
 public class TestLOCReader {
@@ -66,8 +67,33 @@ public class TestLOCReader {
 		
 	}
 	
+	@Test
+	/**
+	 * test1.zip - a zip file that contains only .java files with no folders
+	 * test2.zip - a zip file that contains .java files in root, 
+	   contains .java files in folders A and B
+	 * test3.zip - a zip file that contains .java files in root, 
+	   contains .java files in folders A and B,
+	   contains .java files in nested folders A1 and B1
+	 */
+	public void TestFindJavaFiles() {
 		
+		final int expectedCount1 = 4;
+		final int expectedCount2 = 18;
+		final int expectedCount3 = 24;
 		
-	
-
+		File testCase1 = new File("test/test1.zip/");
+		File testCase2 = new File("test/test2.zip/");
+		File testCase3 = new File("test/test3.zip/");
+		
+		LOCReader zip1 = new LOCReader(testCase1);
+		LOCReader zip2 = new LOCReader(testCase2);
+		LOCReader zip3 = new LOCReader(testCase3);
+		
+		assertTrue(expectedCount1 == zip1.getTestCount());
+		assertTrue(expectedCount2 == zip2.getTestCount());
+		assertTrue(expectedCount3 == zip3.getTestCount());
+		
+	}
+		
 }

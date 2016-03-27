@@ -26,8 +26,10 @@ public class LOCReader {
 
 	private static final int COLUMN = 2;
 	private int LOC;
+	private int testCount;
 	private String fileLine;
 	private String fileName;
+	private String javaFile;
 	private static String fN;
 	private static int row;
 	private static String[][] array;
@@ -93,7 +95,7 @@ public class LOCReader {
 				 String s = readFile.getName();
 				 String folderName = s.substring(0,s.length() - 4);
 				 new File(folderName).mkdir();
-				 System.out.println(readFile.getPath());
+				 //System.out.println(readFile.getPath());
 				 BufferedOutputStream dest = null;
 		         BufferedInputStream is = null;
 		         ZipEntry entry;
@@ -104,16 +106,16 @@ public class LOCReader {
 		            entry = (ZipEntry) e.nextElement();
 		         
 		            String currentEntry = entry.getName();
-		            System.out.println(currentEntry);
+		            //System.out.println(currentEntry);
 		          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
 		            File destinationParent = destFile.getParentFile();
-		            System.out.println(destinationParent.toString() + " : desparent");
+		            //System.out.println(destinationParent.toString() + " : desparent");
 		            if(destinationParent != null){
 		            	destinationParent.mkdirs();
 		            }
 		            if(!entry.isDirectory()) {
 		            
-		            	System.out.println("Extracting: " +entry);
+		            	//System.out.println("Extracting: " +entry);
 		            	
 		            	//Quy Ly's Code 
 		            	if (currentEntry.contains(".java")) {
@@ -121,9 +123,10 @@ public class LOCReader {
 							//If lastindexof is ".java", does not give the full name
 							//therefore, lastindexof is "/" and get anything after the "/" 
 							int index = currentEntry.lastIndexOf("/");
-							fN = currentEntry.substring(index + 1);
+							javaFile = currentEntry.substring(index + 1);
 							//for testing purposes
-							System.out.println(fN);
+							testCount++;
+							//System.out.println(javaFile);
 						}
 		            	
 		            	is = new BufferedInputStream
@@ -250,7 +253,11 @@ public class LOCReader {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	
+	public void setTestCount(int testCount) {
+		this.testCount = testCount;
+	}
+ 
 	public int getLOC() {
 		return LOC;
 	}
@@ -258,4 +265,9 @@ public class LOCReader {
 	public String getFileName() {
 		return fileName;
 	}
+	
+	public int getTestCount() {
+		return testCount;
+	}
+	
 }
