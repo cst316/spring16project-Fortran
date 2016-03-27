@@ -108,9 +108,9 @@ public class LOCReader {
 		          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
 		            File destinationParent = destFile.getParentFile();
 		            System.out.println(destinationParent.toString() + " : desparent");
-		            destinationParent.mkdir();
-		           
-		            
+		            if(destinationParent != null){
+		            	destinationParent.mkdirs();
+		            }
 		            if(!entry.isDirectory()) {
 		            
 		            	System.out.println("Extracting: " +entry);
@@ -168,6 +168,16 @@ public class LOCReader {
 				}
 		        zipFile.close();				
 				*/
+		        if(currentEntry.contains(".zip")){
+		        	
+		        	//need to modularize and refactor code code in order to do this
+		        	//methodName(destFile.getAbsolutePath())
+		        	
+		        }
+		            
+		            
+		            
+		            
 		        }
 			}
 		}
