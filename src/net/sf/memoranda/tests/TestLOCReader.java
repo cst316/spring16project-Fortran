@@ -92,8 +92,6 @@ public class TestLOCReader {
 		
 		assertTrue(expectedCount1 == zip1.getTestCount());
 		assertTrue(expectedCount2 == zip2.getTestCount());
-		assertTrue(expectedCount3 == zip3.getTestCount());
-		
+		assertTrue(expectedCount3 == zip3.getTestCount());	
 	}
-		
 }
