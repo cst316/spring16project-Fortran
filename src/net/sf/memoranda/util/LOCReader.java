@@ -85,6 +85,7 @@ public class LOCReader {
 						//therefore, lastindexof is "/" and get anything after the "/"
 						int index = currentEntry.lastIndexOf("/");
 						String fN = currentEntry.substring(index + 1);
+						++testCount;
 						//for testing purposes
 						//System.out.println(fN);
 					}
