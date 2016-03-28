@@ -27,8 +27,11 @@ public class LOCReader {
 
 	private static final int COLUMN = 2;
 	private int LOC;
+	private int testCount;
 	private String fileLine;
 	private String fileName;
+	private String javaFile;
+	private static String fN;
 	private static int row;
 	private static String[][] array;
 	private String FOLDERDEST = System.getProperty("user.home") + File.separator 
@@ -234,75 +237,13 @@ public class LOCReader {
 				}
 				file.close();
 			}
+
 			//Read zip file and search for .java files
 			if (fileName.contains(".zip")) {
 				
-				 String s = readFile.getName();
-				 String folderName = s.substring(0,s.length() - 4);
-				 new File(folderName).mkdir();
-				 System.out.println(readFile.getPath());
-				 BufferedOutputStream dest = null;
-		         BufferedInputStream is = null;
-		         ZipEntry entry;
-		         ZipFile zipfile = new ZipFile(readFile);
-		         Enumeration e = zipfile.entries();
-		         while(e.hasMoreElements()) {
-		        	 
-		            entry = (ZipEntry) e.nextElement();
-		            
-		            
-		            String currentEntry = entry.getName();
-		            System.out.println(currentEntry);
-		          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
-		            File destinationParent = destFile.getParentFile();
-		            System.out.println(destinationParent.toString() + " : desparent");
-		            if(destinationParent != null){
-		            	destinationParent.mkdirs();
-		            }
-		            if(!entry.isDirectory()) {
-		            
-		            	System.out.println("Extracting: " +entry);
-		            	
-		            	//Quy Ly's Code 
-		            	if (currentEntry.contains(".java")) {
-							//If current Entry is 
-							//If lastindexof is ".java", does not give the full name
-							//therefore, lastindexof is "/" and get anything after the "/" 
-							int index = currentEntry.lastIndexOf("/");
-							fN = currentEntry.substring(index + 1);
-							//for testing purposes
-							
-							System.out.println(fN);
-						}
-		            	
-		            	is = new BufferedInputStream
-		            			(zipfile.getInputStream(entry));
-		            	int count;
-		            	byte data[] = new byte[MAXLIMIT];
-		            	FileOutputStream fos = new 
-		                FileOutputStream(destFile);		           
-		            	dest = new 
-		            	BufferedOutputStream(fos, MAXLIMIT);
-		            	while ((count = is.read(data, 0, MAXLIMIT)) != -1) 
-		            	{
-		            		dest.write(data, 0, count);
-		            	}
-		            	dest.flush();
-		            	dest.close();
-		            	is.close();
-		            }
-		       
-		        if(currentEntry.contains(".zip")){
-		        	
-		        	//need to modularize and refactor code code in order to do this
-		        	//methodName(destFile.getAbsolutePath())
-		        	
-		        }
-		           
-		        }
-		         
-		        
-			}
+				//call extract
+		    }
+			
 		}
 		catch (IOException e) {
 			System.err.println(e.getMessage());
@@ -314,7 +255,6 @@ public class LOCReader {
 
 	public static Object[][] xmlToArray() {
 
-		String fN;
 		String loc;
 
 		try {
@@ -373,7 +313,11 @@ public class LOCReader {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	
+	public void setTestCount(int testCount) {
+		this.testCount = testCount;
+	}
+ 
 	public int getLOC() {
 		return LOC;
 	}
@@ -382,8 +326,15 @@ public class LOCReader {
 		return fileName;
 	}
 	
+
 	public Hashtable<String,Integer> getLocTable(){
 		return LocMap;
 		
 	}
+
+	public int getTestCount() {
+		return testCount;
+	}
+	
+
 }
