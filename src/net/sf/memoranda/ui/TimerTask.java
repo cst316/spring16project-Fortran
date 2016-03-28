@@ -8,13 +8,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.Text;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 public class TimerTask extends JFrame { 
 	//field variables
@@ -46,20 +39,11 @@ public class TimerTask extends JFrame {
 		startStopButton.addActionListener(startStopButtonClick);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
-		
 	}
-	
-	//This is a test. 
 	
 	//write functionality
 	public void writeXML(){
-	 Document doc  = new Document();
 	 
-	
-	 Element root = new Element("tasks_list");
-	 doc.setRootElement(root);
-	 
-	 Element taskTime = new Element("");
 	}
 	
 	 //read functionality
@@ -125,7 +109,6 @@ public class TimerTask extends JFrame {
 	public class ActionClick implements ActionListener {
 /*		public ActionClick(int action){
 <<<<<<< HEAD
-
 =======
 >>>>>>> a00a0a319d8b3f5aa4d54214e36f262925f9eed8
 >>>>>>> 36873e93dd6579723561ab6eba1b00a73b30a6ac
@@ -154,7 +137,7 @@ public class TimerTask extends JFrame {
 				timer.start();
 				startStopButton.setText("Pause");
 				ongoing = true;
-			}else{
+			} else{
 				timer.stop();
 				startStopButton.setText("Play");
 				ongoing = false;
@@ -188,8 +171,8 @@ public class TimerTask extends JFrame {
 					String hr = (h < 10 ? "0" : "") + h;
 					hours.setText("" + hr);
 					hours.setText("" + h);
-				}
-			}
+				  }
+			  }
 		}
 	}
 }//TimerTask
