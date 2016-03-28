@@ -35,7 +35,7 @@ public class TestLOCReader {
 		final String expectedPath3 = "test/t3";
 		final String expectedPath1 = "test/t1Nested/t1";
 		
-		File expectedDir1 = new File(expectedPath1);
+		
 		File expectedDir2 = new File(expectedPath2);
 		File expectedDir3 = new File(expectedPath3);
 		/**
@@ -45,7 +45,7 @@ public class TestLOCReader {
 		    t2 - A zip with multiple folders containing java source files will return true
 		    t3 - A zip with a folder containing a java source file wiull return true   
 		 * 
-		 * Check to see if Ouput Directory Exists
+		 * Check to see if Output Directory Exists
 		 */
 		File testCase1 = new File("test/t1Nested.zip");
 		File testCase2 = new File("test/t2.zip");
@@ -55,16 +55,15 @@ public class TestLOCReader {
 		UnzipFolder zip2 = new UnzipFolder(testCase2);
 		UnzipFolder zip3 = new UnzipFolder(testCase3);
 		
-		//verify output folders existence
-	
-		assertTrue(expectedDir2.exists());
-		assertTrue(expectedDir3.exists());
+		LOCReader lc2 = new LOCReader();
+		LOCReader lc3 = new LOCReader();
 		
-		//insert nested zip which will return false;	
-		UnzipFolder zip1 = new UnzipFolder(testCase1);
-		assertTrue(zip1.extract(testCase1));
+		assertTrue(lc2.extract(testCase2));
+		assertTrue(lc3.extract(testCase3));
 		
-		
+		LOCReader lc = new LOCReader();		
+		assertTrue(!(lc.extract(testCase1)));
+
 	}
 	
 	@Test

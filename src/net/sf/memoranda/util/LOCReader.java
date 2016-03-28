@@ -39,7 +39,7 @@ public class LOCReader {
 	private final int MAXLIMIT = 2048;
 	
 	private Hashtable<String,Integer> LocMap;
-	private boolean isZipNested = false;
+	private boolean ableToExtract = true;
 	
 	/**  @param zipFile File to unzip. 
 	 */
@@ -50,21 +50,21 @@ public class LOCReader {
 		new File(zipFileName).mkdir();
 		//unzip file and extract java files
 		 try {
-			 //System.out.println(zipFile.getPath());
+			
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
 	         ZipFile zipfile = new ZipFile(zipFile);
 	         Enumeration e = zipfile.entries();
 	         File destFile;
-	         while(e.hasMoreElements() && isZipNested == false) {
-	        	 
+	         while(e.hasMoreElements() && ableToExtract == true) {
+	        	
 	            entry = (ZipEntry) e.nextElement();
-
+	            
 	            String currentEntry = entry.getName();
 	            //System.out.println(currentEntry);
 	            //For Unit Testing Purposes
-	            String path = "test/";//GOMaDIIIT ITS IN HERERERE MODIFY FOR boi
+	            String path = "test/";
 	          
 	          	//File destFile = new File(FOLDERDEST + zipFileName, currentEntry);
 	            destFile = new File(path + zipFileName, currentEntry);
@@ -74,7 +74,7 @@ public class LOCReader {
 	            if(destinationParent != null){
 	            	destinationParent.mkdirs();
 	            }
-	           
+	            
 	            if(!entry.isDirectory()) {
 
 	            	//System.out.println("Extracting: " +entry);
@@ -105,10 +105,11 @@ public class LOCReader {
 	            }
 	            if(currentEntry.endsWith(".zip")){
 	            	//set to true exit loop and abort import
-	            	isZipNested = true;
+	            	ableToExtract = false;
+	            	
 	            		
 	            }
-	             
+
 	         }
          	zipfile.close();
 		 } 
@@ -118,7 +119,7 @@ public class LOCReader {
 		}
 		 finally {
 			
-			 return isZipNested; 	 
+			 return ableToExtract; 	 
 		 }
 		 
 	 }
@@ -134,6 +135,7 @@ public class LOCReader {
 		String fN = null;
 		
 		try {
+			
 			file = new FileReader(readFile);
 			if (fileName.contains(".java")) { 
 			
@@ -188,7 +190,7 @@ public class LOCReader {
 		fileName = "";
 		LocMap = new Hashtable<String,Integer>();
 	}
-
+	
 	public LOCReader(File readFile) {
 		
 		LocMap = new Hashtable<String,Integer>();
@@ -198,6 +200,7 @@ public class LOCReader {
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
+	
 		ZipFile zipFile = null;
 		String fN = null;
 		
@@ -237,17 +240,19 @@ public class LOCReader {
 				}
 				file.close();
 			}
-
-			//Read zip file and search for .java files
+			
+			
 			if (fileName.contains(".zip")) {
 				
-				//call extract
+				 boolean temp = extract(readFile);
+				
 		    }
-			
+		
 		}
 		catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
+
 	
 	}
 
