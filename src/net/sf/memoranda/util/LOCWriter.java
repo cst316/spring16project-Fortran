@@ -3,6 +3,9 @@
  */
 package net.sf.memoranda.util;
 import java.io.*;
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +29,7 @@ public class LOCWriter {
 	 private final String LOCF_STR = "LOCFILE";
 	 private final String SOURCEFILE = "SOURCEFILE";
 	 private final String LOCINT = "LOC";
-	
+	 
 	private String configPath = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
 	/**
@@ -39,20 +42,37 @@ public class LOCWriter {
 	private Element toElement(Document document,LOCReader reader,Node root){
 		
 		
-		Element locFile = document.createElement(LOCF_STR);
-		root.appendChild(locFile);
+		Element locFile = null; //= document.createElement(LOCF_STR);
+		//root.appendChild(locFile);
+		
+		
+		Hashtable<String,Integer> temp = reader.getLocTable();
+		System.out.println("HashTable " + temp.toString());
+		//insert while loop enumeration in here
+		Set<String> keys = temp.keySet();
+		System.out.println(keys);
+		Iterator it = keys.iterator(); 
+		while(it.hasNext()){
+			
+			//grab key from set 
+			String fileNameKey = (String) it.next();
+			System.out.println(fileNameKey);
+			//grab value from table
+			Integer valueLOC = temp.get(fileNameKey);
+			System.out.println(valueLOC);
+			//create sourcefile node 
+			locFile = document.createElement(LOCF_STR);
+			root.appendChild(locFile);
+			Element sourceName = document.createElement(SOURCEFILE); 
+			sourceName.appendChild(document.createTextNode(fileNameKey));//reader.getFileName())
+			locFile.appendChild(sourceName);
 	
-	
-		Element sourceName = document.createElement(SOURCEFILE); 
-		sourceName.appendChild(document.createTextNode(reader.getFileName()));
-		locFile.appendChild(sourceName);
-	
-	
-		Element locInt = document.createElement(LOCINT);
-		String LOC_str = Integer.toString(reader.getLOC());
-		locInt.appendChild(document.createTextNode(LOC_str));
-		locFile.appendChild(locInt);
-	
+			//create LOC node
+			Element locInt = document.createElement(LOCINT);
+			String LOC_str = Integer.toString(valueLOC);//reader.getLOC()
+			locInt.appendChild(document.createTextNode(LOC_str));
+			locFile.appendChild(locInt);
+		}
 		return locFile;
 		
 	}
@@ -121,7 +141,11 @@ public class LOCWriter {
 			
 			
 	}
-	
+	/**
+	 * Constrcutor for source java file
+	 * @param reader
+	 */
+
 	public LOCWriter(LOCReader reader){
 		 
 		try {
@@ -129,14 +153,12 @@ public class LOCWriter {
 		}
 		catch(Exception e){
 			
-			JFrame frame = new JFrame();
 		    JOptionPane.showMessageDialog(null,"Error",
 		    		"Oops something went wrong try importing Source Code again",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		
 	}
-	
 	
 	
 

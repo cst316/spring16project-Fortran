@@ -41,8 +41,8 @@ public class TestLOCReader {
 		 * Boundary Value Analysis
 		 *  t1 - A zip with a nested zip containing 3 nested folders 
 		 *  with 4 java source files which will return false
-		    t2 - A zip with multiple folders containing java source files
-		    t3 - A zip with a folder containing a java source file    
+		    t2 - A zip with multiple folders containing java source files will return true
+		    t3 - A zip with a folder containing a java source file wiull return true   
 		 * 
 		 * Check to see if Ouput Directory Exists
 		 */

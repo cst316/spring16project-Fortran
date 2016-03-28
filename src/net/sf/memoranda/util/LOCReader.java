@@ -1,6 +1,7 @@
 package net.sf.memoranda.util;
 
 import java.awt.Component;
+import java.util.Hashtable;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -33,15 +34,163 @@ public class LOCReader {
 	private String FOLDERDEST = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
 	private final int MAXLIMIT = 2048;
+	
+	private Hashtable<String,Integer> LocMap;
+	private boolean isZipNested = false;
+	
+	/**  @param zipFile File to unzip. 
+	 */
+	public boolean extract (File zipFile){
+		//obtain zipfile's files
+		String zipFileName = zipFile.getName();
+		zipFileName = zipFileName.substring(0,zipFileName.length() - 4);
+		new File(zipFileName).mkdir();
+		//unzip file and extract java files
+		 try {
+			 //System.out.println(zipFile.getPath());
+			 BufferedOutputStream dest = null;
+	         BufferedInputStream is = null;
+	         ZipEntry entry;
+	         ZipFile zipfile = new ZipFile(zipFile);
+	         Enumeration e = zipfile.entries();
+	         File destFile;
+	         while(e.hasMoreElements() && isZipNested == false) {
+	        	 
+	            entry = (ZipEntry) e.nextElement();
 
+	            String currentEntry = entry.getName();
+	            //System.out.println(currentEntry);
+	            //For Unit Testing Purposes
+	            String path = "test/";//GOMaDIIIT ITS IN HERERERE MODIFY FOR boi
+	          
+	          	//File destFile = new File(FOLDERDEST + zipFileName, currentEntry);
+	            destFile = new File(path + zipFileName, currentEntry);
+	             //destFile = new File(path,currentEntry);
+	            File destinationParent = destFile.getParentFile();
+	            
+	            if(destinationParent != null){
+	            	destinationParent.mkdirs();
+	            }
+	           
+	            if(!entry.isDirectory()) {
+
+	            	//System.out.println("Extracting: " +entry);
+	            	//Quy Ly's Code 
+	            	if (currentEntry.contains(".java")) {
+						//If current Entry is
+						//If lastindexof is ".java", does not give the full name
+						//therefore, lastindexof is "/" and get anything after the "/"
+						int index = currentEntry.lastIndexOf("/");
+						String fN = currentEntry.substring(index + 1);
+						//for testing purposes
+						//System.out.println(fN);
+					}
+	            	is = new BufferedInputStream
+	            			(zipfile.getInputStream(entry));
+	            	int count;
+	            	byte data[] = new byte[MAXLIMIT];
+	            	FileOutputStream fos = new FileOutputStream(destFile);
+
+	            	dest = new
+	            	BufferedOutputStream(fos, MAXLIMIT);
+	            	while ((count = is.read(data, 0, MAXLIMIT)) != -1){
+	            		dest.write(data, 0, count);
+	            	}
+	            	dest.flush();
+	            	dest.close();
+	            	is.close();
+	            }
+	            if(currentEntry.endsWith(".zip")){
+	            	//set to true exit loop and abort import
+	            	isZipNested = true;
+	            		
+	            }
+	             
+	         }
+         	zipfile.close();
+		 } 
+		catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Something went wrong trying to extraxt zip please try again",
+		    		"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		 finally {
+			
+			 return isZipNested; 	 
+		 }
+		 
+	 }
+	
+	
+	
+	public void computeLOC(File readFile){
+		FileReader file;
+		LOC = 0;
+		fileLine = "";
+		fileName = readFile.getName();
+		ZipFile zipFile = null;
+		String fN = null;
+		
+		try {
+			file = new FileReader(readFile);
+			if (fileName.contains(".java")) { 
+			
+				BufferedReader reader = new BufferedReader(file);
+	
+				fileLine = reader.readLine();
+	
+				// Read until end of file
+				while (fileLine != null) {
+	
+					// Remove all spaces in the beginning
+					fileLine = fileLine.replaceAll("\\s+", "");
+	
+					// Counts all but empty lines
+					if (fileLine.length() > 0) {
+						LOC++;
+					}
+	
+					// Do not count comments
+					if (fileLine.startsWith("//")) {
+					}
+	
+					// Do not count lines of multiple comments
+					if (fileLine.startsWith("/*")) {
+	
+						while (!fileLine.endsWith("*/")) {
+							fileLine = reader.readLine();
+						}
+					}
+	
+					fileLine = reader.readLine();
+	
+				}
+				
+				// Quy Im thinking once file is done put LOC and name to hashTable here
+				file.close();
+			}
+		}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+	}
+	
 	public LOCReader() {
 		LOC = 0;
 		fileLine = "";
 		fileName = "";
+		LocMap = new Hashtable<String,Integer>();
 	}
 
 	public LOCReader(File readFile) {
-
+		
+		LocMap = new Hashtable<String,Integer>();
+		LocMap.put("boi.java",12);///for testing purposes
+		LocMap.put("Bush Did 9/11",190);
 		FileReader file;
 		LOC = 0;
 		fileLine = "";
@@ -100,7 +249,8 @@ public class LOCReader {
 		         while(e.hasMoreElements()) {
 		        	 
 		            entry = (ZipEntry) e.nextElement();
-		         
+		            
+		            
 		            String currentEntry = entry.getName();
 		            System.out.println(currentEntry);
 		          	File destFile = new File(FOLDERDEST + folderName, currentEntry);
@@ -121,6 +271,7 @@ public class LOCReader {
 							int index = currentEntry.lastIndexOf("/");
 							fN = currentEntry.substring(index + 1);
 							//for testing purposes
+							
 							System.out.println(fN);
 						}
 		            	
@@ -141,41 +292,13 @@ public class LOCReader {
 		            	is.close();
 		            }
 		       
-		            
-				
-				/*
-				zipFile = new ZipFile(fileName);
-		        
-				Enumeration<? extends ZipEntry> e = zipFile.entries();
-				
-				//Loop zip if it has folders, it checks the folders too
-				while (e.hasMoreElements()) {
-					ZipEntry entry = e.nextElement();
-					
-					//Get the full path name
-					String entryName = entry.getName();
-					if (entryName.contains(".java")) {
-						
-						//If lastindexof is ".java", does not give the full name
-						//therefore, lastindexof is "/" and get anything after the "/" 
-						int index = entryName.lastIndexOf("/");
-						fN = entryName.substring(index + 1);
-						//for testing purposes
-						System.out.println(fN);
-					}
-				}
-				
-				*/
 		        if(currentEntry.contains(".zip")){
 		        	
 		        	//need to modularize and refactor code code in order to do this
 		        	//methodName(destFile.getAbsolutePath())
 		        	
 		        }
-		            
-		            
-		            
-		            
+		           
 		        }
 		         
 		        
@@ -233,7 +356,6 @@ public class LOCReader {
 		           }
 		        }
 		}   catch (FileNotFoundException e) {
-			JFrame frame = new JFrame();
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}   
@@ -258,5 +380,10 @@ public class LOCReader {
 
 	public String getFileName() {
 		return fileName;
+	}
+	
+	public Hashtable<String,Integer> getLocTable(){
+		return LocMap;
+		
 	}
 }
