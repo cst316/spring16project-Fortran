@@ -1,7 +1,10 @@
 package net.sf.memoranda.util;
 
 import java.awt.Component;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -10,21 +13,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.zip.*;
-
 import org.w3c.dom.*;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
+
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * @author Quy Ly and Saul Lopez
  */
 
 public class LOCReader {
-
+	//field variables and constants
 	private static final int COLUMN = 2;
 	private int LOC;
 	private int testCount;
@@ -39,11 +40,12 @@ public class LOCReader {
 	private final int MAXLIMIT = 2048;
 	
 	private Hashtable<String,Integer> LocMap;
-	private boolean ableToExtract = true;
+	private boolean ableToExtract;
 	
 	/**  @param zipFile File to unzip. 
 	 */
 	public boolean extract (File zipFile){
+		ableToExtract = true;
 		//obtain zipfile's files
 		String zipFileName = zipFile.getName();
 		zipFileName = zipFileName.substring(0,zipFileName.length() - 4);
@@ -55,9 +57,9 @@ public class LOCReader {
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
 	         ZipFile zipfile = new ZipFile(zipFile);
-	         Enumeration e = zipfile.entries();
+	         Enumeration<? extends ZipEntry> e = zipfile.entries();
 	         File destFile;
-	         while(e.hasMoreElements() && ableToExtract == true) {
+	         while(e.hasMoreElements() && ableToExtract) {
 	        	
 	            entry = (ZipEntry) e.nextElement();
 	            
@@ -107,8 +109,6 @@ public class LOCReader {
 	            if(currentEntry.endsWith(".zip")){
 	            	//set to true exit loop and abort import
 	            	ableToExtract = false;
-	            	
-	            		
 	            }
 
 	         }
@@ -118,8 +118,7 @@ public class LOCReader {
 			JOptionPane.showMessageDialog(null,"Something went wrong trying to extraxt zip please try again",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		 finally {
-			
+		 finally {			
 			 return ableToExtract; 	 
 		 }
 		 
@@ -132,6 +131,7 @@ public class LOCReader {
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
+	
 		ZipFile zipFile = null;
 		String fN = null;
 		
@@ -204,42 +204,40 @@ public class LOCReader {
 	
 		ZipFile zipFile = null;
 		String fN = null;
-		
 		try {
 			file = new FileReader(readFile);
-			if (fileName.contains(".java")) { 
-			
+			if (fileName.endsWith(".java")) {
+
 				BufferedReader reader = new BufferedReader(file);
-	
+
 				fileLine = reader.readLine();
-	
+
 				// Read until end of file
 				while (fileLine != null) {
-	
+
 					// Remove all spaces in the beginning
 					fileLine = fileLine.replaceAll("\\s+", "");
-	
+
 					// Counts all but empty lines
 					if (fileLine.length() > 0) {
 						LOC++;
 					}
-	
+
 					// Do not count comments
 					if (fileLine.startsWith("//")) {
 					}
-	
+
 					// Do not count lines of multiple comments
 					if (fileLine.startsWith("/*")) {
-	
+
 						while (!fileLine.endsWith("*/")) {
 							fileLine = reader.readLine();
 						}
 					}
-	
+
 					fileLine = reader.readLine();
-	
+					file.close();
 				}
-				file.close();
 			}
 			
 			
@@ -251,14 +249,14 @@ public class LOCReader {
 		
 		}
 		catch (IOException e) {
+			e.printStackTrace();
 			System.err.println(e.getMessage());
 		}
 
-	
 	}
 
+	//methods
 	private static String configPath = System.getProperty("user.home") + File.separator + ".memoranda" + File.separator;
-
 	public static Object[][] xmlToArray() {
 
 		String loc;
@@ -279,7 +277,7 @@ public class LOCReader {
 
 	        for (int temp = 0; temp < nList.getLength(); temp++) {
 		           Node nNode = nList.item(temp);
-		           
+
 		           if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 		              Element eElement = (Element) nNode;
 
@@ -289,22 +287,22 @@ public class LOCReader {
 				              .getChildNodes()
 				              .item(0)
 				              .getNodeValue());
-		                		
+
 		              loc = (eElement
 		    	              .getElementsByTagName("LOC")
 		    	              .item(0)
 		    	              .getChildNodes()
 		    	              .item(0)
-		    	              .getNodeValue());  
-	 
+		    	              .getNodeValue());
+
 	            	  array [temp][0] = fN;
-	            	  array [temp][1] = loc;  
+	            	  array [temp][1] = loc;
 		           }
 		        }
 		}   catch (FileNotFoundException e) {
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
-		}   
+		}
 	    catch (Exception e) {
             e.printStackTrace();
         }
