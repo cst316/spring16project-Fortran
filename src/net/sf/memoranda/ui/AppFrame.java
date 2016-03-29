@@ -1013,47 +1013,19 @@ public class AppFrame extends JFrame {
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
-
-
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
-		if (val == JFileChooser.APPROVE_OPTION) {
-
+		if (val == JFileChooser.APPROVE_OPTION) {	
 			File file = chooser.getSelectedFile();
 			//check to see what extension file it is
 			String extension = getExtension(file);
-
-			if(extension.equals(".zip")){
-				try {
-					UnZipFolder zip = new UnZipFolder(file);
-					for(File someFile : zip.getFiles()){
-						LOCReader Srcreader = new LOCReader(someFile);
-						@SuppressWarnings("unused")
-						LOCWriter write = new LOCWriter(Srcreader);
-						// create SavedLOCREader and return the data as 2Darray
-						Object[][] temp = LOCReader.xmlToArray();
-						@SuppressWarnings("unused")
-						LOCTable table = new LOCTable(temp, COLUMNAMES);
-					}
-				} catch (ExtensionException e1){
-					JOptionPane.showMessageDialog(null,"1imported file not a valid extension or containing files read by LOC not java file", "Error",JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-			}
-			else{
-				try {
-					LOCReader Srcreader = new LOCReader(file);
-					// save to file calling LOCWriter then load LOCTable
-					LOCWriter write = new LOCWriter(Srcreader);
-					// create SavedLOCREader and return the data as 2Darray
-					Object[][] temp = LOCReader.xmlToArray();
-					LOCTable table = new LOCTable(temp, COLUMNAMES);
-				} catch (ExtensionException e1) {
-					JOptionPane.showMessageDialog(null,"2imported file not a valid extension or containing files read by LOC not java file", "Error",JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-			}
+			//UnzipFolder zip = new UnzipFolder(file);
+			LOCReader Srcreader = new LOCReader(file);
+			LOCWriter writer = new LOCWriter(Srcreader);
+			Object[][] temp = LOCReader.xmlToArray();
+			@SuppressWarnings("unused")
+			LOCTable table = new LOCTable(temp, COLUMNAMES);
 		}
 	}//importSource_actionPerformed
 	public static String getExtension(File f){

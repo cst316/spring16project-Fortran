@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-public class UnZipFolder{
+public class UnzipFolder{
 	//constants & field names
 	private final int MAXLIMIT = 2048;
 		///** zip folder destination <p>Example: drive:\Users\<user>\*/
@@ -88,9 +88,23 @@ public class UnZipFolder{
 	            String currentEntry = entry.getName();
 	          	File destFile = new File(FOLDERDEST + zipFolderName, currentEntry);
 	            File destinationParent = destFile.getParentFile();
-	            destinationParent.mkdir();
-
+	            
+	            if(destinationParent != null){
+	            	destinationParent.mkdirs();
+	            }
+	           
 	            if(!entry.isDirectory()) {
+	            	//System.out.println("Extracting: " +entry);
+	            	//Quy Ly's Code 
+	            	if (currentEntry.contains(".java")) {
+						//If current Entry is
+						//If lastindexof is ".java", does not give the full name
+						//therefore, lastindexof is "/" and get anything after the "/"
+						int index = currentEntry.lastIndexOf("/");
+						String fN = currentEntry.substring(index + 1);
+						//for testing purposes
+						//System.out.println(fN);
+					}
 	            	is = new BufferedInputStream
 	            			(zipfile.getInputStream(entry));
 	            	int count;
@@ -106,10 +120,16 @@ public class UnZipFolder{
 	            	dest.close();
 	            	is.close();
 	            }
-
+	            if(currentEntry.endsWith(".zip")){
+	            	//set to true exit loop and abort import
+	            	isZipNested = true;
+	            		
+	            }
+	             
 	         }
          	zipfile.close();
-		 } catch (IOException e) {
+		 } 
+		catch (IOException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage() + "Error in reading/extracting zip.");
 			// TODO: handle exception
