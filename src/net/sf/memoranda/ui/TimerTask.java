@@ -24,6 +24,7 @@ public class TimerTask extends JFrame {
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
+	static String name;
 	int h;
 	int m;
 	int s;
@@ -34,7 +35,19 @@ public class TimerTask extends JFrame {
 	 */
 	public TimerTask() {
 		ongoing = false;
-		prepareGui();
+		prepareGui("Task");
+		ActionClick startStopButtonClick = new ActionClick(); //start/stop
+		startStopButton.addActionListener(startStopButtonClick);
+		//ActionClick resetClick = new ActionClick("reset");
+		//startStopButton.addActionListener(resetClick);
+	}
+	/**
+	 * This is a Constructor with String parameter. Do Not Remove 
+	 */
+	public TimerTask(String taskname) {
+		name = taskname;
+		ongoing = false;
+		prepareGui(taskname);
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
 		//ActionClick resetClick = new ActionClick("reset");
@@ -60,8 +73,8 @@ public class TimerTask extends JFrame {
 	 * This method starts the gui for the time task
 	 * @return void
 	 */
-	public static void prepareGui() { 
-		mainframe = new JFrame("Timer");
+	public static void prepareGui(String name) { 
+		mainframe = new JFrame(name);
 		north = new JPanel();
 		north.setBackground((new Color(200,90,90)));
 		center = new JPanel();
