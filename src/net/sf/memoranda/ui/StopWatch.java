@@ -92,7 +92,6 @@ public class StopWatch  extends JFrame {
 
 	}
 	
-
 	public class StartEvent implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -114,6 +113,15 @@ public class StopWatch  extends JFrame {
 
 		}
 
+		/**
+		 * 
+		 * @param number1
+		 * 			first digit from the combo box
+		 * @param number2
+		 * 			second digit from the combo box
+		 * @return
+		 * 			the full number which correlates to a time in minutes seconds or hours
+		 */
 		public int initialNumbers(int number1, int number2) {
 			number1 *= 10;
 
@@ -121,7 +129,10 @@ public class StopWatch  extends JFrame {
 		}
 	}
 
+	
 	public class StopEvent implements ActionListener  {
+		
+		
 		public void actionPerformed(ActionEvent e) {
 
 			try{
@@ -137,6 +148,7 @@ public class StopWatch  extends JFrame {
 	}
 	
 	public class ResetEvent implements ActionListener {
+		
 		public void actionPerformed(ActionEvent e) {
 
 			try{
@@ -173,6 +185,10 @@ public class StopWatch  extends JFrame {
 		{
 		}
 
+		/**
+		 * This is the heart of the program that counts down and sets the time based on the 
+		 * input from the combo boxes
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			
