@@ -34,7 +34,7 @@ public class StopWatch  extends JFrame {
 	Timer timer;
 	String temp;
 
-	public Gui() {
+	public StopWatch() {
 
 		super("Window");
 		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
