@@ -212,7 +212,7 @@ public class StopWatch  extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			timeDisplay.setText(logic());
-			if(sec == 0)
+			if(sec == 0 && hour ==0 && min ==0)
 				timeDisplay.setForeground(Color.red);
 
 			
