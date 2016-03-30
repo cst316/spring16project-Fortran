@@ -33,7 +33,7 @@ public class LOCWriter {
 	private String configPath = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
 	/**
-	 * 
+	 * Creates nodes and attaches it to a root node
 	 * @param document document to be wrote to 
 	 * @param reader reader object that contains LOC and fileName from Source File
 	 * @param root the root node to append to 

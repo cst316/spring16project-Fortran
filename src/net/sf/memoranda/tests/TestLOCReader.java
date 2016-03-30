@@ -5,7 +5,7 @@
 package net.sf.memoranda.tests;
 import org.junit.Test;
 import net.sf.memoranda.util.LOCReader;
-import net.sf.memoranda.util.UnzipFolder;
+import net.sf.memoranda.util.UnZipFolder;
 import net.sf.memoranda.util.NestedZipException;
 import java.io.*;
 import java.util.zip.*;
@@ -51,10 +51,6 @@ public class TestLOCReader {
 		File testCase2 = new File("test/t2.zip");
 		File testCase3 = new File("test/t3.zip");
 
-		
-		UnzipFolder zip2 = new UnzipFolder(testCase2);
-		UnzipFolder zip3 = new UnzipFolder(testCase3);
-		
 		LOCReader lc2 = new LOCReader();
 		LOCReader lc3 = new LOCReader();
 		

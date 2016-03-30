@@ -1,8 +1,11 @@
 package net.sf.memoranda.util;
 
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.io.BufferedInputStream;
@@ -18,7 +21,7 @@ import org.w3c.dom.*;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
-import org.apache.commons.io.FilenameUtils;
+//import org.apache.commons.io.FilenameUtils;
 
 /**
  * @author Quy Ly and Saul Lopez
@@ -41,8 +44,15 @@ public class LOCReader {
 	
 	private Hashtable<String,Integer> LocMap;
 	private boolean ableToExtract;
+	private List<File> files;
 	
-	/**  @param zipFile File to unzip. 
+	
+	/**
+	 * extracts zip folder and makes a new directory with all the content in test folder
+	 * @param zipFile - Zip File to be extracted
+	 * @return <ul><li>true -if method is able to extract folder succesfully </li> 
+	 * 		  <li> false - if nested zip folder is found</li>	
+	 * 		  </ul>
 	 */
 	public boolean extract (File zipFile){
 		ableToExtract = true;
@@ -68,19 +78,19 @@ public class LOCReader {
 	            //For Unit Testing Purposes
 	            String path = "test/";
 	          
-	          	//File destFile = new File(FOLDERDEST + zipFileName, currentEntry);
-	            destFile = new File(path + zipFileName, currentEntry);
+	           destFile = new File(FOLDERDEST + zipFileName, currentEntry);
+	           // destFile = new File(path + zipFileName, currentEntry);
 	             //destFile = new File(path,currentEntry);
 	            File destinationParent = destFile.getParentFile();
 	            
 	            if(destinationParent != null){
+	            	
 	            	destinationParent.mkdirs();
 	            }
 	            
 	            if(!entry.isDirectory()) {
 
-	            	//System.out.println("Extracting: " +entry);
-	            	//Quy Ly's Code 
+	            	
 	            	if (currentEntry.contains(".java")) {
 						//If current Entry is
 						//If lastindexof is ".java", does not give the full name
@@ -124,7 +134,19 @@ public class LOCReader {
 		 
 	 }
 	
-	
+	private List<File> getExtractedFiles() {
+		File folder = new File(FOLDERDEST + fileName);//zipFolderName
+		//File file = null;
+		//File newFile; //= new File(FOLDERDEST + "name");
+		File[] listOfFiles = folder.listFiles(); //Returns an array of abstract pathnames denoting the files in the directory denoted by this abstract pathname
+		files = new ArrayList<File>(Arrays.asList(listOfFiles));
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).isDirectory()) {
+				files.remove(i);
+			}
+		}
+		return files;
+	 }
 	
 	public void computeLOC(File readFile){
 		FileReader file;
@@ -171,17 +193,17 @@ public class LOCReader {
 	
 				}
 				
-				// Quy Im thinking once file is done put LOC and name to hashTable here
+				// Quy Im thinking once file is done put LOC and name to hashTable in here
 				file.close();
 			}
 		}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 			
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -197,62 +219,38 @@ public class LOCReader {
 		LocMap = new Hashtable<String,Integer>();
 		LocMap.put("boi.java",12);///for testing purposes
 		LocMap.put("Bush Did 9/11",190);
-		FileReader file;
 		LOC = 0;
 		fileLine = "";
-		fileName = readFile.getName();
-	
-		ZipFile zipFile = null;
-		String fN = null;
-		try {
-			file = new FileReader(readFile);
-			if (fileName.endsWith(".java")) {
+		fileName = readFile.getName();	
+		//ZipFile zipFile = null;
+		//String fN = null;
 
-				BufferedReader reader = new BufferedReader(file);
-
-				fileLine = reader.readLine();
-
-				// Read until end of file
-				while (fileLine != null) {
-
-					// Remove all spaces in the beginning
-					fileLine = fileLine.replaceAll("\\s+", "");
-
-					// Counts all but empty lines
-					if (fileLine.length() > 0) {
-						LOC++;
-					}
-
-					// Do not count comments
-					if (fileLine.startsWith("//")) {
-					}
-
-					// Do not count lines of multiple comments
-					if (fileLine.startsWith("/*")) {
-
-						while (!fileLine.endsWith("*/")) {
-							fileLine = reader.readLine();
-						}
-					}
-
-					fileLine = reader.readLine();
-					file.close();
-				}
-			}
-			
-			
-			if (fileName.contains(".zip")) {
+		if (fileName.endsWith(".java")) {
 				
-				 boolean temp = extract(readFile);
+			computeLOC(readFile);
 				
+		}
+		else if (fileName.contains(".zip")) {
+				
+		    boolean result = extract(readFile);
+		    
+		    if(result == false){
+		    	
+		    	///unable to extract nested zip
+		    	 JOptionPane.showMessageDialog(null,"Nested Zip Found Aborting Import",
+				    		"ZipError",JOptionPane.ERROR_MESSAGE);
 		    }
+		    else{
+		    	
+		    	//get list of files Suals method here
+		    	List<File> currentList = getExtractedFiles();
+				//call quy method that computes LOC on each file
+		    	
+		    	//we done
+		    }
+		    
+		}
 		
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			System.err.println(e.getMessage());
-		}
-
 	}
 
 	//methods
