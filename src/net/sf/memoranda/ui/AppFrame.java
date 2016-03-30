@@ -48,7 +48,6 @@ import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.ExtensionException;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
