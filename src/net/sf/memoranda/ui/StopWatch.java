@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 public class StopWatch  extends JFrame {
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
@@ -185,14 +186,24 @@ public class StopWatch  extends JFrame {
 		{
 		}
 
+		
+		public void actionPerformed(ActionEvent e) {
+
+			timeDisplay.setText(logic());
+			
+			if(sec == 0)
+				timeDisplay.setForeground(Color.red);
+
+			
+		}
+		
+		
 		/**
 		 * This is the heart of the program that counts down and sets the time based on the 
 		 * input from the combo boxes
 		 */
-		public void actionPerformed(ActionEvent e) {
-
-			
-
+		public String logic ()
+		{
 			if (hour > 0) {
 				if (min > 0) {
 					if (sec > 0)
@@ -213,7 +224,7 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				timeDisplay.setText(formatHour+" : "+formatMin+" : "+formatSec);
+				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
 					sec--;
@@ -225,22 +236,24 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				timeDisplay.setText(formatHour+" : "+formatMin+" : "+formatSec);
+				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} else if (sec > 0) {
 				sec--;
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				timeDisplay.setText(formatHour+" : "+formatMin+" : "+formatSec);
-			}
+				return (formatHour+" : "+formatMin+" : "+formatSec);
+			} 
 
 			else {
 				timer.stop();
-				timeDisplay.setText("Done!");
-				timeDisplay.setForeground(Color.red);
+				return "Done";
+				
 			}
+			
+			
 		}
-
 	}
 
 }
+
