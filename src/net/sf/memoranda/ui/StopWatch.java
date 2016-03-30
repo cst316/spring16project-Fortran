@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
+
 public class StopWatch  extends JFrame {
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
@@ -35,6 +37,7 @@ public class StopWatch  extends JFrame {
 	Timer timer;
 	String temp;
 
+	
 	public StopWatch() {
 
 		super("Window");
@@ -94,6 +97,11 @@ public class StopWatch  extends JFrame {
 	}
 	
 	public class StartEvent implements ActionListener {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			start.setEnabled(false);
@@ -133,16 +141,18 @@ public class StopWatch  extends JFrame {
 	
 	public class StopEvent implements ActionListener  {
 		
-		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 
-			try{
+			try {
 			timer.stop();
 			start.setEnabled(false);
 			contin.setEnabled(true);
 			}
-			catch(NullPointerException e1 )
-			{
+			catch (NullPointerException e1 ){
 			
 			}
 		}
@@ -150,6 +160,10 @@ public class StopWatch  extends JFrame {
 	
 	public class ResetEvent implements ActionListener {
 		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			try{
@@ -162,13 +176,17 @@ public class StopWatch  extends JFrame {
 			start.setEnabled(true);
 			contin.setEnabled(false);
 			}
-			catch(NullPointerException e1 )
-			{
+			catch(NullPointerException e1 ){
 			
 			}
 		}
 	}
 	public class ContinEvent implements ActionListener {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			TimeClass tc = new TimeClass();
@@ -181,29 +199,26 @@ public class StopWatch  extends JFrame {
 
 	public class TimeClass implements ActionListener {
 		
-
-		public TimeClass() 
-		{
-		}
-
 		
+
+		public TimeClass() {
+		}
+		
+
+		/**
+		 * This is the heart of the program that counts down and sets the time based on the 
+		 * input from the combo boxes
+		 */
 		public void actionPerformed(ActionEvent e) {
 
 			timeDisplay.setText(logic());
-			
 			if(sec == 0)
 				timeDisplay.setForeground(Color.red);
 
 			
 		}
-		
-		
-		/**
-		 * This is the heart of the program that counts down and sets the time based on the 
-		 * input from the combo boxes
-		 */
-		public String logic ()
-		{
+
+		public String logic (){
 			if (hour > 0) {
 				if (min > 0) {
 					if (sec > 0)
@@ -224,7 +239,7 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				return (formatHour+" : "+formatMin+" : "+formatSec);
+				return (formatHour +" : "+ formatMin +" : " + formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
 					sec--;
@@ -247,13 +262,10 @@ public class StopWatch  extends JFrame {
 
 			else {
 				timer.stop();
-				return "Done";
-				
+				return "Done";	
 			}
-			
 			
 		}
 	}
 
 }
-
