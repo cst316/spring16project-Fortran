@@ -5,7 +5,6 @@
 package net.sf.memoranda.tests;
 import org.junit.Test;
 import net.sf.memoranda.util.LOCReader;
-import net.sf.memoranda.util.UnZipFolder;
 import net.sf.memoranda.util.NestedZipException;
 import java.io.*;
 import java.util.zip.*;
