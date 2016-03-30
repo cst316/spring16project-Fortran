@@ -55,14 +55,10 @@ import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
 import net.sf.memoranda.util.LOCReader;
 import net.sf.memoranda.util.LOCWriter;
-import net.sf.memoranda.util.UnZipFolder;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
-
-
-
 
 /**
  *

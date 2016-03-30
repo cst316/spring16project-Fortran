@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-public class UnZipFolder{
+public class UnzipFolder{
 	//constants & field names
 	private final int MAXLIMIT = 2048;
 		///** zip folder destination <p>Example: drive:\Users\<user>\*/
@@ -26,7 +26,7 @@ public class UnZipFolder{
 	/**Constructs UnzipFolder object with predefined and/or passed value(s).
 	 * @param file File to unzip. Assumes file has '.zip' extension.
 	 */
-	public UnZipFolder(File file) throws ExtensionException{
+	public UnzipFolder(File file) throws ExtensionException{
 
 		zipFolder = file.getName();
 
