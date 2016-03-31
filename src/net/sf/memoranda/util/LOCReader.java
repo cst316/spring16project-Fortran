@@ -42,22 +42,10 @@ public class LOCReader {
 	     	+ ".memoranda" + File.separator;
 	private final int MAXLIMIT = 2048;
 	private final static String JAVAEXTENSION = ".java";
-	private Hashtable<String,Integer> LocMap;
+	private Hashtable<String,Integer> locMap;
 	private boolean ableToExtract;
 	private List<File> files;
 	
-	
-	public List<File> getFiles() {
-		return files;
-	}
-
-
-
-	public void setFiles(List<File> files) {
-		this.files = files;
-	}
-
-
 
 	/**
 	 * extracts zip folder and makes a new directory with all the content in test folder
@@ -186,9 +174,8 @@ public class LOCReader {
 					if(name.endsWith(JAVAEXTENSION)){
 						result =  true;
 						files.add(f);
-					
 					}
-				}	
+				}
 			}
 		}	
 		return result;
@@ -219,7 +206,7 @@ public class LOCReader {
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
-	
+		
 		ZipFile zipFile = null;
 		String fN = null;
 		
@@ -277,15 +264,15 @@ public class LOCReader {
 		LOC = 0;
 		fileLine = "";
 		fileName = "";
-		LocMap = new Hashtable<String,Integer>();
+		locMap = new Hashtable<String,Integer>();
 	}
 	
 	public LOCReader(File readFile) {
 		files = new ArrayList<File>();
 		
-		LocMap = new Hashtable<String,Integer>();
+		/*LocMap = new Hashtable<String,Integer>();
 		LocMap.put("boi.java",12);///for testing purposes
-		LocMap.put("Bush Did 9/11",190);
+		LocMap.put("Bush Did 9/11",190); */
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();	
@@ -310,13 +297,12 @@ public class LOCReader {
 		    else{
 		    	String actualFolder = fileName.substring(0,fileName.length() - 4);
 		    	File outputDir = new File("test" + File.separator + actualFolder);
-		    	System.out.println(outputDir);
+		    	//System.out.println(outputDir);
 		    	searchDirectories(outputDir);
 		    	//get list of files Suals method here
 		    	List<File> currentList = getFiles();
-		    	
 				//call quy method that computes LOC on each file
-		    	
+		    	listToHash(currentList);
 		    	//we done
 		    }
 		    
@@ -377,6 +363,17 @@ public class LOCReader {
         }
 		return (array);
 	}
+	
+	private void listToHash (List<File> currentList) {
+		File listFileName = null;
+		locMap = new Hashtable<String,Integer>();
+		
+		for (int i = 0; i < currentList.size(); i++) {
+			listFileName = currentList.get(i);
+			computeLOC(listFileName);
+			locMap.put(fileName , LOC);
+		}
+	}
 
 	// Setters and getters
 	public void setLOC(int loc) {
@@ -385,6 +382,10 @@ public class LOCReader {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	public void setFiles(List<File> files) {
+		this.files = files;
 	}
 	
 	public void setTestCount(int testCount) {
@@ -399,9 +400,12 @@ public class LOCReader {
 		return fileName;
 	}
 	
+	public List<File> getFiles() {
+		return files;
+	}
 
 	public Hashtable<String,Integer> getLocTable(){
-		return LocMap;
+		return locMap;
 		
 	}
 
