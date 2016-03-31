@@ -41,12 +41,24 @@ public class LOCReader {
 	private String FOLDERDEST = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
 	private final int MAXLIMIT = 2048;
-	
+	private final static String JAVAEXTENSION = ".java";
 	private Hashtable<String,Integer> LocMap;
 	private boolean ableToExtract;
 	private List<File> files;
 	
 	
+	public List<File> getFiles() {
+		return files;
+	}
+
+
+
+	public void setFiles(List<File> files) {
+		this.files = files;
+	}
+
+
+
 	/**
 	 * extracts zip folder and makes a new directory with all the content in test folder
 	 * @param zipFile - Zip File to be extracted
@@ -78,7 +90,7 @@ public class LOCReader {
 	            //For Unit Testing Purposes
 	            String path = "test/";
 	          
-	           destFile = new File(FOLDERDEST + zipFileName, currentEntry);
+	           destFile = new File(path + zipFileName, currentEntry);
 	           // destFile = new File(path + zipFileName, currentEntry);
 	             //destFile = new File(path,currentEntry);
 	            File destinationParent = destFile.getParentFile();
@@ -134,11 +146,65 @@ public class LOCReader {
 		 
 	 }
 	
+	
+	
+	/* NOTE
+	 * The following method was written by Yong Mook Kim 
+	 * some minor modifications made by Michael Zaragoza
+	 * Original Source Code can be found 
+	 * @ http://www.mkyong.com/java/search-directories-recursively-for-file-in-java/
+	 * @param folder Folder to be Searched
+	 */
+	
+	public void searchDirectories(File folder){
+		
+		if(folder.isDirectory()){
+			search(folder);
+		}
+		
+	}
+	/* 	NOTE
+	 * The following helper method was written by Yong Mook Kim 
+	 * some minor modifications made by Michael Zaragoza
+	 * Original Source Code can be found 
+	 * @ http://www.mkyong.com/java/search-directories-recursively-for-file-in-java/
+	 * @param folder Folder to be Searched
+	 * 
+	 * 
+	 * 
+	 */
+	public boolean search(File file){
+		boolean result = false;
+		if(file.isDirectory() && file.canRead()){	
+			for(File f : file.listFiles()){
+					
+				if(f.isDirectory()){
+					search(f);
+				}
+				else{
+					String name = f.getName();
+					if(name.endsWith(JAVAEXTENSION)){
+						result =  true;
+						files.add(f);
+					
+					}
+				}	
+			}
+		}	
+		return result;
+	}
+	
+	
+	
 	private List<File> getExtractedFiles() {
-		File folder = new File(FOLDERDEST + fileName);//zipFolderName
+		String temp = "test/";
+		String actualFolder = fileName.substring(0,fileName.length() - 4);
+		File folder = new File(temp + actualFolder);//zipFolderName
+		System.out.println(folder.getAbsolutePath());
 		//File file = null;
 		//File newFile; //= new File(FOLDERDEST + "name");
-		File[] listOfFiles = folder.listFiles(); //Returns an array of abstract pathnames denoting the files in the directory denoted by this abstract pathname
+		File[] listOfFiles = folder.listFiles();
+		//Returns an array of abstract pathnames denoting the files in the directory denoted by this abstract pathname
 		files = new ArrayList<File>(Arrays.asList(listOfFiles));
 		for (int i = 0; i < files.size(); i++) {
 			if (files.get(i).isDirectory()) {
@@ -215,6 +281,7 @@ public class LOCReader {
 	}
 	
 	public LOCReader(File readFile) {
+		files = new ArrayList<File>();
 		
 		LocMap = new Hashtable<String,Integer>();
 		LocMap.put("boi.java",12);///for testing purposes
@@ -230,7 +297,7 @@ public class LOCReader {
 			computeLOC(readFile);
 				
 		}
-		else if (fileName.contains(".zip")) {
+		else if (fileName.endsWith(".zip")) {
 				
 		    boolean result = extract(readFile);
 		    
@@ -241,9 +308,13 @@ public class LOCReader {
 				    		"ZipError",JOptionPane.ERROR_MESSAGE);
 		    }
 		    else{
-		    	
+		    	String actualFolder = fileName.substring(0,fileName.length() - 4);
+		    	File outputDir = new File("test" + File.separator + actualFolder);
+		    	System.out.println(outputDir);
+		    	searchDirectories(outputDir);
 		    	//get list of files Suals method here
-		    	List<File> currentList = getExtractedFiles();
+		    	List<File> currentList = getFiles();
+		    	
 				//call quy method that computes LOC on each file
 		    	
 		    	//we done
