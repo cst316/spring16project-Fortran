@@ -56,10 +56,10 @@ public class LOCWriter {
 			
 			//grab key from set 
 			String fileNameKey = (String) it.next();
-			System.out.println(fileNameKey);
+		
 			//grab value from table
 			Integer valueLOC = temp.get(fileNameKey);
-			System.out.println(valueLOC);
+			
 			//create sourcefile node 
 			locFile = document.createElement(LOCF_STR);
 			root.appendChild(locFile);

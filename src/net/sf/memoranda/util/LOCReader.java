@@ -17,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import org.w3c.dom.*;
-
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
@@ -133,7 +132,25 @@ public class LOCReader {
 		 }
 		 
 	 }
-	
+	public static boolean deleteDir(File folder){
+		
+		
+		if(folder.isDirectory()){
+			
+			File[] dirContents = folder.listFiles();
+			for(int x = 0; x <= dirContents.length - 1; x++){
+				
+				boolean result = deleteDir(dirContents[x]);
+				if(!result){
+					return false;
+				}
+				
+			}
+			
+		}
+		return folder.delete();
+
+	}
 	
 	
 	/* NOTE
@@ -181,7 +198,13 @@ public class LOCReader {
 		return result;
 	}
 	
-	
+	private void deleteOutputDir(File folder){
+		if(folder.exists()){
+			
+			boolean temp = folder.delete();
+			System.out.println(temp + "del output dir");
+		}
+	}
 	
 	private List<File> getExtractedFiles() {
 		String temp = "test/";
@@ -245,8 +268,7 @@ public class LOCReader {
 					fileLine = reader.readLine();
 	
 				}
-				
-				// Quy Im thinking once file is done put LOC and name to hashTable in here
+
 				file.close();
 			}
 		}
@@ -269,19 +291,18 @@ public class LOCReader {
 	
 	public LOCReader(File readFile) {
 		files = new ArrayList<File>();
+		locMap = new Hashtable<String,Integer>();
 		
-		/*LocMap = new Hashtable<String,Integer>();
-		LocMap.put("boi.java",12);///for testing purposes
-		LocMap.put("Bush Did 9/11",190); */
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();	
-		//ZipFile zipFile = null;
-		//String fN = null;
+		
 
 		if (fileName.endsWith(".java")) {
 				
 			computeLOC(readFile);
+			locMap.put(fileName, LOC);
+			//have to call quys listToHash in here too
 				
 		}
 		else if (fileName.endsWith(".zip")) {
@@ -295,15 +316,16 @@ public class LOCReader {
 				    		"ZipError",JOptionPane.ERROR_MESSAGE);
 		    }
 		    else{
+		    	
 		    	String actualFolder = fileName.substring(0,fileName.length() - 4);
 		    	File outputDir = new File("test" + File.separator + actualFolder);
-		    	//System.out.println(outputDir);
 		    	searchDirectories(outputDir);
 		    	//get list of files Suals method here
 		    	List<File> currentList = getFiles();
 				//call quy method that computes LOC on each file
 		    	listToHash(currentList);
-		    	//we done
+		    	deleteDir(outputDir);
+		    
 		    }
 		    
 		}
@@ -366,7 +388,7 @@ public class LOCReader {
 	
 	private void listToHash (List<File> currentList) {
 		File listFileName = null;
-		locMap = new Hashtable<String,Integer>();
+		
 		
 		for (int i = 0; i < currentList.size(); i++) {
 			listFileName = currentList.get(i);
