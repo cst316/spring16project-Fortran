@@ -3,9 +3,7 @@ package net.sf.memoranda.ui;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-
+import javax.swing.border.*;
 
 
 
@@ -114,11 +112,17 @@ public class StopWatch  extends JFrame {
 			hour = initialNumbers(h1, h2);
 			min = initialNumbers(m1, m2);
 			sec = initialNumbers(s1, s2);
-			timeDisplay.setText("00 : 00 : 00");
 			timeDisplay.setForeground(Color.black);
+			int total = hour+min+sec;
+			if(total == 0)
+			{
+				timeDisplay.setText("Please enter a valid time");
+				start.setEnabled(true);
+			}
+			else{
 			TimeClass tc = new TimeClass();
 			timer = new Timer(1000, tc);
-			timer.start();
+			timer.start();}
 
 		}
 
@@ -142,7 +146,8 @@ public class StopWatch  extends JFrame {
 	public class StopEvent implements ActionListener  {
 		
 		/*
-		 *Remember to abstract the code so you can unit test
+		 * (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent e) {
 
@@ -151,8 +156,9 @@ public class StopWatch  extends JFrame {
 			start.setEnabled(false);
 			contin.setEnabled(true);
 			}
-			catch (NullPointerException e1 ){
-			
+			catch (NullPointerException e1 )
+			{
+				timeDisplay.setText("Please enter a valid time");
 			}
 		}
 	}
@@ -176,7 +182,7 @@ public class StopWatch  extends JFrame {
 			contin.setEnabled(false);
 			}
 			catch(NullPointerException e1 ){
-			
+				timeDisplay.setText("Please enter a valid time");
 			}
 		}
 	}
@@ -238,7 +244,7 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				return (formatHour +" : "+ formatMin +" : " + formatSec);
+				return (formatHour +" : "+ formatMin +" : "   + formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
 					sec--;
@@ -268,3 +274,4 @@ public class StopWatch  extends JFrame {
 	}
 
 }
+
