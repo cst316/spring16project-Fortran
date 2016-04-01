@@ -142,8 +142,7 @@ public class StopWatch  extends JFrame {
 	public class StopEvent implements ActionListener  {
 		
 		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 *Remember to abstract the code so you can unit test
 		 */
 		public void actionPerformed(ActionEvent e) {
 
