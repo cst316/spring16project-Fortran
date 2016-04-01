@@ -1,8 +1,10 @@
-package net.sf.memoranda.ui;
+package net.sf.memoranda.ui.resources.icons.mimetypes.text;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import net.sf.memoranda.ui.TimerTask;
 
 public class timertaskUnitTesting {
 
