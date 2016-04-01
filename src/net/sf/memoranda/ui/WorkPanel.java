@@ -219,15 +219,19 @@ public class WorkPanel extends JPanel {
 
 	public void selectPanel(String pan) {
 		if (pan != null) {
-			if (pan.equals("NOTES"))
+			if (pan.equals("NOTES")){
 				notesB_actionPerformed(null);
-			else if (pan.equals("TASKS"))
+			}
+			else if (pan.equals("TASKS")){
 				tasksB_actionPerformed(null);
-			else if (pan.equals("EVENTS"))
+			}
+			else if (pan.equals("EVENTS")){
 				eventsB_actionPerformed(null);
-			else if (pan.equals("FILES"))
+			}
+			else if (pan.equals("FILES")){
 				filesB_actionPerformed(null);
-		}
+			}
+	 	}
 	}
 
 	public void agendaB_actionPerformed(ActionEvent e) {

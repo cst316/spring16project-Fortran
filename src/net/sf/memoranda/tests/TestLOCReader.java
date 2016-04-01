@@ -17,6 +17,7 @@ import org.junit.Rule;
  *
  */
 public class TestLOCReader {
+
 	/**
 	 * 
 	 */
