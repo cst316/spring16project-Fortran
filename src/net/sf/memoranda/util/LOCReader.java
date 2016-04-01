@@ -60,7 +60,6 @@ public class LOCReader {
 				
 			computeLOC(readFile);
 			locMap.put(fileName, LOC);
-			//have to call quys listToHash in here too
 		}
 		else if (fileName.endsWith(".zip")) {
 				
@@ -235,30 +234,27 @@ public class LOCReader {
 				BufferedReader reader = new BufferedReader(file);
 	
 				fileLine = reader.readLine();
+				boolean flag = false;
 	
 				// Read until end of file
 				while (fileLine != null) {
 	
 					// Remove all spaces in the beginning
 					fileLine = fileLine.replaceAll("\\s+", "");
-	
-					// Counts all but empty lines
-					if (fileLine.length() > 0) {
-						LOC++;
+					
+					if (fileName.startsWith("/*")) {
+						flag = true;
 					}
-	
-					// Do not count comments
-					if (fileLine.startsWith("//")) {
-					}
-	
-					// Do not count lines of multiple comments
-					if (fileLine.startsWith("/*")) {
-	
-						while (!fileLine.endsWith("*/")) {
-							fileLine = reader.readLine();
+					
+					if (!flag) {
+						if (fileLine.length() > 0 && !fileLine.startsWith("//")) {
+							LOC++;
 						}
 					}
 					
+					if (fileLine.endsWith("*/")) {
+						flag = false;
+					}
 					fileLine = reader.readLine();
 				}
 				
