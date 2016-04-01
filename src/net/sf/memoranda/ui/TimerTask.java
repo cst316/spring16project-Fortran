@@ -24,7 +24,7 @@ public class TimerTask extends JFrame {
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
-	static String name;
+	static public String name;
 	int h;
 	int m;
 	int s;
