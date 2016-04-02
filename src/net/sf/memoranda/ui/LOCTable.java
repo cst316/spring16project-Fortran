@@ -30,11 +30,11 @@ public class LOCTable extends JFrame  {
 		table = new JTable(data,ColumnNames);
 		contentPane.add(table, BorderLayout.CENTER);
 		contentPane.add(table.getTableHeader(),BorderLayout.PAGE_START);
-		this.setVisible(true);
 		this.setTitle("Import LOC");
 		JScrollPane scroll = new JScrollPane(table);
 		contentPane.add(scroll);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setVisible(true);
 	}
 
 }

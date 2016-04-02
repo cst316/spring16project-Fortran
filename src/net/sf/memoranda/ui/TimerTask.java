@@ -1,42 +1,85 @@
 package net.sf.memoranda.ui;
 
+import net.sf.memoranda.ui.StopWatch.TimeClass;
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import net.sf.memoranda.ui.StopWatch.TimeClass;
-public class TimerTask extends JFrame {
+public class TimerTask extends JFrame { 
 	//field variables
 	static JFrame mainframe;
+	static JPanel north;
+	static JPanel center;
+	static JPanel south;
 	static JLabel title;
-	static JPanel controlPanel;
-	static JLabel hours, minutes, seconds;
+	static JLabel hours;
+	static JLabel minutes;
+	static JLabel seconds;
 	static JButton startStopButton;
+	static JButton saveButton;
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
-	int h, m, s;
+	static public String name;
+	int h;
+	int m;
+	int s;
 
-	//constructor
+	
+	/**
+	 * This is the default Constructor. Do Not Remove 
+	 */
 	public TimerTask() {
 		ongoing = false;
-		prepareGUI();
+		prepareGui("Task");
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
+	}
+	/**
+	 * This is a Constructor with String parameter. Do Not Remove 
+	 */
+	public TimerTask(String taskname) {
+		name = taskname;
+		ongoing = false;
+		prepareGui(taskname);
+		ActionClick startStopButtonClick = new ActionClick(); //start/stop
+		startStopButton.addActionListener(startStopButtonClick);
+		//ActionClick resetClick = new ActionClick("reset");
+		//startStopButton.addActionListener(resetClick);
+	}
+	
+	//write functionality
+	public void writeXML(){
+	 
+	}
+	
+	 //read functionality
+	public void readXML(){
 		
 	}
-	//setters & getters
-	public static boolean isOngoing() {
+	
+	
+	public static boolean isOngoing() { 
 		return ongoing;
 	}
-	//methods
-	public static void prepareGUI() {
-		mainframe = new JFrame("Timer");
-		mainframe.setSize(400, 400);
-		GridLayout gridLayout = new GridLayout(3, 1);
-		mainframe.setLayout(gridLayout);
+	
+	/**
+	 * This method starts the gui for the time task
+	 * @return void
+	 */
+	public static void prepareGui(String name) { 
+		mainframe = new JFrame(name);
+		north = new JPanel();
+		north.setBackground((new Color(200,90,90)));
+		center = new JPanel();
+		south = new JPanel();
+		mainframe.setSize(350, 275);
 		//mainframe.setLayout();
 		mainframe.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -46,27 +89,27 @@ public class TimerTask extends JFrame {
 		// grid 1
 		title = new JLabel("", JLabel.CENTER);
 		title.setSize(350, 100);
+		title.setForeground(new Color(50,50,50));
 		title.setText("This is Timer Tool");
+		north.add(title);
 		// grid 2
-		controlPanel = new JPanel();
-		controlPanel.setLayout(new FlowLayout());
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
 		hours.setSize(100, 100);
 		minutes.setSize(100, 100);
 		seconds.setSize(100, 100);
+		center.add(hours);
+		center.add(minutes);
+		center.add(seconds);
 		// grid 3
-		startStopButton = new JButton("Start");
-
-		controlPanel.add(hours);
-		controlPanel.add(minutes);
-		controlPanel.add(seconds);
-
-		mainframe.add(title);
-		mainframe.add(controlPanel);
-		mainframe.add(startStopButton);
-
+		startStopButton = new JButton("Start"); ;
+		saveButton = new JButton("save");
+		south.add(startStopButton);
+        south.add(saveButton);
+        mainframe.getContentPane().add(BorderLayout.NORTH, north);
+        mainframe.getContentPane().add(BorderLayout.CENTER, center);
+        mainframe.getContentPane().add(BorderLayout.SOUTH, south);
 		mainframe.setVisible(true);
 	}
 
@@ -79,7 +122,6 @@ public class TimerTask extends JFrame {
 	public class ActionClick implements ActionListener {
 /*		public ActionClick(int action){
 <<<<<<< HEAD
-
 =======
 >>>>>>> a00a0a319d8b3f5aa4d54214e36f262925f9eed8
 >>>>>>> 36873e93dd6579723561ab6eba1b00a73b30a6ac
@@ -97,6 +139,10 @@ public class TimerTask extends JFrame {
                      break;
         }
 	*/
+		/**
+		 * This is the method called when the action is performed
+		 * @return void
+		 */
 		public void actionPerformed(ActionEvent actionEvent) {
 			//start clicked - ongoing
 			if (ongoing == false){
@@ -104,19 +150,20 @@ public class TimerTask extends JFrame {
 				timer.start();
 				startStopButton.setText("Pause");
 				ongoing = true;
-			}
-			//stop click - not ongoing
-			else{
+			} else{
 				timer.stop();
 				startStopButton.setText("Play");
 				ongoing = false;
 			}
-
 		}
 		
 	}
 
 	public class TimeClass implements ActionListener {
+		/**
+		 * This is the method called when the action is performed
+		 * @return void
+		 */
 		public void actionPerformed(ActionEvent actionEvent) {
 			// this should only be clicked once.
 			if (s < 59) {
@@ -137,8 +184,8 @@ public class TimerTask extends JFrame {
 					String hr = (h < 10 ? "0" : "") + h;
 					hours.setText("" + hr);
 					hours.setText("" + h);
-				}
-			}
+				  }
+			  }
 		}
 	}
 }//TimerTask

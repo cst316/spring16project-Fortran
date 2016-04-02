@@ -5,3 +5,5 @@ script:
     - ant junit
     - ant findbugs
     - ant checkstyle
+notifications:
+  slack: teamfortran:mZEBNXlUoON718lQ3OqkLFdZ
