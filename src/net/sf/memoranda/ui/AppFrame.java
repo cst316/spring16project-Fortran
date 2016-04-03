@@ -146,7 +146,8 @@ public class AppFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
-
+			//refactor xmlToArray to return boolean wether it was succesfulr or not
+			//if not DO NOT CALL LOCTABLE
 			Object[][] temp = LOCReader.xmlToArray();
 			LOCTable table = new LOCTable(temp, COLUMNAMES);
 
