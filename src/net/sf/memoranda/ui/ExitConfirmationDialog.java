@@ -126,7 +126,7 @@ public class ExitConfirmationDialog extends JDialog implements WindowListener {
 		checkDoNotAsk();
 		this.dispose();
 	}
-
+	//anyWindowEvent... there is only [x]close button
 	public void windowClosing(WindowEvent e) {
 		CANCELLED = true;
 		this.dispose();
