@@ -1,6 +1,8 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -38,8 +40,10 @@ public class LOCTable extends JFrame  {
 		this.setTitle("Import LOC");
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("Search");
-		lblNewLabel.setBounds(10, 43, 46, 14);
+		ImageIcon ic = new ImageIcon("lib/icons/MagGlass.png");
+		lblNewLabel = new JLabel();
+		lblNewLabel.setIcon(ic);
+		lblNewLabel.setBounds(5, 27, 40, 43);
 		contentPane.add(lblNewLabel);
 		
 		search_Txt = new JTextField();
@@ -56,7 +60,7 @@ public class LOCTable extends JFrame  {
 			}
 		});
 		search_Txt.setToolTipText("Enter A File Name to be Searched");
-		search_Txt.setBounds(46, 40, 108, 20);
+		search_Txt.setBounds(48, 47, 108, 20);
 		contentPane.add(search_Txt);
 		search_Txt.setColumns(10);
 		JScrollPane scroll = new JScrollPane(table);
