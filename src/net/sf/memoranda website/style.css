@@ -24,3 +24,18 @@ img {
   width: 100%;
   color: black;
 }
+
+.section-content {
+  padding: 5rem 0;
+  
+}
+
+#about {
+  background: url('MemorandaBanner.png') center center no-repeat;
+}
+
+.about-text {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 1.875rem;
+}
