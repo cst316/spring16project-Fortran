@@ -5,8 +5,13 @@ body {
   height: 100%;
 }
 
+img {
+  max-width: 100%;
+}
+
+
 #cover {
-  background: #222 url('img/starts.jpg') no-repeat;
+  background: #222 url('http://cdn1.bestpsdfreebies.com/wp-content/uploads/2014/05/shards_pattern.jpg') no-repeat;
   background-size: cover;
   color: white;
   height: 100%;
@@ -17,4 +22,5 @@ body {
 
 #cover-caption {
   width: 100%;
+  color: black;
 }
