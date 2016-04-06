@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import net.sf.memoranda.ui.TimerTask;
+import net.sf.memoranda.ui.StopWatch;
 
 public class timertaskUnitTesting {
 

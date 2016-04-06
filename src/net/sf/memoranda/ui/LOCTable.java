@@ -12,8 +12,10 @@ import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 import javax.swing.JTextField;
 import java.awt.event.KeyEvent;
+import java.util.Hashtable;
 import java.awt.event.KeyAdapter;
 import net.sf.memoranda.util.LOCReader;
+import javax.swing.JCheckBox;
 
 public class LOCTable extends JFrame  {
 
@@ -22,7 +24,7 @@ public class LOCTable extends JFrame  {
 	private JTextField search_Txt;
 	private JLabel lblNewLabel;
 	private String errorMsg;
-	
+	private JCheckBox contains_Chk;
 	private final String EMPTYSTRING = "Please type in a FileName in the Search Bar";
 	private final String NONJAVAFILE = "Please type in a java source file name";
 	public static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
@@ -61,7 +63,8 @@ public class LOCTable extends JFrame  {
 		lblNewLabel.setIcon(ic);
 		lblNewLabel.setBounds(5, 27, 40, 43);
 		contentPane.add(lblNewLabel);
-		
+		System.out.println(table.getValueAt(1,0));
+		System.out.println(table.getValueAt(1,1));
 		search_Txt = new JTextField();
 		search_Txt.addKeyListener(new KeyAdapter() {
 			@Override
@@ -80,12 +83,15 @@ public class LOCTable extends JFrame  {
 				
 			}
 		});
-		System.out.println(table.getValueAt(0,1));
-		System.out.println(table.getValueAt(1,0));
 		search_Txt.setToolTipText("Enter A File Name to be Searched");
 		search_Txt.setBounds(48, 47, 108, 20);
 		contentPane.add(search_Txt);
 		search_Txt.setColumns(10);
+		
+		contains_Chk = new JCheckBox("Contains Name");
+		contains_Chk.setToolTipText("Searches for Any File that contains this String");
+		contains_Chk.setBounds(241, 47, 119, 23);
+		contentPane.add(contains_Chk);
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(5, 74, 432, 205);
 		contentPane.add(scroll);
@@ -116,20 +122,28 @@ public class LOCTable extends JFrame  {
 		int max_Row = table.getRowCount();
 		int max_Col = table.getColumnCount();
 		
+		Hashtable<String,String> matches = new Hashtable(); 
+		
 		int row_Counter = 0;
 		int col_Counter = 0;
-		
+		boolean isContainsChecked = contains_Chk.isSelected();
 		boolean hasBeenFound = false;
-		while(col_Counter <= max_Col && !hasBeenFound){
+		String currentFileName = "";
+		String currentLOC = "";
+		while(col_Counter <= max_Row && !hasBeenFound){
 			//im thinking about searching just using a part of the file as akey too
-			String currentEntry = (String) table.getValueAt(col_Counter,row_Counter);
-			if(currentEntry.equals(s)){
+			currentFileName = (String) table.getValueAt(col_Counter,row_Counter);
+			currentLOC = (String) table.getValueAt(col_Counter,row_Counter + 1);
+			if(currentFileName.equals(s)){
 				hasBeenFound = true;
+				//put filename and loc into tabe
+				matches.put(currentFileName,currentLOC);
 			}
-			else if(currentEntry.contains(s)){
+			else if(currentFileName.contains(s) && isContainsChecked){
 				
-				hasBeenFound = true;
+				matches.put(currentFileName,currentLOC);
 			}
+			
 			++col_Counter;
 		}
 
@@ -137,11 +151,9 @@ public class LOCTable extends JFrame  {
 		
 		
 	}
-	private void DisplaySearchResults(String s){
+	private void displaySearchResults(String s){
 		
-		//grab info from data filed and place it into a 2D array 
-	    //JTable results = new JTable(,COLUMNAMES);
-		
+		//use setValueAt to rewrite table
 		
 		//we could override whats displayed in table 
 		//becuase all data is still stored in daat
@@ -150,5 +162,4 @@ public class LOCTable extends JFrame  {
 	public String getErrorMsg() {
 		return errorMsg;
 	}
-
 }

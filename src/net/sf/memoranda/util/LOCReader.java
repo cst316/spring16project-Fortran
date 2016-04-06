@@ -143,7 +143,7 @@ public class LOCReader {
 	            	is.close();
 	            }
 	            if(currentEntry.endsWith(".zip")){
-	            	//set to true exit loop and abort import
+	            	
 	            	ableToExtract = false;
 	            }
 	         }

@@ -40,8 +40,8 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
-import net.sf.memoranda.ui.StopWatch;
 import net.sf.memoranda.ui.TimerTask;
+import net.sf.memoranda.ui.StopWatch;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -290,14 +290,14 @@ public class TaskDialog extends JDialog {
 		});
 
 		timer.setBounds(100, 100, 15, 15);
-		timer.setText(("Timer"));
+		timer.setText(("timer"));
 		stopwatch.setBounds(100, 100, 15, 15);
-		stopwatch.setText(("StopWatch"));
+		stopwatch.setText(("TimerTask"));
 		jLabel2.setMaximumSize(new Dimension(270, 16));
 		// jLabel2.setPreferredSize(new Dimension(60, 16));
 		jLabel2.setText(Local.getString("End date"));
 		stopwatch.setBounds(200, 200, 15, 15);
-		stopwatch.setText(Local.getString("StopWatch"));
+		stopwatch.setText(Local.getString("Timer"));///////
 		endDate.setBorder(border8);
 		endDate.setPreferredSize(new Dimension(80, 24));
 
@@ -339,7 +339,7 @@ public class TaskDialog extends JDialog {
         });
 
         stopWatch.setBounds(100, 100, 15, 15);
-        stopWatch.setText(Local.getString("StopWatch"));
+        stopWatch.setText(Local.getString("Timer"));
         timer.setBounds(50, 100, 15, 15);
         timer.setText(Local.getString("Timer"));
         
@@ -347,9 +347,9 @@ public class TaskDialog extends JDialog {
         //jLabel2.setPreferredSize(new Dimension(60, 16));
         jLabel2.setText(Local.getString("End date"));
         stopWatch.setBounds(200, 200, 15, 15);
-        stopWatch.setText(Local.getString("StopWatch"));
+        stopWatch.setText(Local.getString("Timer"));
         timer.setBounds(50, 100, 15, 15);
-        timer.setText(Local.getString("Timer"));
+        timer.setText(Local.getString("StopWatch"));/////
         endDate.setBorder(border8);
         endDate.setPreferredSize(new Dimension(80, 24));
         
@@ -489,16 +489,16 @@ public class TaskDialog extends JDialog {
 		this.dispose();
 		if(timer.isSelected()) {
 			if (todoField.getText() != null) {
-				TimerTask t = new TimerTask();
+				StopWatch t = new StopWatch();
 			}else {
-				TimerTask t = new TimerTask();
+				StopWatch t = new StopWatch();
 			}
 		}
 		if (stopwatch.isSelected()) {
 			if (todoField.getText() != null) {
-				StopWatch s = new StopWatch();
+				TimerTask s = new TimerTask();
 			} else {
-				StopWatch s = new StopWatch();
+				TimerTask s = new TimerTask();
 			}
 		} // creates stopwatch GUI after clicking GUI
 	}
@@ -512,12 +512,12 @@ public class TaskDialog extends JDialog {
 	void stopwatch_actionPerformed(ActionEvent e){
 
 		
-		//StopWatch s = new StopWatch();
+		//TimerTask s = new TimerTask();
 				
-		//Timetask t = new TimerTask();
+		//Timetask t = new StopWatch();
 	}
 	void timer_actionPerformed(ActionEvent e){
-		//TimerTask t = new TimerTask
+		//StopWatch t = new StopWatch
 	}
 	void chkEndDate_actionPerformed(ActionEvent e) {
 		endDate.setEnabled(chkEndDate.isSelected());
