@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
 
 public class LOCReader {
 	//field variables and constants
-   private static final int COLUMN = 2;
+    private static final int COLUMN = 2;
 	private int LOC;
 	private int testCount;
 	private String fileLine;
@@ -49,6 +49,7 @@ public class LOCReader {
 	}
 	
 	public LOCReader(File readFile) {
+	
 		files = new ArrayList<File>();
 		locMap = new Hashtable<String,Integer>();
 		
@@ -99,20 +100,20 @@ public class LOCReader {
 		new File(zipFileName).mkdir();
 		
 		//unzip file and extract java files
-		 try {
+		try {
 			
-			 BufferedOutputStream dest = null;
-	         BufferedInputStream is = null;
-	         ZipEntry entry;
-	         ZipFile zipfile = new ZipFile(zipFile);
-	         Enumeration<? extends ZipEntry> e = zipfile.entries();
-	         File destFile;
+			BufferedOutputStream dest = null;
+	        BufferedInputStream is = null;
+	        ZipEntry entry;
+	        ZipFile zipfile = new ZipFile(zipFile);
+	        Enumeration<? extends ZipEntry> e = zipfile.entries();
+	        File destFile;
 	         
-	         while(e.hasMoreElements() && ableToExtract) {
+	        while(e.hasMoreElements() && ableToExtract) {
 	        	
-	            entry = (ZipEntry) e.nextElement();
+	        	entry = (ZipEntry) e.nextElement();
 	            
-	            String currentEntry = entry.getName();
+	        	String currentEntry = entry.getName();
 	            String path = "test/";
 	          
 	            destFile = new File(path + zipFileName, currentEntry);
@@ -138,20 +139,18 @@ public class LOCReader {
 	            	dest.flush();
 	            	dest.close();
 	            	is.close();
-	            }
-	            if(currentEntry.endsWith(".zip")){
-	            	//set to true exit loop and abort import
-	            	ableToExtract = false;
-	            }
+	             }
+	             if(currentEntry.endsWith(".zip")){
+	            	 //set to true exit loop and abort import
+	            	 ableToExtract = false;
+	             }
 	         }
-         	zipfile.close();
+         	 zipfile.close();
 		} 
-		 
 		catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Something went wrong trying to extraxt zip please try again",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		 
 		finally {			
 			return ableToExtract; 	 
 		} 
@@ -196,6 +195,7 @@ public class LOCReader {
 	 * @param folder Folder to be Searched
 	 */
 	public boolean search(File file){
+		
 		boolean result = false;
 		
 		if(file.isDirectory() && file.canRead()){	
