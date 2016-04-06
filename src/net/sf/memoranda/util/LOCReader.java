@@ -26,7 +26,7 @@ import javax.xml.parsers.*;
 
 public class LOCReader {
 	//field variables and constants
-	private static final int COLUMN = 2;
+   private static final int COLUMN = 2;
 	private int LOC;
 	private int testCount;
 	private String fileLine;
@@ -66,10 +66,8 @@ public class LOCReader {
 		    boolean result = extract(readFile);
 		    
 		    if(result == false){
-		    	
 		    	///unable to extract nested zip
-		    	 JOptionPane.showMessageDialog(null,"Nested Zip Found Aborting Import",
-				    		"ZipError",JOptionPane.ERROR_MESSAGE);
+		    	JOptionPane.showMessageDialog(null,"Nested Zip Found Aborting Import","ZipError",JOptionPane.ERROR_MESSAGE);
 		    }
 		    else{
 		    	
@@ -92,7 +90,7 @@ public class LOCReader {
 	 * 		  <li> false - if nested zip folder is found</li>	
 	 * 		  </ul>
 	 */
-	public boolean extract (File zipFile){
+	public boolean extract(File zipFile){
 		ableToExtract = true;
 		
 		//obtain zipfile's files
@@ -127,8 +125,7 @@ public class LOCReader {
 	            
 	            if(!entry.isDirectory()) {
 
-	            	is = new BufferedInputStream
-	            			(zipfile.getInputStream(entry));
+	            	is = new BufferedInputStream(zipfile.getInputStream(entry));
 	            	int count;
 	            	byte data[] = new byte[MAXLIMIT];
 	            	FileOutputStream fos = new FileOutputStream(destFile);
@@ -316,18 +313,17 @@ public class LOCReader {
 		
 		catch (FileNotFoundException e) {
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
-		    		"Error",JOptionPane.ERROR_MESSAGE);
+		    	"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(null,"Sorry, something went wrong, try importing again.",
-		    		"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Sorry, something went wrong, try importing again.","Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		return (array);
 	}
 	
-	private void listToHash (List<File> currentList) {
+	private void listToHash(List<File> currentList) {
 		File listFileName = null;
 		
 		for (int i = 0; i < currentList.size(); i++) {
