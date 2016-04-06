@@ -204,39 +204,31 @@ public class StopWatch  extends JFrame {
 
 	public class TimeClass implements ActionListener {
 		
-		
+		public void actionPerformed(ActionEvent e) 
+		{
 
-		public TimeClass() {
-		}
-		
-
-		/**
-		 * This is the heart of the program that counts down and sets the time based on the 
-		 * input from the combo boxes
-		 */
-		public void actionPerformed(ActionEvent e) {
-
-			timeDisplay.setText(logic());
+			timeDisplay.setText(logic(min,hour,sec));
+			
 			if(sec == 0 && hour ==0 && min ==0)
 				timeDisplay.setForeground(Color.red);
 
 			
 		}
 
-		public String logic (){
+		public String logic (int min, int hour, int sec){
 			if (hour > 0) {
 				if (min > 0) {
 					if (sec > 0)
-						sec--;
+						sec -= 1;
 					else {
-						min--;
+						min -= 1;
 						sec = 59;
 					}
 				} else if (min == 0) {
 					if (sec > 0)
 						sec--;
 					else {
-						hour--;
+						hour -= 1;
 						min = 59;
 						sec = 59;
 					}
@@ -244,6 +236,9 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
+				StopWatch.hour = hour;
+				StopWatch.min = min;
+				StopWatch.sec = sec;
 				return (formatHour +" : "+ formatMin +" : "   + formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
@@ -256,12 +251,18 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
+				StopWatch.hour = hour;
+				StopWatch.min = min;
+				StopWatch.sec = sec;
 				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} else if (sec > 0) {
 				sec--;
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
+				StopWatch.hour = hour;
+				StopWatch.min = min;
+				StopWatch.sec = sec;
 				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} 
 
@@ -271,7 +272,8 @@ public class StopWatch  extends JFrame {
 			}
 			
 		}
+		
+		
 	}
 
 }
-
