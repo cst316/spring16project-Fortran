@@ -5,9 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-
-
-
 public class StopWatch  extends JFrame {
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
@@ -30,8 +27,8 @@ public class StopWatch  extends JFrame {
 	JComboBox cb4 = new JComboBox(zeroThroughNine);
 	JComboBox cb5 = new JComboBox(zeroThroughFive);
 	JComboBox cb6 = new JComboBox(zeroThroughNine);
+	TimeKeeper tk = new TimeKeeper();
 	static Integer value;
-	static int hour, min, sec;
 	Timer timer;
 	String temp;
 
@@ -109,11 +106,11 @@ public class StopWatch  extends JFrame {
 			int m2 = Integer.parseInt(cb4.getSelectedItem().toString());
 			int s1 = Integer.parseInt(cb5.getSelectedItem().toString());
 			int s2 = Integer.parseInt(cb6.getSelectedItem().toString());
-			hour = initialNumbers(h1, h2);
-			min = initialNumbers(m1, m2);
-			sec = initialNumbers(s1, s2);
+			tk.setHour(initialNumbers(h1, h2));
+			tk.setMin(initialNumbers(m1, m2));
+			tk.setSec(initialNumbers(s1, s2));
 			timeDisplay.setForeground(Color.black);
-			int total = hour+min+sec;
+			int total = tk.getHour() + tk.getMin() + tk.getSec();
 			if(total == 0)
 			{
 				timeDisplay.setText("Please enter a valid time");
@@ -174,9 +171,9 @@ public class StopWatch  extends JFrame {
 			try{
 			timeDisplay.setText("00 : 00 : 00");
 			timeDisplay.setForeground(Color.black);
-			hour = 0;
-			min = 0;
-			sec = 0;
+			tk.setHour(0);
+			tk.setSec(0);
+			tk.setMin(0);
 			timer.stop();
 			start.setEnabled(true);
 			contin.setEnabled(false);
@@ -206,16 +203,18 @@ public class StopWatch  extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) 
 		{
+			int hour = tk.getHour(), min = tk.getMin(), sec = tk.getSec();
 
 			timeDisplay.setText(logic(min,hour,sec));
 			
-			if(sec == 0 && hour ==0 && min ==0)
+			if( hour == 0 && min ==0 && sec ==0)
 				timeDisplay.setForeground(Color.red);
 
 			
 		}
 
 		public String logic (int min, int hour, int sec){
+			
 			if (hour > 0) {
 				if (min > 0) {
 					if (sec > 0)
@@ -236,9 +235,9 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				StopWatch.hour = hour;
-				StopWatch.min = min;
-				StopWatch.sec = sec;
+				tk.setHour(hour); 
+				tk.setMin(min);
+				tk.setSec(sec);
 				return (formatHour +" : "+ formatMin +" : "   + formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
@@ -251,18 +250,18 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				StopWatch.hour = hour;
-				StopWatch.min = min;
-				StopWatch.sec = sec;
+				tk.setHour(hour); 
+				tk.setMin(min);
+				tk.setSec(sec);
 				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} else if (sec > 0) {
 				sec--;
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				StopWatch.hour = hour;
-				StopWatch.min = min;
-				StopWatch.sec = sec;
+				tk.setHour(hour); 
+				tk.setMin(min);
+				tk.setSec(sec);
 				return (formatHour+" : "+formatMin+" : "+formatSec);
 			} 
 
@@ -275,5 +274,48 @@ public class StopWatch  extends JFrame {
 		
 		
 	}
+	
+	public class TimeKeeper
+	{
+		int hour, min, sec;
+		
+		public TimeKeeper()
+		{
+		}
+		
+		public TimeKeeper(int hour, int min, int sec)
+		{
+			this.hour = hour;
+			this.min = min;
+			this.sec = sec;
+		}
+
+		public int getHour() {
+			return hour;
+		}
+
+		public void setHour(int hour) {
+			this.hour = hour;
+		}
+
+		public int getMin() {
+			return min;
+		}
+
+		public void setMin(int min) {
+			this.min = min;
+		}
+
+		public int getSec() {
+			return sec;
+		}
+
+		public void setSec(int sec) {
+			this.sec = sec;
+		}
+		
+		
+	}
+	
 
 }
