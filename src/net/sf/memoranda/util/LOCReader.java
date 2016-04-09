@@ -351,7 +351,7 @@ public class LOCReader {
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		return (array);
+		return (array.clone());
 	}
 	
 	private void listToHash (List<File> currentList) {
