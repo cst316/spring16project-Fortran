@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.print.PrinterException;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.awt.event.KeyAdapter;
 import net.sf.memoranda.util.LOCReader;
@@ -35,10 +37,9 @@ public class LOCTable extends JFrame   {
 	private JLabel lblNewLabel;
 	private String errorMsg;
 	private JCheckBox contains_Chk;
-	private final String EMPTYSTRING = "Please type in a FileName in the Search Bar";
-	private final String NONJAVAFILE = "Please type in a java source file name"; //try to research read-only
+	private final static String EMPTYSTRING = "Please type in a FileName in the Search Bar";
 	private Hashtable<String,String> matches;
-	public static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
+	static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
 	private Hashtable<Object,Object> tableData;
 	
 	/*
@@ -89,8 +90,7 @@ public class LOCTable extends JFrame   {
 					boolean temp = checkInput(input);
 					if(temp){
 						
-						boolean searchResult = searchTable(input);
-						//System.out.println(searchResult);			
+						boolean searchResult = searchTable(input);	
 						displaySearchResults();
 					}
 				}
@@ -144,14 +144,31 @@ public class LOCTable extends JFrame   {
 		
 	}
 
-	public boolean searchTable(String s){
+	public boolean searchTable(String s) {
 		matches = new Hashtable<String,String>();
 		boolean isContainsChecked = contains_Chk.isSelected();
 		boolean result = false;
 		String LOC;
 		
-			Set<Object> keys = tableData.keySet();
+			Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
 			Iterator it = keys.iterator();
+			for(Entry entry : keys){
+				
+				String fileName = (String) entry.getKey();
+				LOC = (String) tableData.get(fileName);
+				if(fileName.equals(s)){
+					result = true;
+					matches.put(fileName,LOC);
+				}
+				else if(fileName.contains(s) && isContainsChecked){
+					result = true;
+					matches.put(fileName,LOC);
+					
+				}
+				
+				
+			}
+			/*
 			while(it.hasNext()){
 				
 				String fileName = (String) it.next();
@@ -166,7 +183,7 @@ public class LOCTable extends JFrame   {
 					
 				}
 			}
-		
+		*/
 		System.out.println(result);
 		return result;
 	}
@@ -177,13 +194,27 @@ public class LOCTable extends JFrame   {
 		//copy and data tables
 		if(!matches.isEmpty()){
 			System.out.println("we in");
-			Set<String> keys = matches.keySet();
+			Set<Map.Entry<String,String>> keys = matches.entrySet();
 			Iterator it = keys.iterator();
 			int max_Row = displayTable.getRowCount();
 			int row_Counter = 0;
 			int col_Counter = 0;
 			//modify data table
 			//going to need to go in constructor and modify isEditable to copy
+		    for(Entry entry : keys){
+		    	
+		    	String key = (String) entry.getKey();
+				String LOC = (String) matches.get(key);
+				System.out.println(key + "," + LOC);
+			
+				displayTable.setValueAt(key,row_Counter,col_Counter);
+				displayTable.setValueAt(LOC,row_Counter,col_Counter + 1);
+				++row_Counter;
+				//edit Table
+		    	
+		    	
+		    }
+		    /*
 			while(it.hasNext()){
 				
 				String key = (String) it.next();
@@ -196,6 +227,7 @@ public class LOCTable extends JFrame   {
 				//edit Table
 				
 			}
+			*/
 			while(row_Counter <= max_Row - 1){
 				
 				//set everything empty

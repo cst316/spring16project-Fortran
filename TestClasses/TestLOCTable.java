@@ -16,7 +16,7 @@ public class TestLOCTable {
 	/**
 	 * 
 	 */
-	
+	static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
 	private Object[][] testData = {{"Testing.java","120"},
 		 	              {"Account.java","245"},
 		 	              {"Main.java","25"}};
@@ -35,8 +35,8 @@ public class TestLOCTable {
 	
 	public TestLOCTable() {
 		
-		lt = new LOCTable(testData,LOCTable.COLUMNAMES);
-		lt2 = new LOCTable(testData2,LOCTable.COLUMNAMES);
+		lt = new LOCTable(testData,COLUMNAMES);
+		lt2 = new LOCTable(testData2,COLUMNAMES);
 	}
 	
 	@Test

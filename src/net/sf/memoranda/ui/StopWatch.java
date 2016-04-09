@@ -1,7 +1,5 @@
 package net.sf.memoranda.ui;
 
-import net.sf.memoranda.ui.TimerTask.TimeClass;
-
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
@@ -141,25 +139,6 @@ public class StopWatch extends JFrame {
 	 */
 	//misc - classes, impListeners
 	public class ActionClick implements ActionListener {
-/*		public ActionClick(int action){
-<<<<<<< HEAD
-=======
->>>>>>> a00a0a319d8b3f5aa4d54214e36f262925f9eed8
->>>>>>> 36873e93dd6579723561ab6eba1b00a73b30a6ac
-			
-		}
-		//use switch
-		switch (action) {
-            case 1{  
-            	monthString = "January";
-            }
-            case 2{  
-            	monthString = "January";
-            }
-            default: monthString = "Invalid month";
-                     break;
-        }
-	*/
 		/**
 		 * This is the method called when the action is performed
 		 * @return void
