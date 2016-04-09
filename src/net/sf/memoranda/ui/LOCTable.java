@@ -48,7 +48,6 @@ public class LOCTable extends JFrame   {
 	{
 		tableData = new Hashtable<Object,Object>();
 		arrayToHash(data);
-		System.out.println(tableData);//BOI THIS IS IT WE GOTR IT SEARCH FOR DATA HERE
 		errorMsg = "";
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 458, 323);
@@ -145,7 +144,7 @@ public class LOCTable extends JFrame   {
 		
 	}
 
-	private boolean searchTable(String s){
+	public boolean searchTable(String s){
 		matches = new Hashtable<String,String>();
 		boolean isContainsChecked = contains_Chk.isSelected();
 		boolean result = false;
@@ -197,11 +196,6 @@ public class LOCTable extends JFrame   {
 				//edit Table
 				
 			}
-			//++row_Coun//perhaps set to invsisble??
-			//for some reason still soverwrite copyTable
-			//ter;
-			//while all we got to do now is this 
-			//iterate through rest of table reset everything
 			while(row_Counter <= max_Row - 1){
 				
 				//set everything empty
@@ -211,7 +205,6 @@ public class LOCTable extends JFrame   {
 				++row_Counter;
 			}
 			
-			System.out.println(displayTable.getValueAt(2,0));
 		}
 	
 	}
