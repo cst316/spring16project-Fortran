@@ -44,7 +44,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 	String[] columnNames = { "", Local.getString("To-do"), Local.getString("Start date"), Local.getString("End date"),
 			Local.getString("Priority"), Local.getString("Status"), "% " + Local.getString("done") };
 
-	protected EventListenerList listenerList = new EventListenerList();
+	protected EventListenerList listenerList1 = new EventListenerList();
 
 	private boolean activeOnly = check_activeOnly();
 
