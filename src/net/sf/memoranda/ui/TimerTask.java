@@ -23,16 +23,18 @@ public class TimerTask extends JFrame {
 	static JButton saveButton;
 	static JButton reset;
 	static boolean ongoing;
-	static Timer timer;
-	static String name;
+	Timer timer;
+	String name;
 	int h;
 	int m;
 	int s;
 
+	//setters and getters for name.
 	public void setName(String name){
 		this.name = name;
 	}
 	
+	//
 	public String getName(){
 		return name;
 	}
@@ -49,6 +51,7 @@ public class TimerTask extends JFrame {
 	}
 	/**
 	 * This is a Constructor with String parameter. Do Not Remove 
+	 * This constructor allows to create a timertask with a specific name.
 	 */
 	public TimerTask(String taskname) {
 		setName(taskname);
@@ -60,17 +63,7 @@ public class TimerTask extends JFrame {
 		//startStopButton.addActionListener(resetClick);
 	}
 	
-	//write functionality
-	public void writeXML(){
-	 
-	}
-	
-	 //read functionality
-	public void readXML(){
-		
-	}
-	
-	
+	//checks if ongoing to true or false.
 	public static boolean isOngoing() { 
 		return ongoing;
 	}
@@ -92,13 +85,14 @@ public class TimerTask extends JFrame {
 				System.exit(0);
 			}
 		});
-		// grid 1
+		// grid 1. This is the upper section of timertask
 		title = new JLabel("", JLabel.CENTER);
 		title.setSize(350, 100);
 		title.setForeground(new Color(50,50,50));
 		title.setText("This is Timer Tool");
 		north.add(title);
-		// grid 2
+		// grid 2. this is the center/main area of timertask where the
+		//time gets updated/incremented
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
@@ -108,7 +102,8 @@ public class TimerTask extends JFrame {
 		center.add(hours);
 		center.add(minutes);
 		center.add(seconds);
-		// grid 3
+		// grid 3. This is the bottom part of timertask panel.
+		//Its contains two buttons start and save.
 		startStopButton = new JButton("Start"); ;
 		saveButton = new JButton("save");
 		south.add(startStopButton);
@@ -146,7 +141,8 @@ public class TimerTask extends JFrame {
         }
 	*/
 		/**
-		 * This is the method called when the action is performed
+		 * This is the method called when the action is performed and
+		 * when the user clicks the start button it triggers the following events.
 		 * @return void
 		 */
 		public void actionPerformed(ActionEvent actionEvent) {
@@ -165,6 +161,9 @@ public class TimerTask extends JFrame {
 		
 	}
 
+	//This is the class that gets called to start incrementing the time.
+	//In this class action performed method will check for seconds, minutes,
+	//hours and increment accordingly.
 	public class TimeClass implements ActionListener {
 		/**
 		 * This is the method called when the action is performed
