@@ -65,7 +65,8 @@ public class TaskImpl implements Task, Comparable {
 	public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
 	}
 
 	public long getEffort() {
