@@ -195,7 +195,7 @@ public class LOCTable extends JFrame  {
 			}
 			++row_Counter;
 		}
-		System.out.println(copyTable.getValueAt(2,0));
+		//System.out.println(copyTable.getValueAt(2,0));
 		
 		System.out.println(matches);
 		return hasBeenFound;
@@ -244,7 +244,6 @@ public class LOCTable extends JFrame  {
 			
 			System.out.println(copyTable.getValueAt(2,0));
 		}
-	
 	}
 	public String getErrorMsg() {
 		return errorMsg;
