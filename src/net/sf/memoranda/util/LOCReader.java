@@ -10,11 +10,15 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.w3c.dom.*;
+
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
@@ -221,14 +225,14 @@ public class LOCReader {
 	}
 	
 	public void computeLOC(File readFile){
-		FileReader file;
+		InputStreamReader file;
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
 		
 		try {
 			
-			file = new FileReader(readFile);
+			file = new InputStreamReader(new FileInputStream(readFile), "UTF-8");
 			if (fileName.contains(".java")) { 
 			
 				BufferedReader reader = new BufferedReader(file);
