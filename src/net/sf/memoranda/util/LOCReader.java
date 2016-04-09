@@ -155,7 +155,7 @@ public class LOCReader {
 		} 
 		 
 		catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Something went wrong trying to extraxt zip please try again",
+			JOptionPane.showMessageDialog(null,"Something went wrong trying to extract zip please try again",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		 
@@ -261,13 +261,14 @@ public class LOCReader {
 					}
 					fileLine = reader.readLine();
 				}
-				
+				reader.close();
 				file.close();
 			}
 		}
 		
 		catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Something went wrong reading the file, please try again.",
+		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

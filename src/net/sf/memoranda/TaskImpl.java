@@ -62,10 +62,12 @@ public class TaskImpl implements Task, Comparable {
 
 	}
 
+	//fixed this issue
 	public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
 	}
 
 	public long getEffort() {
