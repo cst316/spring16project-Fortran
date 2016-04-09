@@ -1273,7 +1273,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 * used as its model. It also stores the initial state of the JList, to
 	 * ensure an accurate reset, if the user requests a reset of the form.
 	 *
-	 * @author Sunita Mani
+	 * @author Sunita Mani   
 	 * @version 1.9 12/03/01
 	 */
 
@@ -1291,7 +1291,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		private boolean isAdjusting = false;
 		private BitSet value = new BitSet(32);
 		private BitSet initialValue = new BitSet(32);
-		protected EventListenerList listenerList = new EventListenerList();
+		protected EventListenerList listenerList1 = new EventListenerList();
 
 		protected boolean leadAnchorNotificationEnabled = true;
 
@@ -1332,11 +1332,11 @@ public class AltHTMLWriter extends AbstractWriter {
 		}
 
 		public void addListSelectionListener(ListSelectionListener l) {
-			listenerList.add(ListSelectionListener.class, l);
+			listenerList1.add(ListSelectionListener.class, l);
 		}
 
 		public void removeListSelectionListener(ListSelectionListener l) {
-			listenerList.remove(ListSelectionListener.class, l);
+			listenerList1.remove(ListSelectionListener.class, l);
 		}
 
 		/**
@@ -1348,7 +1348,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * @since 1.4
 		 */
 		public ListSelectionListener[] getListSelectionListeners() {
-			return (ListSelectionListener[]) listenerList.getListeners(ListSelectionListener.class);
+			return (ListSelectionListener[]) listenerList1.getListeners(ListSelectionListener.class);
 		}
 
 		/**
@@ -1374,10 +1374,10 @@ public class AltHTMLWriter extends AbstractWriter {
 		 *            The last index in the interval.
 		 * @param isAdjusting
 		 *            True if this is the final change in a series of them.
-		 * @see EventListenerList
+		 * @see EventlistenerList1
 		 */
 		protected void fireValueChanged(int firstIndex, int lastIndex, boolean isAdjusting) {
-			Object[] listeners = listenerList.getListenerList();
+			Object[] listeners = listenerList1.getListenerList();
 			ListSelectionEvent e = null;
 
 			for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -1713,7 +1713,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		public Object clone() throws CloneNotSupportedException {
 			OptionListModel clone = (OptionListModel) super.clone();
 			clone.value = (BitSet) value.clone();
-			clone.listenerList = new EventListenerList();
+			clone.listenerList1 = new EventListenerList();
 			return clone;
 		}
 
