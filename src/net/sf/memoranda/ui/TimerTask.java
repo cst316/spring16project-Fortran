@@ -24,12 +24,18 @@ public class TimerTask extends JFrame {
 	static JButton reset;
 	static boolean ongoing;
 	static Timer timer;
-	static public String name;
+	static String name;
 	int h;
 	int m;
 	int s;
 
+	public void setName(String name){
+		this.name = name;
+	}
 	
+	public String getName(){
+		return name;
+	}
 	/**
 	 * This is the default Constructor. Do Not Remove 
 	 */
@@ -45,7 +51,7 @@ public class TimerTask extends JFrame {
 	 * This is a Constructor with String parameter. Do Not Remove 
 	 */
 	public TimerTask(String taskname) {
-		name = taskname;
+		setName(taskname);
 		ongoing = false;
 		prepareGui(taskname);
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop

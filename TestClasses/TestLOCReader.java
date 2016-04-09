@@ -26,7 +26,7 @@ public class TestLOCReader {
 	}
 	
 	@Test
-	public void TestExtractZip(){
+	public void testExtractZip(){
 		
 		final String expectedPath2 = "test/t2/";
 		final String expectedPath3 = "test/t3";
@@ -68,7 +68,7 @@ public class TestLOCReader {
 	   contains .java files in folders A and B,
 	   contains .java files in nested folders A1 and B1
 	 */
-	public void TestFindJavaFiles() {
+	public void testFindJavaFiles() {
 		
 		final int expectedCount1 = 4;
 		final int expectedCount2 = 18;
