@@ -395,7 +395,7 @@ public class LOCReader {
 	}
 
 	public Hashtable<String,Integer> getLocTable(){
-		return locMap;
+		return (Hashtable<String, Integer>) locMap.clone();
 		
 	}
 
