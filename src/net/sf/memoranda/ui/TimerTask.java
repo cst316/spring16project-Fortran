@@ -39,7 +39,7 @@ public class TimerTask  extends JFrame {
 	public TimerTask() {
 
 		super("Window");
-		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
+		closeOperationOnDefault(JFrame.DISPOSE_ON_CLOSE);//EXIT
 		setLayout(new GridLayout(3, 1));
 		numbers.setLayout(fl);
 		setVisible(true);

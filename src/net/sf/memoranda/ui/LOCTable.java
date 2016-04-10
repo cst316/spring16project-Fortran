@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -24,6 +25,9 @@ import net.sf.memoranda.util.LOCReader;
 import javax.swing.JCheckBox;
 import javax.swing.JToggleButton;
 import javax.swing.JTabbedPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LOCTable extends JFrame   {
 
@@ -41,21 +45,24 @@ public class LOCTable extends JFrame   {
 	private Hashtable<String,String> matches;
 	static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
 	private Hashtable<Object,Object> tableData;
-	
+	private DefaultTableModel dt;
 	/*
 	 * Constructor for LOCTable takes in a 2D array of data and array columnNames
 	 */
 	public LOCTable(Object[][] data,Object[] ColumnNames)
 	{
+		
 		tableData = new Hashtable<Object,Object>();
-		arrayToHash(data);
+		Object[][] filteredData = removeDuplicates(data);
+		arrayToHash(filteredData);
+		dt = new DefaultTableModel(filteredData,ColumnNames);
 		errorMsg = "";
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 458, 323);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		displayTable = new JTable(data,ColumnNames){
+		displayTable = new JTable(dt){//filteredData,ColumnNames
 			private static final long serialVersionUID = 1L;
 
 			//do not allow for cell editing
@@ -104,12 +111,24 @@ public class LOCTable extends JFrame   {
 		
 		contains_Chk = new JCheckBox("Contains Name");
 		contains_Chk.setToolTipText("Searches for Any File that contains this String");
-		contains_Chk.setBounds(241, 47, 119, 23);
+		contains_Chk.setBounds(194, 46, 117, 23);
 		contentPane.add(contains_Chk);
+		
+		JButton btnRefresh = new JButton("Refresh Table");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				removeEmptyRows();
+				refreshTable();
+
+			}
+		});
+		btnRefresh.setBounds(317, 46, 113, 23);
+		contentPane.add(btnRefresh);
 		JScrollPane scroll = new JScrollPane(displayTable);
 		scroll.setBounds(5, 74, 432, 205);
 		contentPane.add(scroll);
-		//table.setModel(new CustomTableModel());
+	
+		removeEmptyRows();
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -142,6 +161,75 @@ public class LOCTable extends JFrame   {
 		*/
 		return result;
 		
+	}
+	private void refreshTable(){
+		
+		int row_Counter = 0;
+		int col_Counter = 0;
+		
+		
+		int max_Row = displayTable.getRowCount();
+		//get iterator for hashtable
+		Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
+		Iterator it = keys.iterator();
+		String LOC;
+		String fileName;
+		for(Entry entry : keys){
+			
+			fileName = (String) entry.getKey();
+			LOC = (String) tableData.get(fileName);
+			
+			displayTable.setValueAt(fileName,row_Counter,col_Counter);
+			displayTable.setValueAt(LOC,row_Counter,col_Counter + 1);
+			++row_Counter;
+			
+		}
+		
+	}
+	private void removeEmptyRows(){
+		
+		
+		final int col_Counter = 0;
+		
+		int max_Row = displayTable.getRowCount();
+		int row_Counter = max_Row - 1;
+		System.out.println(max_Row);
+		while(row_Counter >= 0){
+			System.out.print(row_Counter + " ");
+			String temp = (String) displayTable.getValueAt(row_Counter,col_Counter);
+			System.out.println(temp + " " + displayTable.getValueAt(row_Counter,col_Counter + 1));
+			if(temp.equals("-")){
+				System.out.println("come on");
+				dt.removeRow(row_Counter);
+				tableData.remove(temp);
+			}
+			--row_Counter;
+		}
+
+		//deelte empty string in hashTable too
+		
+	}
+	private Object[][] removeDuplicates(Object[][] data){
+		
+		 Object pointer;
+		 final int COL_POS = 0;
+		 int counter = 0;
+		 int counter2 = 0;
+		 while(counter <= data.length - 1){
+			 
+			 pointer = data[counter][COL_POS];
+			 counter2 = counter + 1;
+			 while(counter2 <= data.length - 1){
+				 
+				 if(pointer.equals(data[counter2][COL_POS])){
+					 data[counter2][COL_POS] = "-";
+					 data[counter2][COL_POS + 1] = "-";
+				 }
+				 ++counter2;
+			 }
+			 ++counter; 
+		 }
+		return data;
 	}
 
 	public boolean searchTable(String s) {
