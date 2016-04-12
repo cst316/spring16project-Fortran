@@ -146,6 +146,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		noRepeatRB.setSelected(true);
 		noRepeatRB.setText(Local.getString("No repeat"));
 		noRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				noRepeatRB_actionPerformed(e);
 			}
@@ -161,6 +162,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		dailyRepeatRB.setActionCommand("daily");
 		dailyRepeatRB.setText(Local.getString("Every"));
 		dailyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dailyRepeatRB_actionPerformed(e);
 			}
@@ -195,9 +197,11 @@ public class EventDialog extends JDialog implements WindowListener {
 		gbc.anchor = GridBagConstraints.EAST;
 		repeatPanel.add(lblSince, gbc);
 		startDate.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
-				if (ignoreStartChanged)
+				if (ignoreStartChanged) {
 					return;
+				}
 				ignoreStartChanged = true;
 				Date sd = (Date) startDate.getModel().getValue();
 				Date ed = (Date) endDate.getModel().getValue();
@@ -225,6 +229,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		gbc.anchor = GridBagConstraints.WEST;
 		repeatPanel.add(startDate, gbc);
 		setStartDateB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setStartDateB_actionPerformed(e);
 			}
@@ -243,6 +248,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		weeklyRepeatRB.setActionCommand("weekly");
 		weeklyRepeatRB.setText(Local.getString("Every"));
 		weeklyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				weeklyRepeatRB_actionPerformed(e);
 			}
@@ -264,6 +270,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		enableEndDateCB.setHorizontalAlignment(SwingConstants.RIGHT);
 		enableEndDateCB.setText(Local.getString("Till"));
 		enableEndDateCB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				enableEndDateCB_actionPerformed(e);
 			}
@@ -280,9 +287,11 @@ public class EventDialog extends JDialog implements WindowListener {
 		endDate.setEditor(new JSpinner.DateEditor(endDate, sdf.toPattern()));
 		// ---------------------------------------------------
 		endDate.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
-				if (ignoreEndChanged)
+				if (ignoreEndChanged) {
 					return;
+				}
 				ignoreEndChanged = true;
 				Date sd = (Date) startDate.getModel().getValue();
 				Date ed = (Date) endDate.getModel().getValue();
@@ -317,6 +326,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		setEndDateB
 				.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/calendar.png")));
 		setEndDateB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setEndDateB_actionPerformed(e);
 			}
@@ -330,6 +340,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		monthlyRepeatRB.setActionCommand("daily");
 		monthlyRepeatRB.setText(Local.getString("Every"));
 		monthlyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				monthlyRepeatRB_actionPerformed(e);
 			}
@@ -357,6 +368,7 @@ public class EventDialog extends JDialog implements WindowListener {
 		yearlyRepeatRB.setActionCommand("yearly");
 		yearlyRepeatRB.setText(Local.getString("Yearly"));
 		yearlyRepeatRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				yearlyRepeatRB_actionPerformed(e);
 			}
@@ -381,12 +393,14 @@ public class EventDialog extends JDialog implements WindowListener {
 		okB.setPreferredSize(new Dimension(100, 26));
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okB_actionPerformed(e);
 			}
 		});
 		this.getRootPane().setDefaultButton(okB);
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelB_actionPerformed(e);
 			}
@@ -408,16 +422,20 @@ public class EventDialog extends JDialog implements WindowListener {
 
 		// Do final things...
 		startCalFrame.cal.addSelectionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ignoreStartChanged)
+				if (ignoreStartChanged) {
 					return;
+				}
 				startDate.getModel().setValue(startCalFrame.cal.get().getCalendar().getTime());
 			}
 		});
 		endCalFrame.cal.addSelectionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ignoreEndChanged)
+				if (ignoreEndChanged) {
 					return;
+				}
 				endDate.getModel().setValue(endCalFrame.cal.get().getCalendar().getTime());
 			}
 		});
@@ -518,9 +536,11 @@ public class EventDialog extends JDialog implements WindowListener {
 		setEndDateB.setEnabled(enableEndDateCB.isSelected());
 	}
 
+	@Override
 	public void windowOpened(WindowEvent e) {
 	}
 
+	@Override
 	public void windowClosing(WindowEvent e) {
 		CANCELLED = true;
 		this.dispose();
@@ -534,18 +554,23 @@ public class EventDialog extends JDialog implements WindowListener {
 		return eventDate;
 	}
 
+	@Override
 	public void windowClosed(WindowEvent e) {
 	}
 
+	@Override
 	public void windowIconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowActivated(WindowEvent e) {
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent e) {
 	}
 

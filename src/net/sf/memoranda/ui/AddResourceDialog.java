@@ -14,12 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
@@ -78,6 +78,7 @@ public class AddResourceDialog extends JDialog {
 		localFileRB.setSelected(true);
 		localFileRB.setText(Local.getString("Local file"));
 		localFileRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				localFileRB_actionPerformed(e);
 			}
@@ -111,6 +112,7 @@ public class AddResourceDialog extends JDialog {
 		pathField.setMinimumSize(new Dimension(4, 24));
 		pathField.setPreferredSize(new Dimension(250, 24));
 		pathField.addCaretListener(new javax.swing.event.CaretListener() {
+			@Override
 			public void caretUpdate(CaretEvent e) {
 				pathField_caretUpdate(e);
 			}
@@ -124,6 +126,7 @@ public class AddResourceDialog extends JDialog {
 		areaPanel.add(pathField, gbc);
 		browseB.setText(Local.getString("Browse"));
 		browseB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				browseB_actionPerformed(e);
 			}
@@ -136,6 +139,7 @@ public class AddResourceDialog extends JDialog {
 		areaPanel.add(browseB, gbc);
 		inetShortcutRB.setText(Local.getString("Internet shortcut"));
 		inetShortcutRB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				inetShortcutRB_actionPerformed(e);
 			}
@@ -157,6 +161,7 @@ public class AddResourceDialog extends JDialog {
 		urlField.setMinimumSize(new Dimension(4, 24));
 		urlField.setPreferredSize(new Dimension(335, 24));
 		urlField.addCaretListener(new javax.swing.event.CaretListener() {
+			@Override
 			public void caretUpdate(CaretEvent e) {
 				urlField_caretUpdate(e);
 			}
@@ -177,6 +182,7 @@ public class AddResourceDialog extends JDialog {
 		okB.setPreferredSize(new Dimension(100, 26));
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okB_actionPerformed(e);
 			}
@@ -187,6 +193,7 @@ public class AddResourceDialog extends JDialog {
 		cancelB.setPreferredSize(new Dimension(100, 26));
 		cancelB.setText(Local.getString("Cancel"));
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelB_actionPerformed(e);
 			}
@@ -270,8 +277,9 @@ public class AddResourceDialog extends JDialog {
 		 * Context.get("LAST_SELECTED_RESOURCE_FILE"); if (lastSel != null)
 		 * chooser.setCurrentDirectory(lastSel);
 		 */
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		/*
 		 * try { Context.put("LAST_SELECTED_RESOURCE_FILE",
 		 * chooser.getSelectedFile()); } catch (Exception ex) {}

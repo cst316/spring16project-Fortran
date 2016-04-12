@@ -38,7 +38,7 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  * <p>
  * Company:
  * </p>
- * 
+ *
  * @author unascribed
  * @version 1.0
  */
@@ -207,6 +207,7 @@ public class TableDialog extends JDialog {
 		gbc.insets = new Insets(5, 5, 5, 5);
 		areaPanel.add(bgcolorField, gbc);
 		bgColorB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				bgColorB_actionPerformed(e);
 			}
@@ -257,6 +258,7 @@ public class TableDialog extends JDialog {
 		okB.setPreferredSize(new Dimension(100, 26));
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okB_actionPerformed(e);
 			}
@@ -267,6 +269,7 @@ public class TableDialog extends JDialog {
 		cancelB.setPreferredSize(new Dimension(100, 26));
 		cancelB.setText(Local.getString("Cancel"));
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelB_actionPerformed(e);
 			}
@@ -309,8 +312,9 @@ public class TableDialog extends JDialog {
 		Color initColor = Util.decodeColor(bgcolorField.getText());
 
 		Color c = JColorChooser.showDialog(this, Local.getString("Table background color"), initColor);
-		if (c == null)
+		if (c == null) {
 			return;
+		}
 
 		bgcolorField.setText("#" + Integer.toHexString(c.getRGB()).substring(2).toUpperCase());
 		Util.setBgcolorField(bgcolorField);

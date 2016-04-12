@@ -40,7 +40,7 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  * <p>
  * Company:
  * </p>
- * 
+ *
  * @author unascribed
  * @version 1.0
  */
@@ -126,6 +126,7 @@ public class ImageDialog extends JDialog implements WindowListener {
 		browseB.setIcon(new ImageIcon(
 				net.sf.memoranda.ui.htmleditor.ImageDialog.class.getResource("resources/icons/fileopen16.png")));
 		browseB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				browseB_actionPerformed(e);
 			}
@@ -273,6 +274,7 @@ public class ImageDialog extends JDialog implements WindowListener {
 		okB.setPreferredSize(new Dimension(100, 26));
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okB_actionPerformed(e);
 			}
@@ -283,6 +285,7 @@ public class ImageDialog extends JDialog implements WindowListener {
 		cancelB.setPreferredSize(new Dimension(100, 26));
 		cancelB.setText(Local.getString("Cancel"));
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelB_actionPerformed(e);
 			}
@@ -319,33 +322,41 @@ public class ImageDialog extends JDialog implements WindowListener {
 	// java.io.File selectedFile = null;
 	public void updatePreview() {
 		try {
-			if (new java.net.URL(fileField.getText()).getPath() != "")
+			if (new java.net.URL(fileField.getText()).getPath() != "") {
 				header.setIcon(getPreviewIcon(new java.io.File(new java.net.URL(fileField.getText()).getPath())));
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	@Override
 	public void windowOpened(WindowEvent e) {
 	}
 
+	@Override
 	public void windowClosing(WindowEvent e) {
 		CANCELLED = true;
 		this.dispose();
 	}
 
+	@Override
 	public void windowClosed(WindowEvent e) {
 	}
 
+	@Override
 	public void windowIconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowActivated(WindowEvent e) {
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent e) {
 	}
 
@@ -372,8 +383,9 @@ public class ImageDialog extends JDialog implements WindowListener {
 		chooser.setAccessory(new net.sf.memoranda.ui.htmleditor.filechooser.ImagePreview(chooser));
 		chooser.setPreferredSize(new Dimension(550, 375));
 		java.io.File lastSel = (java.io.File) Context.get("LAST_SELECTED_IMG_FILE");
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(lastSel);
+		}
 		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			try {
 				fileField.setText(chooser.getSelectedFile().toURL().toString());

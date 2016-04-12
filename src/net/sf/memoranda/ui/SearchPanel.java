@@ -74,6 +74,7 @@ public class SearchPanel extends JPanel {
 		titledBorder1.setTitleFont(new java.awt.Font("Dialog", 1, 11));
 		searchField.setFont(new java.awt.Font("Dialog", 1, 10));
 		searchField.addCaretListener(new javax.swing.event.CaretListener() {
+			@Override
 			public void caretUpdate(CaretEvent e) {
 				searchField_caretUpdate(e);
 			}
@@ -97,6 +98,7 @@ public class SearchPanel extends JPanel {
 		searchB.setMargin(new Insets(0, 0, 0, 0));
 		searchB.setText(Local.getString("Search"));
 		searchB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				searchB_actionPerformed(e);
 			}
@@ -114,10 +116,12 @@ public class SearchPanel extends JPanel {
 		jPanel4.add(regexpCB, BorderLayout.CENTER);
 		jPanel3.add(searchB, BorderLayout.SOUTH);
 		CurrentProject.addProjectListener(new ProjectListener() {
+			@Override
 			public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
 				notesList.update(new Vector());
 			}
 
+			@Override
 			public void projectWasChanged() {
 			}
 		});
@@ -142,13 +146,16 @@ public class SearchPanel extends JPanel {
 		Pattern pattern;
 		// this.add(progressBar, BorderLayout.SOUTH);
 		int flags = Pattern.DOTALL;
-		if (!caseSensCB.isSelected())
+		if (!caseSensCB.isSelected()) {
 			flags = flags + Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE;
+		}
 		String _find = searchField.getText();
-		if (!regexpCB.isSelected())
+		if (!regexpCB.isSelected()) {
 			_find = "\\Q" + _find + "\\E";
-		if (wholeWCB.isSelected())
+		}
+		if (wholeWCB.isSelected()) {
 			_find = "[\\s\\p{Punct}]" + _find + "[\\s\\p{Punct}]";
+		}
 		try {
 			pattern = Pattern.compile(_find, flags);
 		} catch (Exception ex) {
@@ -172,8 +179,9 @@ public class SearchPanel extends JPanel {
 			try {
 				String txt = doc.getText(0, doc.getLength());
 				Matcher matcher = pattern.matcher(txt);
-				if (matcher.find())
+				if (matcher.find()) {
 					found.add(note);
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

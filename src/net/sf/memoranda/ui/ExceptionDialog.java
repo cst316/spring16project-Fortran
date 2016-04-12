@@ -1,10 +1,26 @@
 package net.sf.memoranda.ui;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
-import net.sf.memoranda.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
+import net.sf.memoranda.util.Util;
 
 /*$Id: ExceptionDialog.java,v 1.2 2004/10/18 19:09:10 ivanrise Exp $*/
 public class ExceptionDialog extends JDialog {
@@ -39,19 +55,22 @@ public class ExceptionDialog extends JDialog {
 
 	public ExceptionDialog(Exception exc, String description, String tip) {
 		super(App.getFrame(), "Problem", true);
-		if (exc != null)
+		if (exc != null) {
 			exc.printStackTrace();
+		}
 		owner = App.getFrame();
-		if ((description != null) && (description.length() > 0))
+		if ((description != null) && (description.length() > 0)) {
 			this.description = description;
-		else if (exc.getMessage() != null)
+		} else if (exc.getMessage() != null) {
 			this.description = exc.getMessage();
-		else
+		} else {
 			this.description = "Unknown error";
+		}
 		this.tip = tip;
 		StringWriter sw = new StringWriter();
-		if (exc != null)
+		if (exc != null) {
 			exc.printStackTrace(new PrintWriter(sw));
+		}
 		this.trace = sw.toString();
 		try {
 			jbInit();
@@ -84,8 +103,9 @@ public class ExceptionDialog extends JDialog {
 		jPanel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		borderLayout3.setVgap(5);
 		String labelText = "<html><b>Description:</b><br>" + description;
-		if ((tip != null) && (tip.length() > 0))
+		if ((tip != null) && (tip.length() > 0)) {
 			labelText = labelText + "<br><br><b>Tip:</b><br>" + tip;
+		}
 		labelText = labelText + "<br><br><b>Stack trace:</b></html>";
 		descLabel.setText(labelText);
 		descLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -95,6 +115,7 @@ public class ExceptionDialog extends JDialog {
 		reportB.setPreferredSize(new Dimension(120, 25));
 		reportB.setText("Report bug...");
 		reportB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				reportB_actionPerformed(e);
 			}
@@ -104,6 +125,7 @@ public class ExceptionDialog extends JDialog {
 		closeB.setPreferredSize(new Dimension(120, 25));
 		closeB.setText("Close");
 		closeB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				closeB_actionPerformed(e);
 			}
@@ -113,6 +135,7 @@ public class ExceptionDialog extends JDialog {
 		flowLayout1.setAlignment(FlowLayout.RIGHT);
 		copyB.setText("Copy to clipboard");
 		copyB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				copyB_actionPerformed(e);
 			}

@@ -43,16 +43,17 @@ public class ProjectManager {
 			// modify."));
 			_doc = new Document(_root);
 			createProject("__default", Local.getString("Default project"), CalendarDate.today(), null);
-		} else
+		} else {
 			_root = _doc.getRootElement();
+		}
 	}
 
 	public static Project getProject(String id) {
 		Elements prjs = _root.getChildElements("project");
 		for (int i = 0; i < prjs.size(); i++) {
-			String pid = ((Element) prjs.get(i)).getAttribute("id").getValue();
+			String pid = prjs.get(i).getAttribute("id").getValue();
 			if (pid.equals(id)) {
-				return new ProjectImpl((Element) prjs.get(i));
+				return new ProjectImpl(prjs.get(i));
 			}
 		}
 		return null;
@@ -61,15 +62,16 @@ public class ProjectManager {
 	public static Vector getAllProjects() {
 		Elements prjs = _root.getChildElements("project");
 		Vector v = new Vector();
-		for (int i = 0; i < prjs.size(); i++)
-			v.add(new ProjectImpl((Element) prjs.get(i)));
+		for (int i = 0; i < prjs.size(); i++) {
+			v.add(new ProjectImpl(prjs.get(i)));
+		}
 		return v;
 	}
 
 	public static int getAllProjectsNumber() {
 		int i;
 		try {
-			i = ((Elements) _root.getChildElements("project")).size();
+			i = _root.getChildElements("project").size();
 		} catch (NullPointerException e) {
 			i = 1;
 		}
@@ -80,9 +82,10 @@ public class ProjectManager {
 		Elements prjs = _root.getChildElements("project");
 		Vector v = new Vector();
 		for (int i = 0; i < prjs.size(); i++) {
-			Project prj = new ProjectImpl((Element) prjs.get(i));
-			if (prj.getStatus() == Project.ACTIVE)
+			Project prj = new ProjectImpl(prjs.get(i));
+			if (prj.getStatus() == Project.ACTIVE) {
 				v.add(prj);
+			}
 		}
 		return v;
 	}
@@ -91,9 +94,10 @@ public class ProjectManager {
 		Elements prjs = _root.getChildElements("project");
 		int count = 0;
 		for (int i = 0; i < prjs.size(); i++) {
-			Project prj = new ProjectImpl((Element) prjs.get(i));
-			if (prj.getStatus() == Project.ACTIVE)
+			Project prj = new ProjectImpl(prjs.get(i));
+			if (prj.getStatus() == Project.ACTIVE) {
 				count++;
+			}
 		}
 		return count;
 	}
@@ -116,13 +120,14 @@ public class ProjectManager {
 
 	public static void removeProject(String id) {
 		Project prj = getProject(id);
-		if (prj == null)
+		if (prj == null) {
 			return;
+		}
 		History.removeProjectHistory(prj);
 		CurrentStorage.get().removeProjectStorage(prj);
 		Elements prjs = _root.getChildElements("project");
 		for (int i = 0; i < prjs.size(); i++) {
-			String pid = ((Element) prjs.get(i)).getAttribute("id").getValue();
+			String pid = prjs.get(i).getAttribute("id").getValue();
 			if (pid.equals(id)) {
 				_root.removeChild(prjs.get(i));
 				return;

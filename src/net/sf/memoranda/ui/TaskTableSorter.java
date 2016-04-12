@@ -1,18 +1,24 @@
 package net.sf.memoranda.ui;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.tree.*;
-import javax.swing.event.*;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
-import java.util.*;
-
-import net.sf.memoranda.*;
-import net.sf.memoranda.util.*;
-import net.sf.memoranda.date.*;
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Project;
+import net.sf.memoranda.Task;
+import net.sf.memoranda.date.CurrentDate;
 
 public class TaskTableSorter extends TaskTableModel {
 
@@ -23,13 +29,17 @@ public class TaskTableSorter extends TaskTableModel {
 	boolean opposite = false;
 
 	Comparator comparator = new Comparator() {
+		@Override
 		public int compare(Object o1, Object o2) {
-			if (sorting_column == -1)
+			if (sorting_column == -1) {
 				return 0;
-			if ((o1 instanceof Task) == false)
+			}
+			if ((o1 instanceof Task) == false) {
 				return 0;
-			if ((o2 instanceof Task) == false)
+			}
+			if ((o2 instanceof Task) == false) {
 				return 0;
+			}
 
 			Task task1 = (Task) o1;
 			Task task2 = (Task) o2;
@@ -61,20 +71,23 @@ public class TaskTableSorter extends TaskTableModel {
 		tableHeader.setDefaultRenderer(new SortableHeaderRenderer());
 	}
 
+	@Override
 	public Object getChild(Object parent, int index) {
 		Collection c = null;
 
 		if (parent instanceof Project) {
-			if (activeOnly())
+			if (activeOnly()) {
 				c = CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get());
-			else
+			} else {
 				c = CurrentProject.getTaskList().getTopLevelTasks();
+			}
 		} else {
 			Task t = (Task) parent;
-			if (activeOnly())
+			if (activeOnly()) {
 				c = CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get());
-			else
+			} else {
 				c = t.getSubTasks();
+			}
 		}
 
 		Object array[] = c.toArray();
@@ -86,6 +99,7 @@ public class TaskTableSorter extends TaskTableModel {
 	}
 
 	private class MouseHandler extends MouseAdapter {
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			JTableHeader h = (JTableHeader) e.getSource();
 			TableColumnModel columnModel = h.getColumnModel();
@@ -96,13 +110,15 @@ public class TaskTableSorter extends TaskTableModel {
 
 				// 0 == priority icon column
 				// 4 == priority text column
-				if (column == 0)
+				if (column == 0) {
 					sorting_column = 4;
+				}
 
-				if (e.isControlDown())
+				if (e.isControlDown()) {
 					sorting_column = -1;
-				else
+				} else {
 					opposite = !opposite;
+				}
 
 				TaskTable treetable = ((TaskTable) h.getTable());
 
@@ -122,14 +138,16 @@ public class TaskTableSorter extends TaskTableModel {
 	 */
 	private class SortableHeaderRenderer implements TableCellRenderer {
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			JComponent c = new JLabel(value.toString());
 			if (column == sorting_column) {
 				c.setFont(c.getFont().deriveFont(Font.BOLD));
 				// c.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK));
-			} else
+			} else {
 				c.setFont(c.getFont().deriveFont(Font.PLAIN));
+			}
 			return c;
 		}
 	}

@@ -51,12 +51,14 @@ public class SetApplicationPanel extends JPanel {
 		titledBorder2 = new TitledBorder(border2, Local.getString("Arguments"));
 		jPanel3.setLayout(borderLayout5);
 		selectAppBrowseB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				selectAppBrowseB_actionPerformed(e);
 			}
 		});
 		selectAppBrowseB.setText(Local.getString("Browse"));
 		applicationField.addCaretListener(new javax.swing.event.CaretListener() {
+			@Override
 			public void caretUpdate(CaretEvent e) {
 				applicationField_caretUpdate(e);
 			}
@@ -66,6 +68,7 @@ public class SetApplicationPanel extends JPanel {
 		this.setLayout(borderLayout1);
 		jPanel3.setBorder(titledBorder1);
 		argumentsField.addCaretListener(new javax.swing.event.CaretListener() {
+			@Override
 			public void caretUpdate(CaretEvent e) {
 				argumentsField_caretUpdate(e);
 			}
@@ -120,8 +123,9 @@ public class SetApplicationPanel extends JPanel {
 		 * Context.get("LAST_SELECTED_IMPORT_FILE"); if (lastSel != null)
 		 * chooser.setCurrentDirectory(lastSel);
 		 */
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			applicationField.setText(chooser.getSelectedFile().getPath());
+		}
 	}
 
 	void argumentsField_caretUpdate(CaretEvent e) {

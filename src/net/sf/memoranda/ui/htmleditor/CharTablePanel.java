@@ -80,11 +80,13 @@ public class CharTablePanel extends JPanel {
 			// putValue(Action.SHORT_DESCRIPTION, name);
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			String s = this.getValue(Action.NAME).toString();
 			editor.replaceSelection(s);
-			if (s.length() == 2)
+			if (s.length() == 2) {
 				editor.setCaretPosition(editor.getCaretPosition() - 1);
+			}
 		}
 	}
 

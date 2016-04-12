@@ -23,117 +23,120 @@ import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
 import net.sf.memoranda.util.Local;
+
 /**
  *
  */
-/*$Id: EventsTable.java,v 1.6 2004/10/11 08:48:20 alexeya Exp $*/
+/* $Id: EventsTable.java,v 1.6 2004/10/11 08:48:20 alexeya Exp $ */
 public class EventsTable extends JTable {
 
-    public static final int EVENT = 100;
-    public static final int EVENT_ID = 101;
+	public static final int EVENT = 100;
+	public static final int EVENT_ID = 101;
 
-    Vector events = new Vector();
-    /**
-     * Constructor for EventsTable.
-     */
-    public EventsTable() {
-        super();
-        setModel(new EventsTableModel());
-        initTable(CurrentDate.get());
-        this.setShowGrid(false);
-        CurrentDate.addDateListener(new DateListener() {
-            public void dateChange(CalendarDate d) {
-                //updateUI();
-                initTable(d);
-            }
-        });
-    }
+	Vector events = new Vector();
 
-    public void initTable(CalendarDate d) {
-        events = (Vector)EventsManager.getEventsForDate(d);
-        getColumnModel().getColumn(0).setPreferredWidth(60);
-        getColumnModel().getColumn(0).setMaxWidth(60);
-	clearSelection();
-        updateUI();
-    }
+	/**
+	 * Constructor for EventsTable.
+	 */
+	public EventsTable() {
+		super();
+		setModel(new EventsTableModel());
+		initTable(CurrentDate.get());
+		this.setShowGrid(false);
+		CurrentDate.addDateListener(new DateListener() {
+			@Override
+			public void dateChange(CalendarDate d) {
+				// updateUI();
+				initTable(d);
+			}
+		});
+	}
 
-    public void refresh() {
-        initTable(CurrentDate.get());
-    }
+	public void initTable(CalendarDate d) {
+		events = (Vector) EventsManager.getEventsForDate(d);
+		getColumnModel().getColumn(0).setPreferredWidth(60);
+		getColumnModel().getColumn(0).setMaxWidth(60);
+		clearSelection();
+		updateUI();
+	}
 
-     public TableCellRenderer getCellRenderer(int row, int column) {
-        return new javax.swing.table.DefaultTableCellRenderer() {
+	public void refresh() {
+		initTable(CurrentDate.get());
+	}
 
-            public Component getTableCellRendererComponent(
-                JTable table,
-                Object value,
-                boolean isSelected,
-                boolean hasFocus,
-                int row,
-                int column) {
-                Component comp;
-                comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                Event ev = (Event)getModel().getValueAt(row, EVENT);
-                comp.setForeground(java.awt.Color.gray);
-                if (ev.isRepeatable())
-                    comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
-                if (CurrentDate.get().after(CalendarDate.today())) {
-                  comp.setForeground(java.awt.Color.black);
-                }                
-                else if (CurrentDate.get().equals(CalendarDate.today())) {
-                  if (ev.getTime().after(new Date())) {
-                    comp.setForeground(java.awt.Color.black);
-                    //comp.setFont(new java.awt.Font("Dialog", 1, 12));
-                    comp.setFont(comp.getFont().deriveFont(Font.BOLD));
-                  }
-                }
-                return comp;
-            }
-        };
+	@Override
+	public TableCellRenderer getCellRenderer(int row, int column) {
+		return new javax.swing.table.DefaultTableCellRenderer() {
 
-    }
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component comp;
+				comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				Event ev = (Event) getModel().getValueAt(row, EVENT);
+				comp.setForeground(java.awt.Color.gray);
+				if (ev.isRepeatable()) {
+					comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
+				}
+				if (CurrentDate.get().after(CalendarDate.today())) {
+					comp.setForeground(java.awt.Color.black);
+				} else if (CurrentDate.get().equals(CalendarDate.today())) {
+					if (ev.getTime().after(new Date())) {
+						comp.setForeground(java.awt.Color.black);
+						// comp.setFont(new java.awt.Font("Dialog", 1, 12));
+						comp.setFont(comp.getFont().deriveFont(Font.BOLD));
+					}
+				}
+				return comp;
+			}
+		};
 
-    class EventsTableModel extends AbstractTableModel {
+	}
 
-        String[] columnNames = {
-            //Local.getString("Task name"),
-            Local.getString("Time"),
-                Local.getString("Text")
-        };
+	class EventsTableModel extends AbstractTableModel {
 
-        EventsTableModel() {
-            super();
-        }
+		String[] columnNames = {
+				// Local.getString("Task name"),
+				Local.getString("Time"), Local.getString("Text") };
 
-        public int getColumnCount() {
-            return 2;
-        }
+		EventsTableModel() {
+			super();
+		}
 
-        public int getRowCount() {
+		@Override
+		public int getColumnCount() {
+			return 2;
+		}
+
+		@Override
+		public int getRowCount() {
 			int i;
 			try {
 				i = events.size();
-			}
-			catch(NullPointerException e) {
+			} catch (NullPointerException e) {
 				i = 1;
 			}
 			return i;
-        }
+		}
 
-        public Object getValueAt(int row, int col) {
-           Event ev = (Event)events.get(row);
-           if (col == 0)
-                //return ev.getHour()+":"+ev.getMinute();
-                return ev.getTimeString();
-           else if (col == 1)
-                return ev.getText();
-           else if (col == EVENT_ID)
-                return ev.getId();
-           else return ev;
-        }
+		@Override
+		public Object getValueAt(int row, int col) {
+			Event ev = (Event) events.get(row);
+			if (col == 0) {
+				// return ev.getHour()+":"+ev.getMinute();
+				return ev.getTimeString();
+			} else if (col == 1) {
+				return ev.getText();
+			} else if (col == EVENT_ID) {
+				return ev.getId();
+			} else {
+				return ev;
+			}
+		}
 
-        public String getColumnName(int col) {
-            return columnNames[col];
-        }
-    }
+		@Override
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+	}
 }

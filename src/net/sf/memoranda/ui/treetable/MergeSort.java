@@ -60,19 +60,23 @@ public abstract class MergeSort extends Object {
 		firstHalf = count = begin;
 		secondHalf = middle + 1;
 		while ((firstHalf <= middle) && (secondHalf <= end)) {
-			if (this.compareElementsAt(secondHalf, firstHalf) < 0)
+			if (this.compareElementsAt(secondHalf, firstHalf) < 0) {
 				swapSpace[count++] = toSort[secondHalf++];
-			else
+			} else {
 				swapSpace[count++] = toSort[firstHalf++];
+			}
 		}
 		if (firstHalf <= middle) {
-			while (firstHalf <= middle)
+			while (firstHalf <= middle) {
 				swapSpace[count++] = toSort[firstHalf++];
+			}
 		} else {
-			while (secondHalf <= end)
+			while (secondHalf <= end) {
 				swapSpace[count++] = toSort[secondHalf++];
+			}
 		}
-		for (count = begin; count <= end; count++)
+		for (count = begin; count <= end; count++) {
 			toSort[count] = swapSpace[count];
+		}
 	}
 }

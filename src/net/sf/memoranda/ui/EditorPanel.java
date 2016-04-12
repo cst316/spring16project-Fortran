@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
 import java.text.DateFormat;
 
 import javax.swing.AbstractAction;
@@ -26,18 +25,18 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
 
+import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.History;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
-import net.sf.memoranda.util.Util;
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.HTMLFileExport;
 import net.sf.memoranda.util.HTMLFileImport;
 import net.sf.memoranda.util.Local;
-import net.sf.memoranda.util.Configuration;
+import net.sf.memoranda.util.Util;
 
 /*$Id: EditorPanel.java,v 1.21 2006/06/28 22:58:31 alexeya Exp $*/
 public class EditorPanel extends JPanel {
@@ -97,6 +96,7 @@ public class EditorPanel extends JPanel {
 
 	public Action insertTimeAction = new AbstractAction(Local.getString("Insert current time"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/time.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			insTimeB_actionPerformed(e);
 		}
@@ -104,6 +104,7 @@ public class EditorPanel extends JPanel {
 
 	public Action insertDateAction = new AbstractAction(Local.getString("Insert current date"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/date.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			insDateB_actionPerformed(e);
 		}
@@ -118,6 +119,7 @@ public class EditorPanel extends JPanel {
 
 	public Action newAction = new AbstractAction(Local.getString("New note"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/filenew.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			newB_actionPerformed(e);
 		}
@@ -125,6 +127,7 @@ public class EditorPanel extends JPanel {
 
 	public Action exportAction = new AbstractAction(Local.getString("Export note to file"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/export.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			exportB_actionPerformed(e);
 		}
@@ -132,6 +135,7 @@ public class EditorPanel extends JPanel {
 
 	public Action importAction = new AbstractAction(Local.getString("Insert file"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/import.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			importB_actionPerformed(e);
 		}
@@ -139,6 +143,7 @@ public class EditorPanel extends JPanel {
 
 	public Action previewAction = new AbstractAction(Local.getString("Preview note in browser"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/preview.png"))) {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			previewB_actionPerformed(e);
 		}
@@ -146,8 +151,9 @@ public class EditorPanel extends JPanel {
 
 	void jbInit() throws Exception {
 
-		if (!Configuration.get("DISABLE_L10N").equals("yes"))
+		if (!Configuration.get("DISABLE_L10N").equals("yes")) {
 			net.sf.memoranda.ui.htmleditor.util.Local.setMessages(Local.getMessages());
+		}
 
 		editor = new HTMLEditor();
 
@@ -332,14 +338,18 @@ public class EditorPanel extends JPanel {
 		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
 		titleField.addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent ke) {
-				if (ke.getKeyCode() == KeyEvent.VK_ENTER)
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
 					editor.editor.requestFocus();
+				}
 			}
 
+			@Override
 			public void keyReleased(KeyEvent arg0) {
 			}
 
+			@Override
 			public void keyTyped(KeyEvent arg0) {
 			}
 		});
@@ -368,7 +378,7 @@ public class EditorPanel extends JPanel {
 		css = css.replaceAll("%BASE_FONT_SIZE%", BASE_FONT_SIZE.length() > 0 ? BASE_FONT_SIZE : "16");
 		editor.setStyleSheet(new StringReader(css));
 		String usercss = (String) Configuration.get("USER_CSS");
-		if (usercss.length() > 0)
+		if (usercss.length() > 0) {
 			try {
 				// DEBUG
 				System.out.println("***[DEBUG] User css used: " + usercss);
@@ -377,6 +387,7 @@ public class EditorPanel extends JPanel {
 				System.out.println("***[DEBUG] Failed to open: " + usercss);
 				ex.printStackTrace();
 			}
+		}
 
 	}
 
@@ -414,30 +425,36 @@ public class EditorPanel extends JPanel {
 		// chooser.addChoosableFileFilter(new
 		// AllFilesFilter(AllFilesFilter.RTF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(new File(lastSel));
+		}
 
 		FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local.getString("Export note"), chooser);
 		String enc = (String) Context.get("EXPORT_FILE_ENCODING");
-		if (enc != null)
+		if (enc != null) {
 			dlg.encCB.setSelectedItem(enc);
+		}
 		String templ = (String) Context.get("EXPORT_TEMPLATE");
-		if (templ != null)
+		if (templ != null) {
 			dlg.templF.setText(templ);
+		}
 		String xhtml = (String) Context.get("EXPORT_XHTML");
-		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES")))
+		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES"))) {
 			dlg.xhtmlChB.setSelected(true);
+		}
 		String num = (String) Context.get("EXPORT_NUMENT");
-		if ((num != null) && (num.equalsIgnoreCase("YES")))
+		if ((num != null) && (num.equalsIgnoreCase("YES"))) {
 			dlg.numentChB.setSelected(true);
+		}
 		Dimension dlgSize = new Dimension(550, 475);
 		dlg.setSize(dlgSize);
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
 		dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
 		dlg.setVisible(true);
-		if (dlg.CANCELLED)
+		if (dlg.CANCELLED) {
 			return;
+		}
 
 		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile().getPath());
 		Context.put("EXPORT_FILE_ENCODING", dlg.encCB.getSelectedItem());
@@ -455,8 +472,9 @@ public class EditorPanel extends JPanel {
 		 */
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
-		if (ei == 1)
+		if (ei == 1) {
 			enc = "UTF-8";
+		}
 		File f = chooser.getSelectedFile();
 		new HTMLFileExport(f, editor.document, CurrentNote.get(), enc, dlg.numentChB.isSelected(), template,
 				dlg.xhtmlChB.isSelected());
@@ -470,10 +488,11 @@ public class EditorPanel extends JPanel {
 		// this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
 		editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
 		editor.initEditor();
-		if (note != null)
+		if (note != null) {
 			titleField.setText(note.getTitle());
-		else
+		} else {
 			titleField.setText("");
+		}
 		initialTitle = titleField.getText();
 		/*
 		 * } catch (Exception ex) { new ExceptionDialog(ex); }
@@ -516,10 +535,12 @@ public class EditorPanel extends JPanel {
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
 		chooser.setPreferredSize(new Dimension(550, 375));
 		String lastSel = (String) Context.get("LAST_SELECTED_IMPORT_FILE");
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(new java.io.File(lastSel));
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 
 		Context.put("LAST_SELECTED_IMPORT_FILE", chooser.getSelectedFile().getPath());
 

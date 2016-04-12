@@ -1,41 +1,40 @@
 /**
- * TaskTableModel.java         
+ * TaskTableModel.java
  * -----------------------------------------------------------------------------
  * Project           Memoranda
  * Package           net.sf.memoranda.ui
  * Original author   Alex V. Alishevskikh
  *                   [alexeya@gmail.com]
  * Created           18.05.2005 15:16:11
- * Revision info     $RCSfile: TaskTableModel.java,v $ $Revision: 1.7 $ $State: Exp $  
+ * Revision info     $RCSfile: TaskTableModel.java,v $ $Revision: 1.7 $ $State: Exp $
  *
  * Last modified on  $Date: 2005/12/01 08:12:26 $
  *               by  $Author: alexeya $
- * 
- * @VERSION@ 
+ *
+ * @VERSION@
  *
  * @COPYRIGHT@
- * 
- * @LICENSE@ 
+ *
+ * @LICENSE@
  */
 
 package net.sf.memoranda.ui;
 
-import javax.swing.event.*;
-import javax.swing.tree.TreePath;
+import javax.swing.event.EventListenerList;
 
-import net.sf.memoranda.*;
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Project;
+import net.sf.memoranda.Task;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.treetable.AbstractTreeTableModel;
 import net.sf.memoranda.ui.treetable.TreeTableModel;
-import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Context;
-
-import java.util.Hashtable;
+import net.sf.memoranda.util.Local;
 
 /**
  * JAVADOC:
  * <h1>TaskTableModel</h1>
- * 
+ *
  * @version $Id: TaskTableModel.java,v 1.7 2005/12/01 08:12:26 alexeya Exp $
  * @author $Author: alexeya $
  */
@@ -50,7 +49,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 
 	/**
 	 * JAVADOC: Constructor of <code>TaskTableModel</code>
-	 * 
+	 *
 	 * @param root
 	 */
 	public TaskTableModel() {
@@ -60,6 +59,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 	/**
 	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 		return columnNames.length;
 	}
@@ -67,6 +67,7 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 	/**
 	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getColumnName(int)
 	 */
+	@Override
 	public String getColumnName(int column) {
 		return columnNames[column];
 	}
@@ -75,9 +76,11 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getValueAt(java.lang.Object,
 	 *      int)
 	 */
+	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof Project)
+		if (node instanceof Project) {
 			return null;
+		}
 		Task t = (Task) node;
 		switch (column) {
 		case 0:
@@ -87,10 +90,11 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 		case 2:
 			return t.getStartDate().getDate();
 		case 3:
-			if (t.getEndDate() == null)
+			if (t.getEndDate() == null) {
 				return null;
-			else
+			} else {
 				return t.getEndDate().getDate();
+			}
 		case 4:
 			return getPriorityString(t.getPriority());
 		case 5:
@@ -145,39 +149,47 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 	/**
 	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
 	 */
+	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof Project) {
 			if (activeOnly()) {
 				return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).size();
-			} else
+			} else {
 				return CurrentProject.getTaskList().getTopLevelTasks().size();
+			}
 		}
 		Task t = (Task) parent;
-		if (activeOnly())
+		if (activeOnly()) {
 			return CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get()).size();
-		else
+		} else {
 			return t.getSubTasks().size();
+		}
 	}
 
 	/**
 	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
 	 */
+	@Override
 	public Object getChild(Object parent, int index) {
-		if (parent instanceof Project)
-			if (activeOnly())
+		if (parent instanceof Project) {
+			if (activeOnly()) {
 				return CurrentProject.getTaskList().getActiveSubTasks(null, CurrentDate.get()).toArray()[index];
-			else
+			} else {
 				return CurrentProject.getTaskList().getTopLevelTasks().toArray()[index];
+			}
+		}
 		Task t = (Task) parent;
-		if (activeOnly())
+		if (activeOnly()) {
 			return CurrentProject.getTaskList().getActiveSubTasks(t.getID(), CurrentDate.get()).toArray()[index];
-		else
+		} else {
 			return t.getSubTasks().toArray()[index];
+		}
 	}
 
 	/**
 	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getColumnClass(int)
 	 */
+	@Override
 	public Class getColumnClass(int column) {
 		try {
 			switch (column) {
@@ -213,8 +225,9 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 
 	public static boolean check_activeOnly() {
 		Object o = Context.get("SHOW_ACTIVE_TASKS_ONLY");
-		if (o == null)
+		if (o == null) {
 			return false;
+		}
 		return o.toString().equals("true");
 	}
 
@@ -222,9 +235,11 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 		return activeOnly;
 	}
 
+	@Override
 	public boolean isCellEditable(Object node, int column) {
-		if (column == 6)
+		if (column == 6) {
 			return true;
+		}
 		return super.isCellEditable(node, column);
 	}
 

@@ -2,7 +2,7 @@
  * ProjectImpl.java
  * Created on 11.02.2003, 23:06:22 Alex
  * Package: net.sf.memoranda
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
@@ -31,6 +31,7 @@ public class ProjectImpl implements Project {
 	/**
 	 * @see net.sf.memoranda.Project#getID()
 	 */
+	@Override
 	public String getID() {
 		return _root.getAttribute("id").getValue();
 	}
@@ -38,66 +39,78 @@ public class ProjectImpl implements Project {
 	/**
 	 * @see net.sf.memoranda.Project#getStartDate()
 	 */
+	@Override
 	public CalendarDate getStartDate() {
 		Attribute d = _root.getAttribute("startDate");
-		if (d == null)
+		if (d == null) {
 			return null;
+		}
 		return new CalendarDate(d.getValue());
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#setStartDate(net.sf.memoranda.util.CalendarDate)
 	 */
+	@Override
 	public void setStartDate(CalendarDate date) {
-		if (date != null)
+		if (date != null) {
 			setAttr("startDate", date.toString());
+		}
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#getEndDate()
 	 */
+	@Override
 	public CalendarDate getEndDate() {
 		Attribute d = _root.getAttribute("endDate");
-		if (d == null)
+		if (d == null) {
 			return null;
+		}
 		return new CalendarDate(d.getValue());
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#setEndDate(net.sf.memoranda.util.CalendarDate)
 	 */
+	@Override
 	public void setEndDate(CalendarDate date) {
-		if (date != null)
+		if (date != null) {
 			setAttr("endDate", date.toString());
-		else if (_root.getAttribute("endDate") != null)
+		} else if (_root.getAttribute("endDate") != null) {
 			setAttr("endDate", null);
+		}
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#getStatus()
 	 */
+	@Override
 	public int getStatus() {
-		if (isFrozen())
+		if (isFrozen()) {
 			return Project.FROZEN;
+		}
 		CalendarDate today = CurrentDate.get();
 		CalendarDate prStart = getStartDate();
 		CalendarDate prEnd = getEndDate();
 		if (prEnd == null) {
-			if (today.before(prStart))
+			if (today.before(prStart)) {
 				return Project.SCHEDULED;
-			else
+			} else {
 				return Project.ACTIVE;
+			}
 		}
-		if (today.inPeriod(prStart, prEnd))
+		if (today.inPeriod(prStart, prEnd)) {
 			return Project.ACTIVE;
-		else if (today.after(prEnd)) {
+		} else if (today.after(prEnd)) {
 			// if (getProgress() == 100)
 			return Project.COMPLETED;
 			/*
 			 * else return Project.FAILED;
 			 */
-		} else
+		} else {
 			return Project.SCHEDULED;
+		}
 	}
 
 	private boolean isFrozen() {
@@ -114,6 +127,7 @@ public class ProjectImpl implements Project {
 	/**
 	 * @see net.sf.memoranda.Project#freeze()
 	 */
+	@Override
 	public void freeze() {
 		_root.addAttribute(new Attribute("frozen", "yes"));
 	}
@@ -121,24 +135,29 @@ public class ProjectImpl implements Project {
 	/**
 	 * @see net.sf.memoranda.Project#unfreeze()
 	 */
+	@Override
 	public void unfreeze() {
-		if (this.isFrozen())
+		if (this.isFrozen()) {
 			_root.removeAttribute(new Attribute("frozen", "yes"));
+		}
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#getTitle()
 	 */
+	@Override
 	public String getTitle() {
 		Attribute ta = _root.getAttribute("title");
-		if (ta != null)
+		if (ta != null) {
 			return ta.getValue();
+		}
 		return "";
 	}
 
 	/**
 	 * @see net.sf.memoranda.Project#setTitle(java.lang.String)
 	 */
+	@Override
 	public void setTitle(String title) {
 		setAttr("title", title);
 	}
@@ -146,14 +165,17 @@ public class ProjectImpl implements Project {
 	private void setAttr(String name, String value) {
 		Attribute a = _root.getAttribute(name);
 		if (a == null) {
-			if (value != null)
+			if (value != null) {
 				_root.addAttribute(new Attribute(name, value));
-		} else if (value != null)
+			}
+		} else if (value != null) {
 			a.setValue(value);
-		else
+		} else {
 			_root.removeAttribute(a);
+		}
 	}
 
+	@Override
 	public String getDescription() {
 		Element thisElement = _root.getFirstChildElement("description");
 		if (thisElement == null) {
@@ -163,6 +185,7 @@ public class ProjectImpl implements Project {
 		}
 	}
 
+	@Override
 	public void setDescription(String s) {
 		Element desc = _root.getFirstChildElement("description");
 		if (desc == null) {

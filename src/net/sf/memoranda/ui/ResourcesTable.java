@@ -45,10 +45,12 @@ public class ResourcesTable extends JTable {
 		initColumsWidth();
 		// this.setModel(new ResourcesTableModel());
 		CurrentProject.addProjectListener(new ProjectListener() {
+			@Override
 			public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
 
 			}
 
+			@Override
 			public void projectWasChanged() {
 				tableChanged();
 			}
@@ -81,19 +83,23 @@ public class ResourcesTable extends JTable {
 			Resource r = (Resource) v.get(i);
 			if (!r.isInetShortcut()) {
 				File f = new File(r.getPath());
-				if (f.isFile())
+				if (f.isFile()) {
 					files.add(r);
-			} else
+				}
+			} else {
 				files.add(r);
+			}
 		}
 
 	}
 
 	public static final int _RESOURCE = 100;
 
+	@Override
 	public TableCellRenderer getCellRenderer(int row, int column) {
 		return new javax.swing.table.DefaultTableCellRenderer() {
 
+			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
 				JLabel comp;
@@ -101,10 +107,11 @@ public class ResourcesTable extends JTable {
 				comp = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				if (column == 0) {
 					Resource r = (Resource) getModel().getValueAt(row, _RESOURCE);
-					if (!r.isInetShortcut())
+					if (!r.isInetShortcut()) {
 						comp.setIcon(MimeTypesList.getMimeTypeForFile((String) value).getIcon());
-					else
+					} else {
 						comp.setIcon(inetIcon);
+					}
 				}
 				return comp;
 			}
@@ -117,22 +124,27 @@ public class ResourcesTable extends JTable {
 		String[] columnNames = { Local.getString("Name"), Local.getString("Type"), Local.getString("Date modified"),
 				Local.getString("Path") };
 
+		@Override
 		public String getColumnName(int i) {
 			return columnNames[i];
 		}
 
+		@Override
 		public int getColumnCount() {
 			return columnNames.length;
 		}
 
+		@Override
 		public int getRowCount() {
 			return files.size();
 		}
 
+		@Override
 		public Object getValueAt(int row, int col) {
 			Resource r = (Resource) files.get(row);
-			if (col == _RESOURCE)
+			if (col == _RESOURCE) {
 				return r;
+			}
 			if (!r.isInetShortcut()) {
 				File f = new File(r.getPath());
 				switch (col) {
@@ -140,10 +152,11 @@ public class ResourcesTable extends JTable {
 					return f.getName();
 				case 1:
 					MimeType mt = MimeTypesList.getMimeTypeForFile(f.getName());
-					if (mt != null)
+					if (mt != null) {
 						return mt.getLabel();
-					else
+					} else {
 						return "unknown";
+					}
 				case 2:
 					Date d = new Date(f.lastModified());
 					return d;/*
@@ -155,16 +168,18 @@ public class ResourcesTable extends JTable {
 					return f.getPath();
 				}
 			} else {
-				if (col == 0)
+				if (col == 0) {
 					return r.getPath();
-				else if (col == 1)
+				} else if (col == 1) {
 					return Local.getString("Internet shortcut");
-				else
+				} else {
 					return "";
+				}
 			}
 			return null;
 		}
 
+		@Override
 		public Class getColumnClass(int col) {
 			try {
 				switch (col) {

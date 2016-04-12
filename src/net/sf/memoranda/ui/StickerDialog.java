@@ -97,25 +97,29 @@ public class StickerDialog extends JDialog {
 		Color back = Color.decode(backcolor);
 		Color front = Color.decode(forecolor);
 		int i = findColorIndex(back);
-		if (i > -1)
+		if (i > -1) {
 			stickerColor.setSelectedIndex(i);
-		else
+		} else {
 			stickerColor.setSelectedIndex(10);
+		}
 		i = findColorIndex(front);
-		if (i > -1)
+		if (i > -1) {
 			textColor.setSelectedIndex(i);
-		else
+		} else {
 			textColor.setSelectedIndex(stickerColor.getSelectedIndex() + 1);
-		if (sP > -1 && sP < 5)
+		}
+		if (sP > -1 && sP < 5) {
 			priorityList.setSelectedIndex(sP);
-		else
+		} else {
 			priorityList.setSelectedIndex(2);
-		if (size == 10)
+		}
+		if (size == 10) {
 			fontSize.setSelectedIndex(0);
-		else if (size == 20)
+		} else if (size == 20) {
 			fontSize.setSelectedIndex(2);
-		else
+		} else {
 			fontSize.setSelectedIndex(1);
+		}
 	}
 
 	public StickerDialog() {
@@ -139,6 +143,7 @@ public class StickerDialog extends JDialog {
 		cancelButton.setPreferredSize(new Dimension(100, 25));
 		cancelButton.setText(Local.getString("Cancel"));
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelButton_actionPerformed(e);
 			}
@@ -148,6 +153,7 @@ public class StickerDialog extends JDialog {
 		okButton.setPreferredSize(new Dimension(100, 25));
 		okButton.setText(Local.getString("Ok"));
 		okButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okButton_actionPerformed(e);
 			}
@@ -156,24 +162,28 @@ public class StickerDialog extends JDialog {
 
 		boldButton.setText(Local.getString("Bold"));
 		boldButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boldButton_actionPerformed(e);
 			}
 		});
 		italicButton.setText(Local.getString("Italic"));
 		italicButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				italicButton_actionPerformed(e);
 			}
 		});
 		underlineButton.setText(Local.getString("Underline"));
 		underlineButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				underlineButton_actionPerformed(e);
 			}
 		});
 		unorderedListButton.setText("* " + Local.getString("List"));
 		unorderedListButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				unorderedListButton_actionPerformed(e);
 			}
@@ -226,10 +236,11 @@ public class StickerDialog extends JDialog {
 			Color c = new Color(new Integer(Context.get("STICKER_COLOR").toString()).intValue());
 			stickerText.setBackground(c);
 			int i = findColorIndex(c);
-			if (i > -1)
+			if (i > -1) {
 				stickerColor.setSelectedIndex(i);
-			else
+			} else {
 				stickerColor.setSelectedIndex(10);
+			}
 		} else {
 			stickerText.setBackground(Color.YELLOW);
 			stickerColor.setSelectedIndex(0);
@@ -239,6 +250,7 @@ public class StickerDialog extends JDialog {
 				+ DateFormat.getTimeInstance(DateFormat.SHORT, Local.getCurrentLocale()).format(new java.util.Date())
 				+ "\n");
 		stickerColor.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				stickerColor_actionPerformed(e);
 			}
@@ -254,13 +266,15 @@ public class StickerDialog extends JDialog {
 					textColor.setSelectedIndex(i + 1);
 					stickerText.setForeground(colors[i]);
 				}
-			} else
+			} else {
 				textColor.setSelectedIndex(10);
+			}
 		} else {
 			stickerText.setForeground(Color.BLACK);
 			textColor.setSelectedIndex(7);
 		}
 		textColor.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				textColor_actionPerformed(e);
 			}
@@ -268,14 +282,16 @@ public class StickerDialog extends JDialog {
 		Font f = stickerText.getFont();
 		if (Context.get("TEXT_SIZE") != null) {
 			int h = (fontSize.getSelectedIndex() * 5) + 10;
-			if (h != 10 && h != 15 && h != 20)
+			if (h != 10 && h != 15 && h != 20) {
 				h = 15;
+			}
 			stickerText.setFont(new Font(f.getFontName(), f.PLAIN, h));
 		} else {
 			stickerText.setFont(new Font(f.getFontName(), f.PLAIN, 15));
 			fontSize.setSelectedIndex(1);
 		}
 		fontSize.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				fontSize_actionPerformed(e);
 			}
@@ -283,9 +299,11 @@ public class StickerDialog extends JDialog {
 	}
 
 	int findColorIndex(Color c) {
-		for (int i = 0; i < colors.length; i++)
-			if (c.equals(colors[i]))
+		for (int i = 0; i < colors.length; i++) {
+			if (c.equals(colors[i])) {
 				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -360,8 +378,9 @@ public class StickerDialog extends JDialog {
 			stickerText.setForeground(colors[textColor.getSelectedIndex()]);
 		} else {
 			Color c = JColorChooser.showDialog(this, Local.getString("Sticker color"), stickerText.getBackground());
-			if (c != null)
+			if (c != null) {
 				stickerText.setBackground(c);
+			}
 		}
 		Context.put("STICKER_COLOR", new Integer(stickerText.getBackground().getRGB()));
 	}
@@ -380,8 +399,9 @@ public class StickerDialog extends JDialog {
 			stickerText.setForeground(colors[textColor.getSelectedIndex()]);
 		} else {
 			Color c = JColorChooser.showDialog(this, Local.getString("Text color"), stickerText.getForeground());
-			if (c != null)
+			if (c != null) {
 				stickerText.setForeground(c);
+			}
 		}
 		Context.put("TEXT_COLOR", new Integer(stickerText.getForeground().getRGB()));
 	}
@@ -402,6 +422,7 @@ public class StickerDialog extends JDialog {
 
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			/*
@@ -410,12 +431,14 @@ public class StickerDialog extends JDialog {
 			 */
 			if (index == 7) {
 				this.setForeground(Color.WHITE);
-			} else
+			} else {
 				setForeground(list.getForeground());
-			if ((index > -1) && (index < colors.length))
+			}
+			if ((index > -1) && (index < colors.length)) {
 				setBackground(colors[index]);
-			else
+			} else {
 				setBackground(list.getBackground());
+			}
 			// }
 			setText(value.toString());
 			return this;
@@ -428,16 +451,18 @@ public class StickerDialog extends JDialog {
 
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			/*
 			 * if (isSelected) { setBackground(list.getSelectionBackground());
 			 * setForeground(list.getSelectionForeground());
 			 */
-			if ((index > -1) && (index < colors.length))
+			if ((index > -1) && (index < colors.length)) {
 				setForeground(colors[index]);
-			else
+			} else {
 				setForeground(list.getForeground());
+			}
 			setBackground(list.getBackground());
 			// }
 			setText(value.toString());

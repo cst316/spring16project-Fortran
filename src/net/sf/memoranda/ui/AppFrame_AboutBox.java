@@ -17,7 +17,7 @@ import javax.swing.JLayeredPane;
 import net.sf.memoranda.util.Local;
 
 /**
- * 
+ *
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
@@ -66,16 +66,19 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
 		text += copyright + "<br>" + url + "<br><br>";
 		// developers' names
 		text += "<b>" + developersHead + "</b><br>";
-		for (int i = 0; i < developers.length; i++)
+		for (int i = 0; i < developers.length; i++) {
 			text += developers[i] + "<br>";
+		}
 		// others' names
 		text += "<br><b>" + othersHead + "</b><br>";
-		for (int i = 0; i < others.length; i++)
+		for (int i = 0; i < others.length; i++) {
 			text += others[i] + "<br>";
+		}
 		// students' names
 		text += "<br><b>" + studentsHead + "</b><br>";
-		for (int i = 0; i < CST316_students.length; i++)
+		for (int i = 0; i < CST316_students.length; i++) {
 			text += CST316_students[i] + "<br>";
+		}
 
 		text += "</html>";
 
@@ -104,6 +107,7 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
 	}
 
 	// Overridden so we can exit when window is closed
+	@Override
 	protected void processWindowEvent(WindowEvent e) {
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 			cancel();
@@ -117,6 +121,7 @@ public class AppFrame_AboutBox extends JDialog implements ActionListener {
 	}
 
 	// Close the dialog on a button event
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == button1) {
 			cancel();

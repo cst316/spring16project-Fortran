@@ -161,6 +161,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 *                if pos represents an invalid location within the document.
 	 *
 	 */
+	@Override
 	public void write() throws IOException, BadLocationException {
 		ElementIterator it = getElementIterator();
 		Element current = null;
@@ -274,6 +275,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 *                on any I/O error
 	 *
 	 */
+	@Override
 	protected void writeAttributes(AttributeSet attr) throws IOException {
 		// translate css attributes to html
 		convAttr.removeAttributes(convAttr);
@@ -310,7 +312,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		closeOutUnwantedEmbeddedTags(attr);
 		writeEmbeddedTags(attr);
 
-		if (attr != null){
+		if (attr != null) {
 			if (matchNameAttribute(attr, HTML.Tag.CONTENT)) {
 				inContent = true;
 				text(elem);
@@ -322,48 +324,49 @@ public class AltHTMLWriter extends AbstractWriter {
 					writeLineSeparator();
 					indent();
 				}
-			Object nameTag = (attr != null) ? attr.getAttribute(StyleConstants.NameAttribute) : null;
-			Object endTag = (attr != null) ? attr.getAttribute(HTML.Attribute.ENDTAG) : null;
+				Object nameTag = (attr != null) ? attr.getAttribute(StyleConstants.NameAttribute) : null;
+				Object endTag = (attr != null) ? attr.getAttribute(HTML.Attribute.ENDTAG) : null;
 
-			boolean outputEndTag = false;
-			// If an instance of an UNKNOWN Tag, or an instance of a
-			// tag that is only visible during editing
-			//
-			if (nameTag != null && endTag != null && (endTag instanceof String) && ((String) endTag).equals("true")) {
-				outputEndTag = true;
-			}
-
-			if (completeDoc && matchNameAttribute(attr, HTML.Tag.HEAD)) {
-
-				if (outputEndTag) {
-					// Write out any styles.
-					writeStyles(((HTMLDocument) getDocument()).getStyleSheet());
+				boolean outputEndTag = false;
+				// If an instance of an UNKNOWN Tag, or an instance of a
+				// tag that is only visible during editing
+				//
+				if (nameTag != null && endTag != null && (endTag instanceof String)
+						&& ((String) endTag).equals("true")) {
+					outputEndTag = true;
 				}
-				wroteHead = true;
-			}
 
-			write('<');
-			if (outputEndTag) {
-				write('/');
-			}
-			write(elem.getName());
-			writeAttributes(attr);
-			write('>');
+				if (completeDoc && matchNameAttribute(attr, HTML.Tag.HEAD)) {
 
-			if (matchNameAttribute(attr, HTML.Tag.TITLE) && !outputEndTag) {
-				Document doc = elem.getDocument();
-				String title = (String) doc.getProperty(Document.TitleProperty);
-				write(title);
-			}
+					if (outputEndTag) {
+						// Write out any styles.
+						writeStyles(((HTMLDocument) getDocument()).getStyleSheet());
+					}
+					wroteHead = true;
+				}
 
-			else if (!inContent || isBlock) {
-				writeLineSeparator();
-				if (isBlock && inContent) {
-					indent();
+				write('<');
+				if (outputEndTag) {
+					write('/');
+				}
+				write(elem.getName());
+				writeAttributes(attr);
+				write('>');
+
+				if (matchNameAttribute(attr, HTML.Tag.TITLE) && !outputEndTag) {
+					Document doc = elem.getDocument();
+					String title = (String) doc.getProperty(Document.TitleProperty);
+					write(title);
+				}
+
+				else if (!inContent || isBlock) {
+					writeLineSeparator();
+					if (isBlock && inContent) {
+						indent();
+					}
 				}
 			}
 		}
-	}
 	}
 
 	/**
@@ -520,6 +523,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 * @exception BadLocationException
 	 *                if pos represents an invalid location within the document.
 	 */
+	@Override
 	protected void text(Element elem) throws BadLocationException, IOException {
 		int start = Math.max(getStartOffset(), elem.getStartOffset());
 		int end = Math.min(getEndOffset(), elem.getEndOffset());
@@ -687,8 +691,9 @@ public class AltHTMLWriter extends AbstractWriter {
 	 */
 	void writeAdditionalComments() throws IOException {
 		Object comments = getDocument().getProperty(HTMLDocument.AdditionalComments);
-		if (comments == null)
+		if (comments == null) {
 			return;
+		}
 		if (comments instanceof Vector) {
 			Vector v = (Vector) comments;
 			for (int counter = 0, maxCounter = v.size(); counter < maxCounter; counter++) {
@@ -696,9 +701,10 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 		// [alex] I've add the following 'else' for single comments:
-		else
+		else {
 			writeComment(comments.toString());
-		// end add
+			// end add
+		}
 	}
 
 	/**
@@ -1074,8 +1080,9 @@ public class AltHTMLWriter extends AbstractWriter {
 						} catch (Exception ex) {
 							fweight = -1;
 						}
-						if ((weightValue.toLowerCase().equals("bold")) || (fweight > 400))
+						if ((weightValue.toLowerCase().equals("bold")) || (fweight > 400)) {
 							to.addAttribute(HTML.Tag.B, SimpleAttributeSet.EMPTY);
+						}
 					}
 				} else if (key == CSS.Attribute.FONT_STYLE) {
 					String s = from.getAttribute(key).toString();
@@ -1169,6 +1176,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 * Writes the line separator. This is overriden to make sure we don't
 	 * replace the newline content in case it is outside normal ascii.
 	 */
+	@Override
 	protected void writeLineSeparator() throws IOException {
 		boolean oldReplace = replaceEntities;
 		replaceEntities = false;
@@ -1180,6 +1188,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 * This method is overriden to map any character entities, such as &lt; to
 	 * &amp;lt;. <code>super.output</code> will be invoked to write the content.
 	 */
+	@Override
 	protected void output(char[] chars, int start, int length) throws IOException {
 		if (!replaceEntities) {
 			super.output(chars, start, length);
@@ -1296,22 +1305,27 @@ public class AltHTMLWriter extends AbstractWriter {
 
 		protected boolean leadAnchorNotificationEnabled = true;
 
+		@Override
 		public int getMinSelectionIndex() {
 			return isSelectionEmpty() ? -1 : minIndex;
 		}
 
+		@Override
 		public int getMaxSelectionIndex() {
 			return maxIndex;
 		}
 
+		@Override
 		public boolean getValueIsAdjusting() {
 			return isAdjusting;
 		}
 
+		@Override
 		public int getSelectionMode() {
 			return selectionMode;
 		}
 
+		@Override
 		public void setSelectionMode(int selectionMode) {
 			switch (selectionMode) {
 			case SINGLE_SELECTION:
@@ -1324,18 +1338,22 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public boolean isSelectedIndex(int index) {
 			return ((index < minIndex) || (index > maxIndex)) ? false : value.get(index);
 		}
 
+		@Override
 		public boolean isSelectionEmpty() {
 			return (minIndex > maxIndex);
 		}
 
+		@Override
 		public void addListSelectionListener(ListSelectionListener l) {
 			listenerList1.add(ListSelectionListener.class, l);
 		}
 
+		@Override
 		public void removeListSelectionListener(ListSelectionListener l) {
 			listenerList1.remove(ListSelectionListener.class, l);
 		}
@@ -1349,7 +1367,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * @since 1.4
 		 */
 		public ListSelectionListener[] getListSelectionListeners() {
-			return (ListSelectionListener[]) listenerList1.getListeners(ListSelectionListener.class);
+			return listenerList1.getListeners(ListSelectionListener.class);
 		}
 
 		/**
@@ -1574,10 +1592,12 @@ public class AltHTMLWriter extends AbstractWriter {
 			changeSelection(clearMin, clearMax, setMin, setMax, true);
 		}
 
+		@Override
 		public void clearSelection() {
 			removeSelectionInterval(minIndex, maxIndex);
 		}
 
+		@Override
 		public void setSelectionInterval(int index0, int index1) {
 			if (index0 == -1 || index1 == -1) {
 				return;
@@ -1596,6 +1616,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			changeSelection(clearMin, clearMax, setMin, setMax);
 		}
 
+		@Override
 		public void addSelectionInterval(int index0, int index1) {
 			if (index0 == -1 || index1 == -1) {
 				return;
@@ -1615,6 +1636,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			changeSelection(clearMin, clearMax, setMin, setMax);
 		}
 
+		@Override
 		public void removeSelectionInterval(int index0, int index1) {
 			if (index0 == -1 || index1 == -1) {
 				return;
@@ -1644,6 +1666,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * sync the selection model with a corresponding change in the data
 		 * model.
 		 */
+		@Override
 		public void insertIndexInterval(int index, int length, boolean before) {
 			/*
 			 * The first new index will appear at insMinIndex and the last one
@@ -1675,6 +1698,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * width a corresponding change in the data model. Note that (as always)
 		 * index0 can be greater than index1.
 		 */
+		@Override
 		public void removeIndexInterval(int index0, int index1) {
 			int rmMinIndex = Math.min(index0, index1);
 			int rmMaxIndex = Math.max(index0, index1);
@@ -1689,6 +1713,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public void setValueIsAdjusting(boolean isAdjusting) {
 			if (isAdjusting != this.isAdjusting) {
 				this.isAdjusting = isAdjusting;
@@ -1696,6 +1721,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public String toString() {
 			String s = ((getValueIsAdjusting()) ? "~" : "=") + value.toString();
 			return getClass().getName() + " " + Integer.toString(hashCode()) + " " + s;
@@ -1711,6 +1737,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 *                <code>Cloneable</code> interface and (b) define a
 		 *                <code>clone</code> method
 		 */
+		@Override
 		public Object clone() throws CloneNotSupportedException {
 			OptionListModel clone = (OptionListModel) super.clone();
 			clone.value = (BitSet) value.clone();
@@ -1718,10 +1745,12 @@ public class AltHTMLWriter extends AbstractWriter {
 			return clone;
 		}
 
+		@Override
 		public int getAnchorSelectionIndex() {
 			return anchorIndex;
 		}
 
+		@Override
 		public int getLeadSelectionIndex() {
 			return leadIndex;
 		}
@@ -1733,6 +1762,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * @see #getAnchorSelectionIndex
 		 * @see #setLeadSelectionIndex
 		 */
+		@Override
 		public void setAnchorSelectionIndex(int anchorIndex) {
 			this.anchorIndex = anchorIndex;
 		}
@@ -1765,6 +1795,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * @see #getLeadSelectionIndex
 		 * @see #setAnchorSelectionIndex
 		 */
+		@Override
 		public void setLeadSelectionIndex(int leadIndex) {
 			int anchorIndex = this.anchorIndex;
 			if (getSelectionMode() == SINGLE_SELECTION) {
@@ -1872,7 +1903,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			if (as == null) {
 				return;
 			}
-			if (areaAttributes == null) {
+			if ( areaAttributes == null) {
 				areaAttributes = new Vector(2);
 			}
 			areaAttributes.addElement(as.copyAttributes());
@@ -2014,6 +2045,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public boolean contains(int x, int y, int width, int height) {
 			if (percentValues != null && (lastWidth != width || lastHeight != height)) {
 				// int newRad = Math.min(width, height) / 2;
@@ -2051,6 +2083,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			return si;
 		}
 
+		@Override
 		public boolean contains(int x, int y, int width, int height) {
 			return (x <= width && x >= 0 && y >= 0 && y <= width);
 		}
@@ -2111,6 +2144,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public boolean contains(int x, int y, int width, int height) {
 			if (percentValues == null || (lastWidth == width && lastHeight == height)) {
 				return contains(x, y);
@@ -2119,8 +2153,8 @@ public class AltHTMLWriter extends AbstractWriter {
 			bounds = null;
 			lastWidth = width;
 			lastHeight = height;
-			float fWidth = (float) width;
-			float fHeight = (float) height;
+			float fWidth = width;
+			float fHeight = height;
 			for (int counter = percentValues.length - 1; counter >= 0; counter--) {
 				if (percentIndexs[counter] % 2 == 0) {
 					// x
@@ -2180,6 +2214,7 @@ public class AltHTMLWriter extends AbstractWriter {
 			}
 		}
 
+		@Override
 		public boolean contains(int x, int y, int width, int height) {
 			if (percents == null) {
 				return contains(x, y);

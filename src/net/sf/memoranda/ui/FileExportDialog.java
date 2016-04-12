@@ -51,6 +51,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 		okB.setText(Local.getString("Save"));
 		okB.setPreferredSize(new java.awt.Dimension(90, 25));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				CANCELLED = false;
 				dispose();
@@ -62,6 +63,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 		cancelB.setText(Local.getString("Cancel"));
 		cancelB.setPreferredSize(new java.awt.Dimension(90, 25));
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
@@ -76,6 +78,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 		fileChooser.setControlButtonsAreShown(false);
 		fileChooser.addPropertyChangeListener(new PropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				chooserActionPerformed();
 
@@ -106,6 +109,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 		usetemplChB.setText(Local.getString("Use template") + ":");
 		usetemplChB.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		usetemplChB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (usetemplChB.isSelected()) {
 					templF.setEnabled(true);
@@ -120,6 +124,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 
 		xhtmlChB.setText(Local.getString("Save as XHTML"));
 		xhtmlChB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				xhtmlChBActionPerformed(evt);
 			}
@@ -134,6 +139,7 @@ public class FileExportDialog extends javax.swing.JDialog {
 		templBrowseB.setText("Browse");
 		templBrowseB.setEnabled(false);
 		templBrowseB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				browseTemplate();
 			}
@@ -170,10 +176,12 @@ public class FileExportDialog extends javax.swing.JDialog {
 		chooser.setDialogTitle(Local.getString("Select file"));
 		chooser.setAcceptAllFileFilterUsed(true);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		if (templF.getText().length() > 0)
+		if (templF.getText().length() > 0) {
 			chooser.setCurrentDirectory(new java.io.File(templF.getText()));
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			templF.setText(chooser.getSelectedFile().getPath());
+		}
 	}
 
 	private javax.swing.JButton cancelB;
