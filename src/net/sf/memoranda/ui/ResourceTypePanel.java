@@ -75,6 +75,7 @@ public class ResourceTypePanel extends JPanel {
 		newTypeB.setPreferredSize(new Dimension(110, 25));
 		newTypeB.setText(Local.getString("New"));
 		newTypeB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				newTypeB_actionPerformed(e);
 			}
@@ -86,6 +87,7 @@ public class ResourceTypePanel extends JPanel {
 		jPanel2.setBorder(border3);
 		editB.setText(Local.getString("Edit"));
 		editB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				editB_actionPerformed(e);
 			}
@@ -98,6 +100,7 @@ public class ResourceTypePanel extends JPanel {
 		deleteB.setPreferredSize(new Dimension(110, 25));
 		deleteB.setText(Local.getString("Delete"));
 		deleteB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				deleteB_actionPerformed(e);
 			}
@@ -105,6 +108,7 @@ public class ResourceTypePanel extends JPanel {
 		typesList.setCellRenderer(new TypesListRenderer());
 		typesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		typesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				typesList_valueChanged(e);
 			}
@@ -150,13 +154,15 @@ public class ResourceTypePanel extends JPanel {
 		dlg.iconLabel.setIcon(
 				new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png")));
 		dlg.setVisible(true);
-		if (dlg.CANCELLED)
+		if (dlg.CANCELLED) {
 			return;
+		}
 		String typeId = Util.generateId();
 		MimeType mt = MimeTypesList.addMimeType(typeId);
 		String[] exts = dlg.extField.getText().trim().split(" ");
-		for (int i = 0; i < exts.length; i++)
+		for (int i = 0; i < exts.length; i++) {
 			mt.addExtension(exts[i]);
+		}
 		mt.setLabel(dlg.descField.getText());
 		AppList appList = MimeTypesList.getAppList();
 		if (dlg.appPanel.applicationField.getText().length() > 0) {
@@ -166,8 +172,9 @@ public class ResourceTypePanel extends JPanel {
 					dlg.appPanel.argumentsField.getText());
 			mt.setApp(appId);
 		}
-		if (dlg.iconPath.length() > 0)
+		if (dlg.iconPath.length() > 0) {
 			mt.setIconPath(dlg.iconPath);
+		}
 		CurrentStorage.get().storeMimeTypesList();
 		this.initTypesList();
 		typesList.setSelectedValue(mt, true);
@@ -179,8 +186,9 @@ public class ResourceTypePanel extends JPanel {
 				Local.getString("Delete resource type") + "\n'" + mt.getLabel() + "'\n"
 						+ Local.getString("Are you sure?"),
 				Local.getString("Delete resource type"), JOptionPane.YES_NO_OPTION);
-		if (n != JOptionPane.YES_OPTION)
+		if (n != JOptionPane.YES_OPTION) {
 			return;
+		}
 		MimeTypesList.removeMimeType(mt.getMimeTypeId());
 		CurrentStorage.get().storeMimeTypesList();
 		this.initTypesList();
@@ -196,8 +204,9 @@ public class ResourceTypePanel extends JPanel {
 		MimeType mt = (MimeType) typesList.getSelectedValue();
 		String[] exts = mt.getExtensions();
 		String extss = "";
-		for (int i = 0; i < exts.length; i++)
+		for (int i = 0; i < exts.length; i++) {
 			extss += exts[i] + " ";
+		}
 		dlg.extField.setText(extss);
 		dlg.descField.setText(mt.getLabel());
 		dlg.iconLabel.setIcon(mt.getIcon());
@@ -206,14 +215,16 @@ public class ResourceTypePanel extends JPanel {
 				.setText(appList.getFindPath(mt.getAppId()) + "/" + appList.getExec(mt.getAppId()));
 		dlg.appPanel.argumentsField.setText(appList.getCommandLinePattern(mt.getAppId()));
 		dlg.setVisible(true);
-		if (dlg.CANCELLED)
+		if (dlg.CANCELLED) {
 			return;
+		}
 		String typeId = mt.getMimeTypeId();
 		MimeTypesList.removeMimeType(typeId);
 		mt = MimeTypesList.addMimeType(typeId);
 		exts = dlg.extField.getText().trim().split(" ");
-		for (int i = 0; i < exts.length; i++)
+		for (int i = 0; i < exts.length; i++) {
 			mt.addExtension(exts[i]);
+		}
 		mt.setLabel(dlg.descField.getText());
 		if (dlg.appPanel.applicationField.getText().length() > 0) {
 			File f = new File(dlg.appPanel.applicationField.getText());
@@ -222,8 +233,9 @@ public class ResourceTypePanel extends JPanel {
 					dlg.appPanel.argumentsField.getText());
 			mt.setApp(appId);
 		}
-		if (dlg.iconPath.length() > 0)
+		if (dlg.iconPath.length() > 0) {
 			mt.setIconPath(dlg.iconPath);
+		}
 		CurrentStorage.get().storeMimeTypesList();
 		this.initTypesList();
 		typesList.setSelectedValue(mt, true);
@@ -236,6 +248,7 @@ public class ResourceTypePanel extends JPanel {
 			super();
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 
@@ -244,8 +257,9 @@ public class ResourceTypePanel extends JPanel {
 			String extstr = "";
 			for (int j = 0; j < exts.length; j++) {
 				extstr += "*." + exts[j];
-				if (j != exts.length - 1)
+				if (j != exts.length - 1) {
 					extstr += ", ";
+				}
 			}
 
 			setOpaque(true);

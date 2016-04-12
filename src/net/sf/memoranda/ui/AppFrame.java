@@ -7,8 +7,6 @@ import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Collection;
@@ -31,10 +29,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.JTable;
+
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.Note;
@@ -48,12 +45,12 @@ import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.LOCReader;
+import net.sf.memoranda.util.LOCWriter;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.ProjectExporter;
 import net.sf.memoranda.util.ProjectPackager;
 import net.sf.memoranda.util.Util;
-import net.sf.memoranda.util.LOCReader;
-import net.sf.memoranda.util.LOCWriter;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -88,41 +85,44 @@ public class AppFrame extends JFrame {
 	static Vector exitListeners = new Vector();
 
 	public Action prjPackAction = new AbstractAction("Pack current project") {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			doPrjPack();
 		}
 	};
 	public Action prjUnpackAction = new AbstractAction("Unpack project") {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			doPrjUnPack();
 		}
 	};
 	/*
-   	public Action minimizeAction = new AbstractAction("Close the window") {
-		public void actionPerformed(ActionEvent e) {
-			doMinimize();
-		}
-	};
-	*/
+	 * public Action minimizeAction = new AbstractAction("Close the window") {
+	 * public void actionPerformed(ActionEvent e) { doMinimize(); } };
+	 */
 	public Action preferencesAction = new AbstractAction("Preferences") {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			showPreferences();
 		}
 	};
 	public Action exportNotesAction = new AbstractAction(Local.getString("Export notes") + "...") {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			ppExport_actionPerformed(e);
 		}
 	};
 	public Action importNotesAction = new AbstractAction(Local.getString("Import multiple notes")) {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			ppImport_actionPerformed(e);
 		}
 	};
 	public Action importOneNoteAction = new AbstractAction(Local.getString("Import one note")) {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			p1Import_actionPerformed(e);
 		}
@@ -130,6 +130,7 @@ public class AppFrame extends JFrame {
 	// Even Implementation of import source code module
 	public Action importSourceAction = new AbstractAction(Local.getString("Import Code")) {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			importSource_actionPerformed(e);
 		}
@@ -141,19 +142,19 @@ public class AppFrame extends JFrame {
 	 */
 	public Action viewSourceAction = new AbstractAction(Local.getString("Imported Code")) {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			//check to see if import file exists
+			// check to see if import file exists
 			boolean result = LOCReader.checkLOCFileExists();
-			if(result){
-				//fikle exists we read file
+			if (result) {
+				// fikle exists we read file
 				Object[][] temp = LOCReader.xmlToArray();
 				LOCTable table = new LOCTable(temp, LOCTable.COLUMNAMES);
-			}
-			else{
-				//cannot find file
-				JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
-			    		"Error",JOptionPane.ERROR_MESSAGE);
+			} else {
+				// cannot find file
+				JOptionPane.showMessageDialog(null, "Cannot Find File with Saved LOC", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
@@ -171,8 +172,7 @@ public class AppFrame extends JFrame {
 
 	JMenuItem jMenuFileExit = new JMenuItem();
 
-
-//	JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
+	// JMenuItem jMenuFileMin = new JMenuItem(minimizeAction);
 
 	JMenuItem jMenuFileNewPrj = new JMenuItem();
 	JMenuItem jMenuFileNewNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.newAction);
@@ -186,7 +186,6 @@ public class AppFrame extends JFrame {
 	JMenuItem jMenuFileImportSource = new JMenuItem(importSourceAction);
 	// JMenuItem jMenuViewSource = new JMenuItem(viewSourceAction);
 	JMenuItem jMenuFileExportNote = new JMenuItem(workPanel.dailyItemsPanel.editorPanel.exportAction);
-
 
 	JMenuItem jMenuItem1 = new JMenuItem();
 	JMenuItem jMenuEditUndo = new JMenuItem(editor.undoAction);
@@ -293,13 +292,15 @@ public class AppFrame extends JFrame {
 		// MenuFile parts
 		jMenuFileExit.setText(Local.getString("Exit"));
 		jMenuFileExit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				doExit();
 			}
 		});
 
-//		jMenuFileMin.setText(Local.getString("Close the window"));
-//		jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.ALT_MASK));
+		// jMenuFileMin.setText(Local.getString("Close the window"));
+		// jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
+		// InputEvent.ALT_MASK));
 		// jMenuFileMin.setText(Local.getString("Close the window"));
 		// jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
 		// InputEvent.ALT_MASK));
@@ -342,7 +343,7 @@ public class AppFrame extends JFrame {
 		jMenuEditRedo.setToolTipText(Local.getString("Redo"));
 		jMenuEditCut.setText(Local.getString("Cut"));
 		jMenuEditCut.setToolTipText(Local.getString("Cut"));
-		jMenuEditCopy.setText((String) Local.getString("Copy"));
+		jMenuEditCopy.setText(Local.getString("Copy"));
 		jMenuEditCopy.setToolTipText(Local.getString("Copy"));
 		jMenuEditPaste.setText(Local.getString("Paste"));
 		jMenuEditPaste.setToolTipText(Local.getString("Paste"));
@@ -426,6 +427,7 @@ public class AppFrame extends JFrame {
 		jMenuHelpGuide.setText(Local.getString("Online user's guide"));
 		jMenuHelpGuide.setIcon(new ImageIcon(AppFrame.class.getResource("resources/icons/help.png")));
 		jMenuHelpGuide.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				jMenuHelpGuide_actionPerformed(e);
 			}
@@ -433,18 +435,21 @@ public class AppFrame extends JFrame {
 		jMenuHelpWeb.setText(Local.getString("Memoranda web site"));
 		jMenuHelpWeb.setIcon(new ImageIcon(AppFrame.class.getResource("resources/icons/web.png")));
 		jMenuHelpWeb.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				jMenuHelpWeb_actionPerformed(e);
 			}
 		});
 		jMenuHelpBug.setText(Local.getString("Report a bug"));
 		jMenuHelpBug.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				jMenuHelpBug_actionPerformed(e);
 			}
 		});
 		jMenuHelpAbout.setText(Local.getString("About Memoranda"));
 		jMenuHelpAbout.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				jMenuHelpAbout_actionPerformed(e);
 			}
@@ -469,7 +474,7 @@ public class AppFrame extends JFrame {
 		jMenuFile.addSeparator();
 
 		// jMenuFile.addSeparator();
-//		jMenuFile.add(jMenuFileMin);
+		// jMenuFile.add(jMenuFileMin);
 		jMenuFile.add(jMenuFileExit);
 		// MenuView
 		jMenuView.add(jMenuViewCode);///////////////////////////////////////////
@@ -575,6 +580,7 @@ public class AppFrame extends JFrame {
 		setEnabledEditorMenus(false);
 
 		projectsPanel.AddExpandListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (prPanelExpanded) {
 					prPanelExpanded = false;
@@ -587,6 +593,7 @@ public class AppFrame extends JFrame {
 		});
 
 		java.awt.event.ActionListener setMenusDisabled = new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setEnabledEditorMenus(false);
 			}
@@ -601,6 +608,7 @@ public class AppFrame extends JFrame {
 		this.workPanel.agendaB.addActionListener(setMenusDisabled);
 
 		this.workPanel.notesB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setEnabledEditorMenus(true);
 			}
@@ -612,8 +620,9 @@ public class AppFrame extends JFrame {
 			int w = new Integer((String) fwo).intValue();
 			int h = new Integer((String) fho).intValue();
 			this.setSize(w, h);
-		} else
+		} else {
 			this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		}
 
 		Object xo = Context.get("FRAME_XPOS");
 		Object yo = Context.get("FRAME_YPOS");
@@ -631,16 +640,17 @@ public class AppFrame extends JFrame {
 
 		CurrentProject.addProjectListener(new ProjectListener() {
 
+			@Override
 			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl) {
 			}
 
+			@Override
 			public void projectWasChanged() {
 				setTitle("Memoranda - " + CurrentProject.get().getTitle());
 			}
 		});
 
 	} // jbInit End
-
 
 	protected void jMenuHelpBug_actionPerformed(ActionEvent e) {
 		Util.runBrowser(App.BUGS_TRACKER_URL);
@@ -664,13 +674,13 @@ public class AppFrame extends JFrame {
 			dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x,
 					(frmSize.height - dlg.getSize().height) / 2 + loc.y);
 			dlg.setVisible(true);
-			//System.out.println("ask");
-			if (dlg.CANCELLED){
-				//System.out.println("dlg.cancle is true");
+			// System.out.println("ask");
+			if (dlg.CANCELLED) {
+				// System.out.println("dlg.cancle is true");
 				return;
 			}
 		}
-		//System.out.println("not ask");
+		// System.out.println("not ask");
 
 		Context.put("FRAME_WIDTH", new Integer(this.getWidth()));
 		Context.put("FRAME_HEIGHT", new Integer(this.getHeight()));
@@ -700,22 +710,23 @@ public class AppFrame extends JFrame {
 		dlg.setVisible(true);
 	}
 
+	@Override
 	protected void processWindowEvent(WindowEvent e) {
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 			if (Configuration.get("ON_CLOSE").equals("exit")) {
-				//System.out.println("1exit");
+				// System.out.println("1exit");
 				doExit();
 			} else {
-				//System.out.println("2elseExitWindow");
+				// System.out.println("2elseExitWindow");
 				doExit();
 			}
 		} else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
 			// super.processWindowEvent(new WindowEvent(this,
 			// WindowEvent.WINDOW_ICONIFIED));
-			//System.out.println("3elseIfMin"); // minimize goes here
-		} else{
-			//System.out.println("4elseOther--usuallyPopUp&PopDown");
-		super.processWindowEvent(e);
+			// System.out.println("3elseIfMin"); // minimize goes here
+		} else {
+			// System.out.println("4elseOther--usuallyPopUp&PopDown");
+			super.processWindowEvent(e);
 		}
 	}
 
@@ -723,15 +734,14 @@ public class AppFrame extends JFrame {
 		exitListeners.add(al);
 	}
 
-
-
 	public static Collection getExitListeners() {
 		return exitListeners;
 	}
 
 	private static void exitNotify() {
-		for (int i = 0; i < exitListeners.size(); i++)
+		for (int i = 0; i < exitListeners.size(); i++) {
 			((ActionListener) exitListeners.get(i)).actionPerformed(null);
+		}
 	}
 
 	public void setEnabledEditorMenus(boolean enabled) {
@@ -779,10 +789,12 @@ public class AppFrame extends JFrame {
 		}
 		// ---------------------------------------------------------------------
 
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(lastSel);
-		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());
 		java.io.File f = chooser.getSelectedFile();
 		ProjectPackager.pack(CurrentProject.get(), f);
@@ -825,10 +837,12 @@ public class AppFrame extends JFrame {
 		}
 		// ---------------------------------------------------------------------
 
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(lastSel);
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		Context.put("LAST_SELECTED_PACK_FILE", chooser.getSelectedFile());
 		java.io.File f = chooser.getSelectedFile();
 		ProjectPackager.unpack(f);
@@ -865,27 +879,32 @@ public class AppFrame extends JFrame {
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
 
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(new File(lastSel));
+		}
 
 		ProjectExportDialog dlg = new ProjectExportDialog(App.getFrame(), Local.getString("Export notes"), chooser);
 		String enc = (String) Context.get("EXPORT_FILE_ENCODING");
-		if (enc != null)
+		if (enc != null) {
 			dlg.encCB.setSelectedItem(enc);
+		}
 		String spl = (String) Context.get("EXPORT_SPLIT_NOTES");
-		if (spl != null)
+		if (spl != null) {
 			dlg.splitChB.setSelected(spl.equalsIgnoreCase("true"));
+		}
 		String ti = (String) Context.get("EXPORT_TITLES_AS_HEADERS");
-		if (ti != null)
+		if (ti != null) {
 			dlg.titlesAsHeadersChB.setSelected(ti.equalsIgnoreCase("true"));
+		}
 		Dimension dlgSize = new Dimension(550, 500);
 		dlg.setSize(dlgSize);
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();
 		dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
 		dlg.setVisible(true);
-		if (dlg.CANCELLED)
+		if (dlg.CANCELLED) {
 			return;
+		}
 
 		Context.put("LAST_SELECTED_EXPORT_FILE", chooser.getSelectedFile().getPath());
 		Context.put("EXPORT_SPLIT_NOTES", new Boolean(dlg.splitChB.isSelected()).toString());
@@ -893,8 +912,9 @@ public class AppFrame extends JFrame {
 
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
-		if (ei == 1)
+		if (ei == 1) {
 			enc = "UTF-8";
+		}
 		boolean nument = (ei == 2);
 		File f = chooser.getSelectedFile();
 		boolean xhtml = chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
@@ -934,10 +954,12 @@ public class AppFrame extends JFrame {
 		}
 		// ---------------------------------------------------------------------
 
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(lastSel);
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());
 		java.io.File f = chooser.getSelectedFile();
 		HashMap<String, String> notesName = new HashMap<String, String>();
@@ -1015,11 +1037,10 @@ public class AppFrame extends JFrame {
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.JAVA));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
 
-
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
-		//System.out.println("?: " + JFileChooser.APPROVE_OPTION + ":?");
+		// System.out.println("?: " + JFileChooser.APPROVE_OPTION + ":?");
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
@@ -1032,13 +1053,14 @@ public class AppFrame extends JFrame {
 			@SuppressWarnings("unused")
 			LOCTable table = new LOCTable(temp, LOCTable.COLUMNAMES);
 		}
-	}//importSource_actionPerformed
-	public static String getExtension(File f){
+	}// importSource_actionPerformed
+
+	public static String getExtension(File f) {
 
 		String fileName = f.getName();
 		StringBuilder sb = new StringBuilder(fileName);
 		int index = sb.lastIndexOf(".");
-		return sb.substring(index,fileName.length());
+		return sb.substring(index, fileName.length());
 
 	}
 
@@ -1081,10 +1103,12 @@ public class AppFrame extends JFrame {
 		}
 		// ---------------------------------------------------------------------
 
-		if (lastSel != null)
+		if (lastSel != null) {
 			chooser.setCurrentDirectory(lastSel);
-		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+		}
+		if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
 			return;
+		}
 		Context.put("LAST_SELECTED_NOTE_FILE", chooser.getSelectedFile());
 		java.io.File f = chooser.getSelectedFile();
 		HashMap<String, String> notesName = new HashMap<String, String>();

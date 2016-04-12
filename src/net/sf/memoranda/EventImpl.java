@@ -2,7 +2,7 @@
  * EventImpl.java
  * Created on 08.03.2003, 13:20:13 Alex
  * Package: net.sf.memoranda
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
@@ -11,13 +11,14 @@ package net.sf.memoranda;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
 /**
- * 
+ *
  */
 /* $Id: EventImpl.java,v 1.9 2004/10/06 16:00:11 ivanrise Exp $ */
 public class EventImpl implements Event, Comparable {
@@ -34,6 +35,7 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getHour()
 	 */
+	@Override
 	public int getHour() {
 		return new Integer(_elem.getAttribute("hour").getValue()).intValue();
 	}
@@ -41,10 +43,12 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getMinute()
 	 */
+	@Override
 	public int getMinute() {
 		return new Integer(_elem.getAttribute("min").getValue()).intValue();
 	}
 
+	@Override
 	public String getTimeString() {
 		return Local.getTimeString(getHour(), getMinute());
 	}
@@ -52,6 +56,7 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getText()
 	 */
+	@Override
 	public String getText() {
 		return _elem.getValue();
 	}
@@ -59,6 +64,7 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getContent()
 	 */
+	@Override
 	public Element getContent() {
 		return _elem;
 	}
@@ -66,6 +72,7 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#isRepeatable()
 	 */
+	@Override
 	public boolean isRepeatable() {
 		return getStartDate() != null;
 	}
@@ -73,56 +80,67 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getStartDate()
 	 */
+	@Override
 	public CalendarDate getStartDate() {
 		Attribute a = _elem.getAttribute("startDate");
-		if (a != null)
+		if (a != null) {
 			return new CalendarDate(a.getValue());
+		}
 		return null;
 	}
 
 	/**
 	 * @see net.sf.memoranda.Event#getEndDate()
 	 */
+	@Override
 	public CalendarDate getEndDate() {
 		Attribute a = _elem.getAttribute("endDate");
-		if (a != null)
+		if (a != null) {
 			return new CalendarDate(a.getValue());
+		}
 		return null;
 	}
 
 	/**
 	 * @see net.sf.memoranda.Event#getPeriod()
 	 */
+	@Override
 	public int getPeriod() {
 		Attribute a = _elem.getAttribute("period");
-		if (a != null)
+		if (a != null) {
 			return new Integer(a.getValue()).intValue();
+		}
 		return 0;
 	}
 
 	/**
 	 * @see net.sf.memoranda.Event#getId()
 	 */
+	@Override
 	public String getId() {
 		Attribute a = _elem.getAttribute("id");
-		if (a != null)
+		if (a != null) {
 			return a.getValue();
+		}
 		return null;
 	}
 
 	/**
 	 * @see net.sf.memoranda.Event#getRepeat()
 	 */
+	@Override
 	public int getRepeat() {
 		Attribute a = _elem.getAttribute("repeat-type");
-		if (a != null)
+		if (a != null) {
 			return new Integer(a.getValue()).intValue();
+		}
 		return 0;
 	}
 
 	/**
 	 * @see net.sf.memoranda.Event#getTime()
 	 */
+	@Override
 	public Date getTime() {
 		// Deprecated methods
 		// Date d = new Date();
@@ -161,13 +179,16 @@ public class EventImpl implements Event, Comparable {
 	/**
 	 * @see net.sf.memoranda.Event#getWorkinDays()
 	 */
+	@Override
 	public boolean getWorkingDays() {
 		Attribute a = _elem.getAttribute("workingDays");
-		if (a != null && a.getValue().equals("true"))
+		if (a != null && a.getValue().equals("true")) {
 			return true;
+		}
 		return false;
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		Event event = (Event) o;
 		return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());

@@ -1,7 +1,7 @@
 /**
  * JNCalendar.java Created on 13.02.2003, 21:26:38 Alex Package:
  * net.sf.memoranda.ui
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
@@ -21,11 +21,11 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.Configuration;
+import net.sf.memoranda.util.Local;
 
 /**
- *  
+ *
  */
 /* $Id: JNCalendar.java,v 1.8 2004/11/05 07:38:10 pbielen Exp $ */
 public class JNCalendar extends JTable {
@@ -57,18 +57,22 @@ public class JNCalendar extends JTable {
 		final ListSelectionModel rowSM = getSelectionModel();
 		final ListSelectionModel colSM = getColumnModel().getSelectionModel();
 		ListSelectionListener lsl = new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// Ignore extra messages.
-				if (e.getValueIsAdjusting())
+				if (e.getValueIsAdjusting()) {
 					return;
-				if (ignoreChange)
+				}
+				if (ignoreChange) {
 					return;
+				}
 				int row = getSelRow();
 				int col = getSelCol();
 				Object val = getModel().getValueAt(row, col);
 				if (val != null) {
-					if (val.toString().equals(new Integer(_date.getDay()).toString()))
+					if (val.toString().equals(new Integer(_date.getDay()).toString())) {
 						return;
+					}
 					_date = new CalendarDate(new Integer(val.toString()).intValue(), _date.getMonth(), _date.getYear());
 					notifyListeners();
 				} else {
@@ -123,6 +127,7 @@ public class JNCalendar extends JTable {
 		}
 	}
 
+	@Override
 	public TableCellRenderer getCellRenderer(int row, int column) {
 		Object d = this.getModel().getValueAt(row, column);
 		/*
@@ -130,10 +135,11 @@ public class JNCalendar extends JTable {
 		 * CalendarDate(new Integer(d.toString()).intValue(), _date.getMonth(),
 		 * _date.getYear()));
 		 */
-		if (d != null)
+		if (d != null) {
 			renderer.setDate(new CalendarDate(new Integer(d.toString()).intValue(), _date.getMonth(), _date.getYear()));
-		else
+		} else {
 			renderer.setDate(null);
+		}
 		return renderer;
 	}
 
@@ -165,14 +171,16 @@ public class JNCalendar extends JTable {
 		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("mon")) {
 			cal.setFirstDayOfWeek(Calendar.MONDAY);
 			d = 2;
-		} else
+		} else {
 			cal.setFirstDayOfWeek(Calendar.SUNDAY);
+		}
 
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		cal.getTime();
 		firstDay = cal.get(Calendar.DAY_OF_WEEK) - d;
-		if (firstDay == -1)
+		if (firstDay == -1) {
 			firstDay = 6;
+		}
 		daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 
@@ -185,24 +193,29 @@ public class JNCalendar extends JTable {
 			super();
 		}
 
+		@Override
 		public int getColumnCount() {
 			return 7;
 		}
 
+		@Override
 		public Object getValueAt(int row, int col) {
 			// int pos = (row * 7 + col) - firstDay + 1;
 			int pos = (row * 7 + (col + 1)) - firstDay;
-			if ((pos > 0) && (pos <= daysInMonth))
+			if ((pos > 0) && (pos <= daysInMonth)) {
 				return new Integer(pos);
-			else
+			} else {
 				return null;
+			}
 
 		}
 
+		@Override
 		public int getRowCount() {
 			return 6;
 		}
 
+		@Override
 		public String getColumnName(int col) {
 			return dayNames[col];
 		}

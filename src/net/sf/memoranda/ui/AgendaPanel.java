@@ -6,19 +6,17 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.JOptionPane;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.EventNotificationListener;
@@ -79,12 +77,13 @@ public class AgendaPanel extends JPanel {
 		viewer.setOpaque(false);
 		viewer.addHyperlinkListener(new HyperlinkListener() {
 
+			@Override
 			public void hyperlinkUpdate(HyperlinkEvent e) {
 				if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 					String d = e.getDescription();
-					if (d.equalsIgnoreCase("memoranda:events"))
+					if (d.equalsIgnoreCase("memoranda:events")) {
 						parentPanel.alarmB_actionPerformed(null);
-					else if (d.startsWith("memoranda:tasks")) {
+					} else if (d.startsWith("memoranda:tasks")) {
 						String id = d.split("#")[1];
 						CurrentProject.set(ProjectManager.getProject(id));
 						parentPanel.taskB_actionPerformed(null);
@@ -137,7 +136,7 @@ public class AgendaPanel extends JPanel {
 						refresh(CurrentDate.get());
 					} else if (d.startsWith("memoranda:expandsticker")) {
 						String id = d.split("#")[1];
-						Element pre_sticker = (Element) ((Map) EventsManager.getStickers()).get(id);
+						Element pre_sticker = (Element) EventsManager.getStickers().get(id);
 						String sticker = pre_sticker.getValue();
 						int first = sticker.indexOf(">");
 						int last = sticker.lastIndexOf("<");
@@ -158,7 +157,7 @@ public class AgendaPanel extends JPanel {
 						dlg.setVisible(true);
 					} else if (d.startsWith("memoranda:editsticker")) {
 						String id = d.split("#")[1];
-						Element pre_sticker = (Element) ((Map) EventsManager.getStickers()).get(id);
+						Element pre_sticker = (Element) EventsManager.getStickers().get(id);
 						String sticker = pre_sticker.getValue();
 						sticker = sticker.replaceAll("<br>", "\n");
 						int first = sticker.indexOf(">");
@@ -250,30 +249,39 @@ public class AgendaPanel extends JPanel {
 		this.add(toolBar, BorderLayout.NORTH);
 
 		CurrentDate.addDateListener(new DateListener() {
+			@Override
 			public void dateChange(CalendarDate d) {
-				if (isActive)
+				if (isActive) {
 					refresh(d);
+				}
 			}
 		});
 		CurrentProject.addProjectListener(new ProjectListener() {
 
+			@Override
 			public void projectChange(Project prj, NoteList nl, TaskList tl, ResourcesList rl) {
 			}
 
+			@Override
 			public void projectWasChanged() {
-				if (isActive)
+				if (isActive) {
 					refresh(CurrentDate.get());
+				}
 			}
 		});
 		EventsScheduler.addListener(new EventNotificationListener() {
+			@Override
 			public void eventIsOccured(net.sf.memoranda.Event ev) {
-				if (isActive)
+				if (isActive) {
 					refresh(CurrentDate.get());
+				}
 			}
 
+			@Override
 			public void eventsChanged() {
-				if (isActive)
+				if (isActive) {
 					refresh(CurrentDate.get());
+				}
 			}
 		});
 		refresh(CurrentDate.get());
@@ -301,6 +309,7 @@ public class AgendaPanel extends JPanel {
 	public void refresh(CalendarDate date) {
 		viewer.setText(AgendaGenerator.getAgenda(date, expandedTasks));
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				if (gotoTask != null) {
 					viewer.scrollToReference(gotoTask);

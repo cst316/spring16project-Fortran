@@ -1,11 +1,13 @@
 package net.sf.memoranda.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.io.*;
 
 import net.sf.memoranda.date.CalendarDate;
 
@@ -46,8 +48,9 @@ public class Local {
 			/* DEBUG */
 			System.out.println("* DEBUG: Locales are disabled");
 		}
-		if (messages.size() == 0)
+		if (messages.size() == 0) {
 			messages = null;
+		}
 
 		/*** DEBUG PURPOSES ***/
 		System.out.println("Default locale: " + currentLocale.getDisplayName());
@@ -97,8 +100,9 @@ public class Local {
 		String[] localwdnames = new String[7];
 		String[] localnames = weekdaynames;
 
-		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("mon"))
+		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("mon")) {
 			localnames = new String[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+		}
 
 		for (int i = 0; i < 7; i++) {
 			localwdnames[i] = getString(localnames[i]);

@@ -10,10 +10,10 @@ import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.Vector;
 
@@ -45,7 +45,7 @@ import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
-import net.sf.memoranda.util.*;
+import net.sf.memoranda.util.Local;
 
 /*$Id: ProjectsPanel.java,v 1.14 2005/01/04 09:59:22 pbielen Exp $*/
 public class ProjectsPanel extends JPanel implements ExpandablePanel {
@@ -75,6 +75,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 	public Action newProjectAction = new AbstractAction(Local.getString("New project") + "...",
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/newproject.png"))) {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			ppNewProject_actionPerformed(e);
 		}
@@ -105,6 +106,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		toggleButton.setVerticalAlignment(SwingConstants.TOP);
 		toggleButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		toggleButton.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleButton_actionPerformed(null);
 			}
@@ -131,6 +133,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		curProjectTitle.setPreferredSize(new Dimension(32767, 22));
 		curProjectTitle.setText(CurrentProject.get().getTitle());
 		curProjectTitle.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				toggleButton_actionPerformed(null);
 			}
@@ -146,6 +149,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		ppProperties.setFont(new java.awt.Font("Dialog", 1, 11));
 		ppProperties.setText(Local.getString("Project properties"));
 		ppProperties.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ppProperties_actionPerformed(e);
 			}
@@ -156,6 +160,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		ppDeleteProject.setFont(new java.awt.Font("Dialog", 1, 11));
 		ppDeleteProject.setText(Local.getString("Delete project"));
 		ppDeleteProject.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ppDeleteProject_actionPerformed(e);
 			}
@@ -169,6 +174,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		ppOpenProject.setText(" " + Local.getString("Open project"));
 
 		ppOpenProject.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ppOpenProject_actionPerformed(e);
 			}
@@ -178,6 +184,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		ppShowActiveOnlyChB.setFont(new java.awt.Font("Dialog", 1, 11));
 		ppShowActiveOnlyChB.setText(Local.getString("Show active projects only"));
 		ppShowActiveOnlyChB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ppShowActiveOnlyChB_actionPerformed(e);
 			}
@@ -196,6 +203,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		ppOpenB.setFocusPainted(false);
 		ppOpenB.setMargin(new Insets(0, 0, 0, 0));
 		ppOpenB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ppOpenB_actionPerformed(e);
 			}
@@ -218,21 +226,25 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		projectsPPMenu.addSeparator();
 		projectsPPMenu.add(ppShowActiveOnlyChB);
 		CurrentProject.addProjectListener(new ProjectListener() {
+			@Override
 			public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
 			}
 
+			@Override
 			public void projectWasChanged() {
 				curProjectTitle.setText(CurrentProject.get().getTitle());
 				prjTablePanel.updateUI();
 			}
 		});
 		CurrentDate.addDateListener(new DateListener() {
+			@Override
 			public void dateChange(CalendarDate d) {
 				prjTablePanel.updateUI();
 			}
 		});
 		prjTablePanel.projectsTable.addMouseListener(new PopupListener());
 		prjTablePanel.projectsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				boolean enabled = !prjTablePanel.projectsTable.getModel()
 						.getValueAt(prjTablePanel.projectsTable.getSelectedRow(), ProjectsTablePanel.PROJECT_ID)
@@ -246,14 +258,18 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 
 		// delete projects using the DEL kew
 		prjTablePanel.projectsTable.addKeyListener(new KeyListener() {
+			@Override
 			public void keyPressed(KeyEvent e) {
-				if (prjTablePanel.projectsTable.getSelectedRows().length > 0 && e.getKeyCode() == KeyEvent.VK_DELETE)
+				if (prjTablePanel.projectsTable.getSelectedRows().length > 0 && e.getKeyCode() == KeyEvent.VK_DELETE) {
 					ppDeleteProject_actionPerformed(null);
+				}
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 			}
 
+			@Override
 			public void keyTyped(KeyEvent e) {
 			}
 		});
@@ -261,15 +277,19 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 
 	class PopupListener extends MouseAdapter {
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() == 2)
+			if (e.getClickCount() == 2) {
 				ppOpenProject_actionPerformed(null);
+			}
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			maybeShowPopup(e);
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			maybeShowPopup(e);
 		}
@@ -282,9 +302,10 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 	}
 
 	void toggleButton_actionPerformed(ActionEvent e) {
-		for (int i = 0; i < expListeners.size(); i++)
+		for (int i = 0; i < expListeners.size(); i++) {
 			((ActionListener) expListeners.get(i))
 					.actionPerformed(new ActionEvent(this, 0, "Panel expanded (collapsed)"));
+		}
 		if (expanded) {
 			expanded = false;
 			toggleButton.setIcon(expIcon);
@@ -294,6 +315,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		}
 	}
 
+	@Override
 	public void AddExpandListener(ActionListener al) {
 		expListeners.add(al);
 	}
@@ -319,18 +341,19 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		String msg;
 		Project prj;
 		Vector toremove = new Vector();
-		if (prjTablePanel.projectsTable.getSelectedRows().length > 1)
+		if (prjTablePanel.projectsTable.getSelectedRows().length > 1) {
 			msg = Local.getString("Delete") + " " + prjTablePanel.projectsTable.getSelectedRows().length + " "
 					+ Local.getString("projects") + "\n" + Local.getString("Are you sure?");
-		else {
+		} else {
 			prj = prjTablePanel.getSelectedProject();
 			msg = Local.getString("Delete project") + " '" + prj.getTitle() + "'.\n" + Local.getString("Are you sure?");
 		}
 
 		int n = JOptionPane.showConfirmDialog(App.getFrame(), msg, Local.getString("Delete project"),
 				JOptionPane.YES_NO_OPTION);
-		if (n != JOptionPane.YES_OPTION)
+		if (n != JOptionPane.YES_OPTION) {
 			return;
+		}
 
 		for (int i = 0; i < prjTablePanel.projectsTable.getSelectedRows().length; i++) {
 			prj = (net.sf.memoranda.Project) prjTablePanel.projectsTable.getModel()
@@ -368,15 +391,17 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		 * dlg.freezeChB.setSelected(true);
 		 */
 		dlg.setVisible(true);
-		if (dlg.CANCELLED)
+		if (dlg.CANCELLED) {
 			return;
+		}
 		prj.setTitle(dlg.prTitleField.getText());
 		prj.setStartDate(new CalendarDate((Date) dlg.startDate.getModel().getValue()));
 
-		if (dlg.endDateChB.isSelected())
+		if (dlg.endDateChB.isSelected()) {
 			prj.setEndDate(new CalendarDate((Date) dlg.endDate.getModel().getValue()));
-		else
+		} else {
 			prj.setEndDate(null);
+		}
 		prjTablePanel.updateUI();
 		/*
 		 * if (dlg.freezeChB.isSelected()) prj.freeze(); else

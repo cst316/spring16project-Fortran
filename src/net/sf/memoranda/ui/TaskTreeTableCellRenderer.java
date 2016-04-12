@@ -1,15 +1,12 @@
 
 package net.sf.memoranda.ui;
 
-import net.sf.memoranda.Project;
-import net.sf.memoranda.Task;
-import net.sf.memoranda.date.CurrentDate;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -21,8 +18,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
+import net.sf.memoranda.Project;
+import net.sf.memoranda.Task;
+import net.sf.memoranda.date.CurrentDate;
+
 /**
- * 
+ *
  */
 public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implements TreeCellRenderer, TableCellRenderer {
 	static ImageIcon PR_HIGHEST_ICON = new ImageIcon(
@@ -65,15 +66,18 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
 		label.setOpaque(true);
 	}
 
+	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
 			boolean leaf, int row, boolean hasFocus) {
 		// if root then just return some component
 		// it is not shown anyway
 		super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
-		if (value instanceof Project)
+		if (value instanceof Project) {
 			return empty_panel;
-		if (!(value instanceof Task))
+		}
+		if (!(value instanceof Task)) {
 			return empty_panel;
+		}
 		Task t = (Task) value;
 		setText(t.getText());
 		setToolTipText(t.getDescription());
@@ -83,6 +87,7 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
 		return this;
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(JTable ignore, Object value, boolean selected, boolean hasFocus,
 			int row, int column) {
 		Task t = (Task) table.getValueAt(row, 1);
@@ -162,10 +167,11 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
 
 	// some convenience methods
 	private void applySelectionStyle(boolean selected, JComponent c) {
-		if (selected)
+		if (selected) {
 			c.setBackground(table.getSelectionBackground());
-		else
+		} else {
 			c.setBackground(table.getBackground());
+		}
 	}
 
 	private void applyFocus(boolean hasFocus, JComponent c) {
@@ -179,10 +185,11 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
 	}
 
 	private void applyFont(Task t, JComponent c) {
-		if ((t.getStatus(CurrentDate.get()) == Task.ACTIVE) || (t.getStatus(CurrentDate.get()) == Task.DEADLINE))
+		if ((t.getStatus(CurrentDate.get()) == Task.ACTIVE) || (t.getStatus(CurrentDate.get()) == Task.DEADLINE)) {
 			c.setFont(c.getFont().deriveFont(Font.BOLD));
-		else
+		} else {
 			c.setFont(c.getFont().deriveFont(Font.PLAIN));
+		}
 	}
 
 	/**

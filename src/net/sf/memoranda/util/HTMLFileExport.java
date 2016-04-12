@@ -2,22 +2,27 @@
  * HTMLFileExport.java
  * Created on 25.02.2003, 17:59:14 Alex
  * Package: net.sf.memoranda.util
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Date;
 import java.util.regex.Pattern;
 
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
-
-import net.sf.memoranda.Note;
-import net.sf.memoranda.ui.ExceptionDialog;
-import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 
 import org.apache.xml.serialize.Method;
 import org.apache.xml.serialize.OutputFormat;
@@ -25,8 +30,12 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.cyberneko.html.parsers.SAXParser;
 import org.xml.sax.InputSource;
 
+import net.sf.memoranda.Note;
+import net.sf.memoranda.ui.ExceptionDialog;
+import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
+
 /**
- * 
+ *
  */
 /* $Id: HTMLFileExport.java,v 1.7 2005/07/05 08:17:28 alexeya Exp $ */
 public class HTMLFileExport {
@@ -73,10 +82,11 @@ public class HTMLFileExport {
 			// ------------------------------------------------------
 			// End appendage
 
-			if (charset != null)
+			if (charset != null) {
 				fw = new OutputStreamWriter(new FileOutputStream(f), charset);
-			else
+			} else {
 				fw = new FileWriter(f);
+			}
 			fw.write(applyTemplate());
 			fw.flush();
 			fw.close();
@@ -100,12 +110,14 @@ public class HTMLFileExport {
 			} catch (Exception ex) {
 				new ExceptionDialog(ex, "Cannot read template file from " + templF, null);
 			}
-			if (text.length() > 0)
+			if (text.length() > 0) {
 				return text;
+			}
 		}
 		String t = (String) Configuration.get("DEFAULT_EXPORT_TEMPLATE");
-		if ((t != null) && (t.length() > 0))
+		if ((t != null) && (t.length() > 0)) {
 			return t;
+		}
 		return "<html>\n<head>\n@METACHARSET@\n<title>@TITLE@ - @PROJECT@</title>\n</head>\n<body>\n@CONTENT@\n</body>\n</html>";
 	}
 
@@ -123,11 +135,13 @@ public class HTMLFileExport {
 		templ = templ.replaceAll("@PROJECT@", project);
 		templ = templ.replaceAll("@DATE@", date);
 		templ = templ.replaceAll("@NOW@", now);
-		if ((charset != null) && (charset.length() > 0))
+		if ((charset != null) && (charset.length() > 0)) {
 			templ = templ.replaceAll("@METACHARSET@",
 					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + charset + "\" >");
-		if (xhtml)
+		}
+		if (xhtml) {
 			templ = convertToXHTML(templ);
+		}
 		return templ;
 	}
 

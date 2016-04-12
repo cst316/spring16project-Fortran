@@ -11,7 +11,8 @@ package net.sf.memoranda;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import net.sf.memoranda.ui.*;
+import net.sf.memoranda.ui.App;
+import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.util.Configuration;
 
 /**
@@ -63,13 +64,15 @@ public class Start {
 		// System.out.println(EventsScheduler.isEventScheduled());
 		if ((args.length == 0) || (!args[0].equals("-m"))) {
 			app = new App(true);
-		} else
+		} else {
 			app = new App(false);
+		}
 	}
 }
 
 class SLThread extends Thread {
 
+	@Override
 	public void run() {
 		ServerSocket serverSocket = null;
 		try {

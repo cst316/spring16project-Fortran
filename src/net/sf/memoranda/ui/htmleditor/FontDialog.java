@@ -41,7 +41,7 @@ import net.sf.memoranda.ui.htmleditor.util.Local;
  * <p>
  * Company:
  * </p>
- * 
+ *
  * @author unascribed
  * @version 1.0
  */
@@ -86,8 +86,9 @@ public class FontDialog extends JDialog {
 		fonts.add("serif");
 		fonts.add("sans-serif");
 		fonts.add("monospaced");
-		for (int i = 0; i < envfonts.length; i++)
+		for (int i = 0; i < envfonts.length; i++) {
 			fonts.add(envfonts[i]);
+		}
 		fontFamilyCB = new JComboBox(fonts);
 
 		headerPanel.setBackground(Color.WHITE);
@@ -104,6 +105,7 @@ public class FontDialog extends JDialog {
 		fontFamilyCB.setBorder(new TitledBorder(BorderFactory.createEmptyBorder(), Local.getString("Font family")));
 		fontFamilyCB.setPreferredSize(new Dimension(200, 50));
 		fontFamilyCB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				fontChanged(e);
 			}
@@ -117,6 +119,7 @@ public class FontDialog extends JDialog {
 		areaPanel.add(fontFamilyCB, gbc);
 		fontSizeCB.setEditable(true);
 		fontSizeCB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				fontChanged(e);
 			}
@@ -144,6 +147,7 @@ public class FontDialog extends JDialog {
 		gbc.insets = new Insets(5, 5, 5, 5);
 		areaPanel.add(colorField, gbc);
 		colorB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				colorB_actionPerformed(e);
 			}
@@ -179,6 +183,7 @@ public class FontDialog extends JDialog {
 		cancelB.setPreferredSize(new Dimension(100, 26));
 		cancelB.setText(Local.getString("Cancel"));
 		cancelB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancelB_actionPerformed(e);
 			}
@@ -188,6 +193,7 @@ public class FontDialog extends JDialog {
 		okB.setPreferredSize(new Dimension(100, 26));
 		okB.setText(Local.getString("Ok"));
 		okB.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				okB_actionPerformed(e);
 			}
@@ -212,12 +218,14 @@ public class FontDialog extends JDialog {
 		int size = 16;
 		String face;
 		Font font = sample.getFont();
-		if (fontSizeCB.getSelectedIndex() > 0)
+		if (fontSizeCB.getSelectedIndex() > 0) {
 			size = sizes[fontSizeCB.getSelectedIndex() - 1];
-		if (fontFamilyCB.getSelectedIndex() > 0)
+		}
+		if (fontFamilyCB.getSelectedIndex() > 0) {
 			face = (String) fontFamilyCB.getSelectedItem();
-		else
+		} else {
 			face = font.getName();
+		}
 		sample.setFont(new Font(face, Font.PLAIN, size));
 	}
 
@@ -242,8 +250,9 @@ public class FontDialog extends JDialog {
 		UIManager.put("ColorChooser.rgbGreenText", Local.getString("Green"));
 		UIManager.put("ColorChooser.rgbBlueText", Local.getString("Blue"));
 		Color c = JColorChooser.showDialog(this, Local.getString("Font color"), Util.decodeColor(colorField.getText()));
-		if (c == null)
+		if (c == null) {
 			return;
+		}
 		colorField.setText(Util.encodeColor(c));
 		Util.setColorField(colorField);
 		sample.setForeground(c);

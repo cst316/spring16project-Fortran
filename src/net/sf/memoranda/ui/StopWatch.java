@@ -1,11 +1,20 @@
 package net.sf.memoranda.ui;
 
-import java.awt.event.*;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class StopWatch  extends JFrame {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+
+public class StopWatch extends JFrame {
 	JPanel numbers = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel display = new JPanel();
@@ -32,7 +41,6 @@ public class StopWatch  extends JFrame {
 	Timer timer;
 	String temp;
 
-	
 	public StopWatch() {
 
 		super("Window");
@@ -46,7 +54,6 @@ public class StopWatch  extends JFrame {
 		stop = new JButton("Stop");
 		reset = new JButton("Reset");
 		contin = new JButton("Continue");
-		
 
 		numbers.add(cb);
 		numbers.add(cb2);
@@ -77,7 +84,7 @@ public class StopWatch  extends JFrame {
 		StopEvent stopEvent = new StopEvent();
 		ResetEvent resetEvent = new ResetEvent();
 		ContinEvent continEvent = new ContinEvent();
-		
+
 		start.addActionListener(startEvent);
 		stop.addActionListener(stopEvent);
 		reset.addActionListener(resetEvent);
@@ -90,13 +97,16 @@ public class StopWatch  extends JFrame {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public class StartEvent implements ActionListener {
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			start.setEnabled(false);
@@ -111,26 +121,25 @@ public class StopWatch  extends JFrame {
 			tk.setSec(initialNumbers(s1, s2));
 			timeDisplay.setForeground(Color.black);
 			int total = tk.getHour() + tk.getMin() + tk.getSec();
-			if(total == 0)
-			{
+			if (total == 0) {
 				timeDisplay.setText("Please enter a valid time");
 				start.setEnabled(true);
+			} else {
+				TimeClass tc = new TimeClass();
+				timer = new Timer(1000, tc);
+				timer.start();
 			}
-			else{
-			TimeClass tc = new TimeClass();
-			timer = new Timer(1000, tc);
-			timer.start();}
 
 		}
 
 		/**
-		 * 
+		 *
 		 * @param number1
-		 * 			first digit from the combo box
+		 *            first digit from the combo box
 		 * @param number2
-		 * 			second digit from the combo box
-		 * @return
-		 * 			the full number which correlates to a time in minutes seconds or hours
+		 *            second digit from the combo box
+		 * @return the full number which correlates to a time in minutes seconds
+		 *         or hours
 		 */
 		public int initialNumbers(int number1, int number2) {
 			number1 *= 10;
@@ -139,56 +148,62 @@ public class StopWatch  extends JFrame {
 		}
 	}
 
-	
-	public class StopEvent implements ActionListener  {
-		
+	public class StopEvent implements ActionListener {
+
 		/*
 		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			try {
-			timer.stop();
-			start.setEnabled(false);
-			contin.setEnabled(true);
-			}
-			catch (NullPointerException e1 )
-			{
+				timer.stop();
+				start.setEnabled(false);
+				contin.setEnabled(true);
+			} catch (NullPointerException e1) {
 				timeDisplay.setText("Please enter a valid time");
 			}
 		}
 	}
-	
+
 	public class ResetEvent implements ActionListener {
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			try{
-			timeDisplay.setText("00 : 00 : 00");
-			timeDisplay.setForeground(Color.black);
-			tk.setHour(0);
-			tk.setSec(0);
-			tk.setMin(0);
-			timer.stop();
-			start.setEnabled(true);
-			contin.setEnabled(false);
-			}
-			catch(NullPointerException e1 ){
+			try {
+				timeDisplay.setText("00 : 00 : 00");
+				timeDisplay.setForeground(Color.black);
+				tk.setHour(0);
+				tk.setSec(0);
+				tk.setMin(0);
+				timer.stop();
+				start.setEnabled(true);
+				contin.setEnabled(false);
+			} catch (NullPointerException e1) {
 				timeDisplay.setText("Please enter a valid time");
 			}
 		}
 	}
+
 	public class ContinEvent implements ActionListener {
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			TimeClass tc = new TimeClass();
@@ -197,36 +212,35 @@ public class StopWatch  extends JFrame {
 			contin.setEnabled(false);
 		}
 	}
-	
 
 	public class TimeClass implements ActionListener {
-		
-		public void actionPerformed(ActionEvent e) 
-		{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			int hour = tk.getHour(), min = tk.getMin(), sec = tk.getSec();
 
-			timeDisplay.setText(logic(min,hour,sec));
-			
-			if( hour == 0 && min ==0 && sec ==0)
-				timeDisplay.setForeground(Color.red);
+			timeDisplay.setText(logic(min, hour, sec));
 
-			
+			if (hour == 0 && min == 0 && sec == 0) {
+				timeDisplay.setForeground(Color.red);
+			}
+
 		}
 
-		public String logic (int min, int hour, int sec){
-			
+		public String logic(int min, int hour, int sec) {
+
 			if (hour > 0) {
 				if (min > 0) {
-					if (sec > 0)
+					if (sec > 0) {
 						sec -= 1;
-					else {
+					} else {
 						min -= 1;
 						sec = 59;
 					}
 				} else if (min == 0) {
-					if (sec > 0)
+					if (sec > 0) {
 						sec--;
-					else {
+					} else {
 						hour -= 1;
 						min = 59;
 						sec = 59;
@@ -235,10 +249,10 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				tk.setHour(hour); 
+				tk.setHour(hour);
 				tk.setMin(min);
 				tk.setSec(sec);
-				return (formatHour +" : "+ formatMin +" : "   + formatSec);
+				return (formatHour + " : " + formatMin + " : " + formatSec);
 			} else if (min > 0) {
 				if (sec > 0) {
 					sec--;
@@ -250,41 +264,37 @@ public class StopWatch  extends JFrame {
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				tk.setHour(hour); 
+				tk.setHour(hour);
 				tk.setMin(min);
 				tk.setSec(sec);
-				return (formatHour+" : "+formatMin+" : "+formatSec);
+				return (formatHour + " : " + formatMin + " : " + formatSec);
 			} else if (sec > 0) {
 				sec--;
 				String formatHour = String.format("%02d", hour);
 				String formatMin = String.format("%02d", min);
 				String formatSec = String.format("%02d", sec);
-				tk.setHour(hour); 
+				tk.setHour(hour);
 				tk.setMin(min);
 				tk.setSec(sec);
-				return (formatHour+" : "+formatMin+" : "+formatSec);
-			} 
+				return (formatHour + " : " + formatMin + " : " + formatSec);
+			}
 
 			else {
 				timer.stop();
-				return "Done";	
+				return "Done";
 			}
-			
+
 		}
-		
-		
+
 	}
-	
-	public class TimeKeeper
-	{
+
+	public class TimeKeeper {
 		int hour, min, sec;
-		
-		public TimeKeeper()
-		{
+
+		public TimeKeeper() {
 		}
-		
-		public TimeKeeper(int hour, int min, int sec)
-		{
+
+		public TimeKeeper(int hour, int min, int sec) {
 			this.hour = hour;
 			this.min = min;
 			this.sec = sec;
@@ -313,9 +323,7 @@ public class StopWatch  extends JFrame {
 		public void setSec(int sec) {
 			this.sec = sec;
 		}
-		
-		
+
 	}
-	
 
 }

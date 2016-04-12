@@ -34,7 +34,6 @@ import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 import nu.xom.Builder;
-import nu.xom.DocType;
 import nu.xom.Document;
 
 /**
@@ -100,6 +99,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#storeNote(net.sf.memoranda.Note)
 	 */
+	@Override
 	public void storeNote(Note note, javax.swing.text.Document doc) {
 		String filename = JN_DOCPATH + note.getProject().getID() + File.separator;
 		doc.putProperty(javax.swing.text.Document.TitleProperty, note.getTitle());
@@ -129,9 +129,9 @@ public class FileStorage implements Storage {
 		 * new java.util.Date().getTime(); FileOutputStream ostream = new
 		 * FileOutputStream(filename); ObjectOutputStream oos = new
 		 * ObjectOutputStream(ostream);
-		 * 
+		 *
 		 * oos.writeObject((HTMLDocument)doc);
-		 * 
+		 *
 		 * oos.flush(); oos.close(); ostream.close(); long t2 = new
 		 * java.util.Date().getTime(); System.out.println(filename+" save:"+
 		 * (t2-t1) ); } catch (Exception ex) { ex.printStackTrace(); }
@@ -142,11 +142,13 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openNote(net.sf.memoranda.Note)
 	 */
+	@Override
 	public javax.swing.text.Document openNote(Note note) {
 
 		HTMLDocument doc = (HTMLDocument) editorKit.createDefaultDocument();
-		if (note == null)
+		if (note == null) {
 			return doc;
+		}
 		/*
 		 * String filename = JN_DOCPATH + note.getProject().getID() +
 		 * File.separator; CalendarDate d = note.getDate(); filename +=
@@ -181,6 +183,7 @@ public class FileStorage implements Storage {
 		 */
 	}
 
+	@Override
 	public String getNoteURL(Note note) {
 		return "file:" + JN_DOCPATH + note.getProject().getID() + "/" + note.getId();
 	}
@@ -193,6 +196,7 @@ public class FileStorage implements Storage {
 		return filename;
 	}
 
+	@Override
 	public void removeNote(Note note) {
 		File f = new File(getNotePath(note));
 		/* DEBUG */
@@ -203,6 +207,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openProjectManager()
 	 */
+	@Override
 	public void openProjectManager() {
 		if (!new File(JN_DOCPATH + ".projects").exists()) {
 			ProjectManager._doc = null;
@@ -216,6 +221,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#storeProjectManager(nu.xom.Document)
 	 */
+	@Override
 	public void storeProjectManager() {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save project manager: " + JN_DOCPATH + ".projects");
@@ -225,15 +231,18 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#removeProject(net.sf.memoranda.Project)
 	 */
+	@Override
 	public void removeProjectStorage(Project prj) {
 		String id = prj.getID();
 		File f = new File(JN_DOCPATH + id);
 		File[] files = f.listFiles();
-		for (int i = 0; i < files.length; i++)
+		for (int i = 0; i < files.length; i++) {
 			files[i].delete();
+		}
 		f.delete();
 	}
 
+	@Override
 	public TaskList openTaskList(Project prj) {
 		String fn = JN_DOCPATH + prj.getID() + File.separator + ".tasklist";
 
@@ -258,6 +267,7 @@ public class FileStorage implements Storage {
 		}
 	}
 
+	@Override
 	public void storeTaskList(TaskList tasklist, Project prj) {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save task list: " + JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
@@ -269,6 +279,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#createProjectStorage(net.sf.memoranda.Project)
 	 */
+	@Override
 	public void createProjectStorage(Project prj) {
 		/* DEBUG */
 		System.out.println("[DEBUG] Create project dir: " + JN_DOCPATH + prj.getID());
@@ -279,6 +290,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openNoteList(net.sf.memoranda.Project)
 	 */
+	@Override
 	public NoteList openNoteList(Project prj) {
 		String fn = JN_DOCPATH + prj.getID() + File.separator + ".notes";
 		if (documentExists(fn)) {
@@ -296,6 +308,7 @@ public class FileStorage implements Storage {
 	 * @see net.sf.memoranda.util.Storage#storeNoteList(net.sf.memoranda.NoteList,
 	 *      net.sf.memoranda.Project)
 	 */
+	@Override
 	public void storeNoteList(NoteList nl, Project prj) {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save note list: " + JN_DOCPATH + prj.getID() + File.separator + ".notes");
@@ -305,6 +318,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openEventsList()
 	 */
+	@Override
 	public void openEventsManager() {
 		if (!new File(JN_DOCPATH + ".events").exists()) {
 			EventsManager._doc = null;
@@ -318,6 +332,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#storeEventsList()
 	 */
+	@Override
 	public void storeEventsManager() {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save events manager: " + JN_DOCPATH + ".events");
@@ -327,6 +342,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openMimeTypesList()
 	 */
+	@Override
 	public void openMimeTypesList() {
 		if (!new File(JN_DOCPATH + ".mimetypes").exists()) {
 			try {
@@ -344,6 +360,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#storeMimeTypesList()
 	 */
+	@Override
 	public void storeMimeTypesList() {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save mimetypes list: " + JN_DOCPATH + ".mimetypes");
@@ -353,6 +370,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#openResourcesList(net.sf.memoranda.Project)
 	 */
+	@Override
 	public ResourcesList openResourcesList(Project prj) {
 		String fn = JN_DOCPATH + prj.getID() + File.separator + ".resources";
 		if (documentExists(fn)) {
@@ -370,6 +388,7 @@ public class FileStorage implements Storage {
 	 * @see net.sf.memoranda.util.Storage#storeResourcesList(net.sf.memoranda.ResourcesList,
 	 *      net.sf.memoranda.Project)
 	 */
+	@Override
 	public void storeResourcesList(ResourcesList rl, Project prj) {
 		/* DEBUG */
 		System.out.println("[DEBUG] Save resources list: " + JN_DOCPATH + prj.getID() + File.separator + ".resources");
@@ -379,6 +398,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#restoreContext()
 	 */
+	@Override
 	public void restoreContext() {
 		try {
 			/* DEBUG */
@@ -393,6 +413,7 @@ public class FileStorage implements Storage {
 	/**
 	 * @see net.sf.memoranda.util.Storage#storeContext()
 	 */
+	@Override
 	public void storeContext() {
 		try {
 			/* DEBUG */
