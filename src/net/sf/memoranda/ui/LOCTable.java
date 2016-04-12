@@ -117,9 +117,7 @@ public class LOCTable extends JFrame   {
 		JButton btnRefresh = new JButton("Refresh Table");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				removeEmptyRows();
 				refreshTable();
-
 			}
 		});
 		btnRefresh.setBounds(317, 46, 113, 23);
@@ -152,13 +150,7 @@ public class LOCTable extends JFrame   {
 			errorMsg = EMPTYSTRING;
 			//display message string empty
 		}
-		/*
-		if(!(input.endsWith(LOCReader.JAVAEXTENSION)) && contains_Chk.isSelected()){
-			result = false;
-			errorMsg = NONJAVAFILE;
-			//display error message for non java file
-		}
-		*/
+		
 		return result;
 		
 	}
@@ -169,6 +161,7 @@ public class LOCTable extends JFrame   {
 		
 		
 		int max_Row = displayTable.getRowCount();
+		System.out.println(max_Row);
 		//get iterator for hashtable
 		Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
 		Iterator it = keys.iterator();
@@ -209,7 +202,7 @@ public class LOCTable extends JFrame   {
 		//deelte empty string in hashTable too
 		
 	}
-	private Object[][] removeDuplicates(Object[][] data){
+	public Object[][] removeDuplicates(Object[][] data){
 		
 		 Object pointer;
 		 final int COL_POS = 0;
@@ -256,23 +249,6 @@ public class LOCTable extends JFrame   {
 				
 				
 			}
-			/*
-			while(it.hasNext()){
-				
-				String fileName = (String) it.next();
-				LOC = (String) tableData.get(fileName);
-				if(fileName.equals(s)){
-					result = true;
-					matches.put(fileName,LOC);
-				}
-				else if(fileName.contains(s) && isContainsChecked){
-					result = true;
-					matches.put(fileName,LOC);
-					
-				}
-			}
-		*/
-		System.out.println(result);
 		return result;
 	}
 	
@@ -302,20 +278,6 @@ public class LOCTable extends JFrame   {
 		    	
 		    	
 		    }
-		    /*
-			while(it.hasNext()){
-				
-				String key = (String) it.next();
-				String LOC = (String) matches.get(key);
-				System.out.println(key + "," + LOC);
-			
-				displayTable.setValueAt(key,row_Counter,col_Counter);
-				displayTable.setValueAt(LOC,row_Counter,col_Counter + 1);
-				++row_Counter;
-				//edit Table
-				
-			}
-			*/
 			while(row_Counter <= max_Row - 1){
 				
 				//set everything empty
