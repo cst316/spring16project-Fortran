@@ -246,18 +246,19 @@ public class LOCReader {
 					// Remove all spaces in the beginning
 					fileLine = fileLine.replaceAll("\\s+", "");
 					
-					if (fileName.startsWith("/*")) {
+					if (fileLine.startsWith("/*")) {
 						flag = true;
+					}
+					
+					if (fileLine.endsWith("*/")) {
+						flag = false;
+						LOC--;
 					}
 					
 					if (!flag) {
 						if (fileLine.length() > 0 && !fileLine.startsWith("//")) {
 							LOC++;
 						}
-					}
-					
-					if (fileLine.endsWith("*/")) {
-						flag = false;
 					}
 					fileLine = reader.readLine();
 				}
