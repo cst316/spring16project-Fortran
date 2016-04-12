@@ -1,9 +1,9 @@
 /**
  * AltHTMLWriter.java
  * Hacked version of javax.swing.text.html.HTMLWriter
- * Created on 18.02.2003, 16:27:05 Alex 
+ * Created on 18.02.2003, 16:27:05 Alex
  * Package: javax.swing.text.html
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net
  * Copyright (c) 2003 OpenMechanics.org
  */
@@ -45,9 +45,9 @@ import javax.swing.text.html.StyleSheet;
 
 /**
  * This is an alternate writer for HTMLDocuments.
- * 
+ *
  * Based on original javax.swing.text.html.HTMLWriter:
- * 
+ *
  * Sun Java(TM) 2 SDK, Standard Edition Version 1.4.1 HTMLWriter.java 1.30
  * 01/12/03 author Sunita Mani version 1.26, 02/02/00 Copyright 2002 Sun
  * Microsystems, Inc.
@@ -310,18 +310,18 @@ public class AltHTMLWriter extends AbstractWriter {
 		closeOutUnwantedEmbeddedTags(attr);
 		writeEmbeddedTags(attr);
 
-		if (matchNameAttribute(attr, HTML.Tag.CONTENT)) {
-			inContent = true;
-			text(elem);
-		} else if (matchNameAttribute(attr, HTML.Tag.COMMENT)) {
-			comment(elem);
-		} else {
-			boolean isBlock = isBlockTag(elem.getAttributes());
-			if (inContent && isBlock) {
-				writeLineSeparator();
-				indent();
-			}
-
+		if (attr != null){
+			if (matchNameAttribute(attr, HTML.Tag.CONTENT)) {
+				inContent = true;
+				text(elem);
+			} else if (matchNameAttribute(attr, HTML.Tag.COMMENT)) {
+				comment(elem);
+			} else {
+				boolean isBlock = isBlockTag(elem.getAttributes());
+				if (inContent && isBlock) {
+					writeLineSeparator();
+					indent();
+				}
 			Object nameTag = (attr != null) ? attr.getAttribute(StyleConstants.NameAttribute) : null;
 			Object endTag = (attr != null) ? attr.getAttribute(HTML.Attribute.ENDTAG) : null;
 
@@ -363,6 +363,7 @@ public class AltHTMLWriter extends AbstractWriter {
 				}
 			}
 		}
+	}
 	}
 
 	/**
@@ -579,7 +580,7 @@ public class AltHTMLWriter extends AbstractWriter {
 
 	/**
 	 * Writes out the content of the Option form element.
-	 * 
+	 *
 	 * @param option
 	 *            an Option
 	 * @exception IOException
@@ -1273,7 +1274,7 @@ public class AltHTMLWriter extends AbstractWriter {
 	 * used as its model. It also stores the initial state of the JList, to
 	 * ensure an accurate reset, if the user requests a reset of the form.
 	 *
-	 * @author Sunita Mani   
+	 * @author Sunita Mani
 	 * @version 1.9 12/03/01
 	 */
 
@@ -1472,13 +1473,13 @@ public class AltHTMLWriter extends AbstractWriter {
 			 * the basis of one iteration per deselected cell - in total. Ie.
 			 * the next time this method is called the work of the previous
 			 * deselection will not be repeated.
-			 * 
+			 *
 			 * We also don't need to worry about the case when the min and max
 			 * values are in their unassigned states. This cannot happen because
 			 * this method's initial check ensures that the selection was not
 			 * empty and therefore that the minIndex and maxIndex had 'real'
 			 * values.
-			 * 
+			 *
 			 * If we have cleared the whole selection, set the minIndex and
 			 * maxIndex to their cannonical values so that the next set command
 			 * always works just by using Math.min and Math.max.
@@ -1491,7 +1492,7 @@ public class AltHTMLWriter extends AbstractWriter {
 
 		/**
 		 * Sets the value of the leadAnchorNotificationEnabled flag.
-		 * 
+		 *
 		 * @see #isLeadAnchorNotificationEnabled()
 		 */
 		public void setLeadAnchorNotificationEnabled(boolean flag) {
@@ -1507,7 +1508,7 @@ public class AltHTMLWriter extends AbstractWriter {
 		 * only the elements that have been selected or deselected since the
 		 * last change. Either way, the model continues to maintain the lead and
 		 * anchor variables internally. The default is true.
-		 * 
+		 *
 		 * @return the value of the leadAnchorNotificationEnabled flag
 		 * @see #setLeadAnchorNotificationEnabled(boolean)
 		 */

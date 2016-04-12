@@ -1,7 +1,7 @@
 /**
  * EventsManager.java Created on 08.03.2003, 12:35:19 Alex Package:
  * net.sf.memoranda
- * 
+ *
  * @author Alex V. Alishevskikh, alex@openmechanics.net Copyright (c) 2003
  *         Memoranda Team. http://memoranda.sf.net
  */
@@ -26,7 +26,7 @@ import nu.xom.Elements;
 import nu.xom.ParentNode;
 
 /**
- *  
+ *
  */
 /* $Id: EventsManager.java,v 1.11 2004/10/06 16:00:11 ivanrise Exp $ */
 public class EventsManager {
@@ -227,7 +227,7 @@ public class EventsManager {
 
 	public static void removeEvent(CalendarDate date, int hh, int mm) {
 		Day d = getDay(date);
-		if (d == null)
+		if (d != null)
 			d.getElement().removeChild(getEvent(date, hh, mm).getContent());
 	}
 
@@ -390,23 +390,23 @@ public class EventsManager {
 	}
 	/*
 	 * static class EventsVectorSorter {
-	 * 
+	 *
 	 * private static Vector keys = null;
-	 * 
+	 *
 	 * private static int toMinutes(Object obj) { Event ev = (Event) obj; return
 	 * ev.getHour() * 60 + ev.getMinute(); }
-	 * 
+	 *
 	 * private static void doSort(int L, int R) { // Hoar's QuickSort int i = L;
 	 * int j = R; int x = toMinutes(keys.get((L + R) / 2)); Object w = null; do
 	 * { while (toMinutes(keys.get(i)) < x) { i++; } while (x <
 	 * toMinutes(keys.get(j))) { j--; } if (i <= j) { w = keys.get(i);
 	 * keys.set(i, keys.get(j)); keys.set(j, w); i++; j--; } } while (i <= j);
 	 * if (L < j) { doSort(L, j); } if (i < R) { doSort(i, R); } }
-	 * 
+	 *
 	 * public static void sort(Vector theKeys) { if (theKeys == null) return; if
 	 * (theKeys.size() <= 0) return; keys = theKeys; doSort(0, keys.size() - 1);
 	 * }
-	 * 
+	 *
 	 * }
 	 */
 }
