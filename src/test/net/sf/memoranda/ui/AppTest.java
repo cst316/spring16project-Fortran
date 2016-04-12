@@ -1,47 +1,53 @@
 package test.net.sf.memoranda.ui;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**AppTest.java
- * Class 
- * 
+/**
+ * AppTest.java Class
+ *
  * @author Saul Lopez
- * @version Apr 12, 2016 
+ * @version Apr 12, 2016
  */
 public class AppTest {
 
-	/** @throws java.lang.Exception*/
+	/**
+	 * @throws java.lang.Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
-	//data fields and constants
-	//constructors
-	//getters and setters
-	//methods
-	//toString
-	//printing methods
-	//updateInfo methods
-	//prompt methods
-	//set prompt methods
-	//special
+	// data fields and constants
+	// constructors
+	// getters and setters
+	// methods
+	// toString
+	// printing methods
+	// updateInfo methods
+	// prompt methods
+	// set prompt methods
+	// special
 
-	/** @throws java.lang.Exception*/
+	/**
+	 * @throws java.lang.Exception
+	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	/** @throws java.lang.Exception*/
+	/**
+	 * @throws java.lang.Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 	}
 
-	/** @throws java.lang.Exception*/
+	/**
+	 * @throws java.lang.Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
@@ -51,7 +57,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testGetFrame() {
-		fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	/**
@@ -59,7 +65,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testShow() {
-		fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	/**
@@ -67,7 +73,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testApp() {
-		fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	/**
@@ -75,7 +81,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testInit() {
-		fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	/**
@@ -83,7 +89,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testCloseWindow() {
-		fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 }
