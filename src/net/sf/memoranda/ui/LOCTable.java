@@ -1,6 +1,7 @@
 package net.sf.memoranda.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -39,13 +40,16 @@ public class LOCTable extends JFrame   {
 	private JTable displayTable;
 	private JTextField search_Txt;
 	private JLabel lblNewLabel;
+	JLabel lbl_Msg;
 	private String errorMsg;
 	private JCheckBox contains_Chk;
-	private final static String EMPTYSTRING = "Please type in a FileName in the Search Bar";
+	private final static String EMPTYSTRING = "Please type in a FileName";
+	private final static String FNF = "Sorry Could not Find File";
 	private Hashtable<String,String> matches;
 	static final Object[] COLUMNAMES = { "SourceFile", "LOC" };
 	private Hashtable<Object,Object> tableData;
 	private DefaultTableModel dt;
+	
 	/*
 	 * Constructor for LOCTable takes in a 2D array of data and array columnNames
 	 */
@@ -53,7 +57,7 @@ public class LOCTable extends JFrame   {
 	{
 		
 		tableData = new Hashtable<Object,Object>();
-		Object[][] filteredData = removeDuplicates(data);
+		Object[][] filteredData = markSecondOcc(data);
 		arrayToHash(filteredData);
 		dt = new DefaultTableModel(filteredData,ColumnNames);
 		errorMsg = "";
@@ -97,8 +101,15 @@ public class LOCTable extends JFrame   {
 					boolean temp = checkInput(input);
 					if(temp){
 						
-						boolean searchResult = searchTable(input);	
-						displaySearchResults();
+						boolean searchResult = searchTable(input);
+						if(!searchResult){
+							errorMsg = FNF;
+							DisplayMsg();
+						}
+						else{
+							lbl_Msg.setText("");
+							displaySearchResults();
+						}
 					}
 				}
 				
@@ -115,6 +126,7 @@ public class LOCTable extends JFrame   {
 		contentPane.add(contains_Chk);
 		
 		JButton btnRefresh = new JButton("Refresh Table");
+		btnRefresh.setToolTipText("Click to show All Files");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				refreshTable();
@@ -122,6 +134,10 @@ public class LOCTable extends JFrame   {
 		});
 		btnRefresh.setBounds(317, 46, 113, 23);
 		contentPane.add(btnRefresh);
+		
+		lbl_Msg = new JLabel("New label");
+		lbl_Msg.setBounds(48, 27, 178, 14);
+		contentPane.add(lbl_Msg);
 		JScrollPane scroll = new JScrollPane(displayTable);
 		scroll.setBounds(5, 74, 432, 205);
 		contentPane.add(scroll);
@@ -129,7 +145,9 @@ public class LOCTable extends JFrame   {
 		removeEmptyRows();
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
+		lbl_Msg.setVisible(false);
 	}
+	
 	private void arrayToHash(Object[][] data){
 		Object[] row = new Object[2];
 	
@@ -143,14 +161,20 @@ public class LOCTable extends JFrame   {
 			tableData.put(row[0],row[1]);	
 		}
 	}
+	private void DisplayMsg(){
+		
+		lbl_Msg.setVisible(true);
+		lbl_Msg.setText(errorMsg);
+		lbl_Msg.setForeground(Color.RED);
+		
+	}
 	private boolean checkInput(String input){
 		boolean result = true;
 		if(input.isEmpty()){
 			result = false;
 			errorMsg = EMPTYSTRING;
-			//display message string empty
+			DisplayMsg();
 		}
-		
 		return result;
 		
 	}
@@ -186,13 +210,13 @@ public class LOCTable extends JFrame   {
 		
 		int max_Row = displayTable.getRowCount();
 		int row_Counter = max_Row - 1;
-		System.out.println(max_Row);
+		//System.out.println(max_Row);
 		while(row_Counter >= 0){
-			System.out.print(row_Counter + " ");
+			//System.out.print(row_Counter + " ");
 			String temp = (String) displayTable.getValueAt(row_Counter,col_Counter);
-			System.out.println(temp + " " + displayTable.getValueAt(row_Counter,col_Counter + 1));
+			//System.out.println(temp + " " + displayTable.getValueAt(row_Counter,col_Counter + 1));
 			if(temp.equals("-")){
-				System.out.println("come on");
+				//System.out.println("come on");
 				dt.removeRow(row_Counter);
 				tableData.remove(temp);
 			}
@@ -202,12 +226,17 @@ public class LOCTable extends JFrame   {
 		//deelte empty string in hashTable too
 		
 	}
-	public Object[][] removeDuplicates(Object[][] data){
+	/*
+	 *Marks Second Occurence of an Object in a 2D array with a string "-"   
+	 */
+	public Object[][] markSecondOcc(Object[][] data){
 		
 		 Object pointer;
 		 final int COL_POS = 0;
 		 int counter = 0;
 		 int counter2 = 0;
+		 boolean flag = false;
+		 
 		 while(counter <= data.length - 1){
 			 
 			 pointer = data[counter][COL_POS];
@@ -217,9 +246,11 @@ public class LOCTable extends JFrame   {
 				 if(pointer.equals(data[counter2][COL_POS])){
 					 data[counter2][COL_POS] = "-";
 					 data[counter2][COL_POS + 1] = "-";
+					 flag = true;
 				 }
 				 ++counter2;
 			 }
+			
 			 ++counter; 
 		 }
 		return data;
@@ -229,8 +260,16 @@ public class LOCTable extends JFrame   {
 		matches = new Hashtable<String,String>();
 		boolean isContainsChecked = contains_Chk.isSelected();
 		boolean result = false;
+		boolean isInTable = tableData.get(s) != null;
 		String LOC;
-		
+		if(!isContainsChecked && isInTable){
+			
+			String loc = (String) tableData.get(s);
+			matches.put(s,loc);
+			result = true;
+		}
+		else if(isContainsChecked){
+			
 			Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
 			Iterator it = keys.iterator();
 			for(Entry entry : keys){
@@ -245,10 +284,9 @@ public class LOCTable extends JFrame   {
 					result = true;
 					matches.put(fileName,LOC);
 					
-				}
-				
-				
+				}	
 			}
+		}
 		return result;
 	}
 	
@@ -257,7 +295,7 @@ public class LOCTable extends JFrame   {
 		//Display table and actual data table
 		//copy and data tables
 		if(!matches.isEmpty()){
-			System.out.println("we in");
+			//System.out.println("we in");
 			Set<Map.Entry<String,String>> keys = matches.entrySet();
 			Iterator it = keys.iterator();
 			int max_Row = displayTable.getRowCount();
@@ -274,9 +312,6 @@ public class LOCTable extends JFrame   {
 				displayTable.setValueAt(key,row_Counter,col_Counter);
 				displayTable.setValueAt(LOC,row_Counter,col_Counter + 1);
 				++row_Counter;
-				//edit Table
-		    	
-		    	
 		    }
 			while(row_Counter <= max_Row - 1){
 				

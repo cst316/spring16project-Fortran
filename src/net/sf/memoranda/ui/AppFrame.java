@@ -1008,7 +1008,6 @@ public class AppFrame extends JFrame {
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileHidingEnabled(false);
-
 		chooser.setDialogTitle(Local.getString("Import Code"));
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
