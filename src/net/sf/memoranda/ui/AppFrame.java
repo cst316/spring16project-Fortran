@@ -87,9 +87,6 @@ public class AppFrame extends JFrame {
 
 	static Vector exitListeners = new Vector();
 
-	private final Object[] COLUMNAMES = { "SourceFile", "LOC" }; //to add time spent, phase
-
-
 	public Action prjPackAction = new AbstractAction("Pack current project") {
 		public void actionPerformed(ActionEvent e) {
 			doPrjPack();
@@ -146,9 +143,18 @@ public class AppFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 
-
-			Object[][] temp = LOCReader.xmlToArray();
-			LOCTable table = new LOCTable(temp, COLUMNAMES);
+			//check to see if import file exists
+			boolean result = LOCReader.checkLOCFileExists();
+			if(result){
+				//fikle exists we read file
+				Object[][] temp = LOCReader.xmlToArray();
+				LOCTable table = new LOCTable(temp, LOCTable.COLUMNAMES);
+			}
+			else{
+				//cannot find file
+				JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
+			    		"Error",JOptionPane.ERROR_MESSAGE);
+			}
 
 		}
 
@@ -1000,9 +1006,8 @@ public class AppFrame extends JFrame {
 		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
 		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
 		chooser.setFileHidingEnabled(false);
-
 		chooser.setDialogTitle(Local.getString("Import Code"));
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1013,7 +1018,7 @@ public class AppFrame extends JFrame {
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
-		//System.out.println("?: " + JFileChooser.APPROVE_OPTION + ":?");
+
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
@@ -1023,8 +1028,8 @@ public class AppFrame extends JFrame {
 			LOCWriter write = new LOCWriter(Srcreader);
 			// create SAvedLOCREader and return the data as 2Darray
 			Object[][] temp = LOCReader.xmlToArray();
-			@SuppressWarnings("unused")
-			LOCTable table = new LOCTable(temp, COLUMNAMES);
+			//@SuppressWarnings("unused")
+			LOCTable table = new LOCTable(temp, LOCTable.COLUMNAMES);
 		}
 	}//importSource_actionPerformed
 	public static String getExtension(File f){

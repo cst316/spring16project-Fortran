@@ -5,6 +5,7 @@ package net.sf.memoranda.util;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Set;
+import java.util.TimerTask;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
@@ -17,6 +18,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import net.sf.memoranda.ui.StopWatch;
+
 import javax.xml.transform.OutputKeys;
 /**
  * @author Mike
@@ -110,6 +114,7 @@ public class LOCWriter {
 			}
 			else{
 				
+				//refactor this to createnewXMLFile(root, )
 				Document document = db.newDocument();
 			
 				Node root = document.createElement(LOC_STR);
@@ -128,19 +133,29 @@ public class LOCWriter {
 		} 
 		catch(FileNotFoundException f){
 			
-			JFrame frame = new JFrame();
+			
 		    JOptionPane.showMessageDialog(null,"File Not Found Error",
 		    		"File could not be found",JOptionPane.ERROR_MESSAGE);
 			
 		}
 		catch (Exception e) {
-			JFrame frame = new JFrame();
+		
 		    JOptionPane.showMessageDialog(null,"Error",
 		    		"Oops something went wrong try importing Source Code again",JOptionPane.ERROR_MESSAGE);
 		}
 			
 			
 	}
+	
+	private void writeToXML(StopWatch st){
+		
+		
+		
+		
+		
+		
+	}
+	
 	/**
 	 * Constrcutor for source java file
 	 * @param reader
@@ -156,6 +171,17 @@ public class LOCWriter {
 		    JOptionPane.showMessageDialog(null,"Error",
 		    		"Oops something went wrong try importing Source Code again",JOptionPane.ERROR_MESSAGE);
 		}
+		
+		
+	}
+	public LOCWriter(StopWatch sw){
+		
+		
+		writeToXML(sw);
+		
+		
+	}
+	public LOCWriter(TimerTask tsk){
 		
 		
 	}

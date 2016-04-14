@@ -36,7 +36,7 @@ public class LOCReader {
 	private static String[][] array;
 	private static String configPath = System.getProperty("user.home") + File.separator + ".memoranda" + File.separator;
 	private final int MAXLIMIT = 2048;
-	private final static String JAVAEXTENSION = ".java";
+	public final static String JAVAEXTENSION = ".java";
 	private Hashtable<String,Integer> locMap;
 	private boolean ableToExtract;
 	private List<File> files;
@@ -143,7 +143,7 @@ public class LOCReader {
 	            	is.close();
 	            }
 	            if(currentEntry.endsWith(".zip")){
-	            	//set to true exit loop and abort import
+	            	
 	            	ableToExtract = false;
 	            }
 	         }
@@ -267,16 +267,38 @@ public class LOCReader {
 		}
 	}
 	
-	/* Grabs the file name and LOC from the XML file 
-	 * then puts it into an array.
+	
+	/**
+	 * used for determining if the file with LOC exists <b>Outside<b> of this Class
+	 * @return
+	 * <ul>
+	 * <li> true - if file exists </li>
+	 *  <li> false - if file doesnt exist </li>
+	 *  </ul>
 	 */
+	public static boolean checkLOCFileExists(){
+		boolean result = false;
+		File inputFile = new File(configPath + "SavedLOC.xml");
+		if(inputFile.exists()){
+			
+			result = true;
+			
+		}
+		else{
+			result = false;
+		}
+		return result;
+	}
+	
 	public static Object[][] xmlToArray() {
 
 		String loc;
 
 		try {
+			
 			File inputFile = new File(configPath + "SavedLOC.xml");
-
+			
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
@@ -312,6 +334,7 @@ public class LOCReader {
 	            	  array [temp][1] = loc;
 		          }
 		    }
+		
 		}   
 		
 		catch (FileNotFoundException e) {

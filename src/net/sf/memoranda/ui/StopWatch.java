@@ -3,275 +3,189 @@ package net.sf.memoranda.ui;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+public class StopWatch extends JFrame { 
+	//field variables
+	static JFrame mainframe;
+	static JPanel north;
+	static JPanel center;
+	static JPanel south;
+	static JLabel title;
+	static JLabel hours;
+	static JLabel minutes;
+	static JLabel seconds;
+	static JButton startStopButton;
+	static JButton saveButton;
+	static JButton reset;
+	static boolean ongoing;
+	static Timer timer;
+	static public String name;
+	int h;
+	int m;
+	/**
+	 * @return the h
+	 */
+	public int getH() {
+		return h;
+	}
+	/**
+	 * @return the m
+	 */
+	public int getM() {
+		return m;
+	}
+	/**
+	 * @return the s
+	 */
+	public int getS() {
+		return s;
+	}
 
-
-
-public class StopWatch  extends JFrame {
-	JPanel numbers = new JPanel();
-	JPanel buttons = new JPanel();
-	JPanel display = new JPanel();
-	JLabel timeDisplay = new JLabel("00 : 00 : 00");
-	JButton start;
-	JButton stop;
-	JButton reset;
-	JButton contin;
-	FlowLayout fl = new FlowLayout();
-	JLabel colon = new JLabel(":");
-	JLabel colon2 = new JLabel(":");
-	EmptyBorder border = new EmptyBorder(10, 0, 0, 0);
-	EmptyBorder border2 = new EmptyBorder(0, 0, 10, 0);
-	final String[] zeroThroughNine = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-	final String[] zeroThroughFive = { "0", "1", "2", "3", "4", "5" };
-	JComboBox cb = new JComboBox(zeroThroughFive);
-	JComboBox cb2 = new JComboBox(zeroThroughNine);
-	JComboBox cb3 = new JComboBox(zeroThroughFive);
-	JComboBox cb4 = new JComboBox(zeroThroughNine);
-	JComboBox cb5 = new JComboBox(zeroThroughFive);
-	JComboBox cb6 = new JComboBox(zeroThroughNine);
-	static Integer value;
-	static int hour, min, sec;
-	Timer timer;
-	String temp;
+	int s;
 
 	
+	/**
+	 * This is the default Constructor. Do Not Remove 
+	 */
 	public StopWatch() {
-
-		super("Window");
-		closeOperationOnDefault(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(3, 1));
-		numbers.setLayout(fl);
-		setVisible(true);
-		setResizable(true);
-		setSize(320, 200);
-		start = new JButton("Start");
-		stop = new JButton("Stop");
-		reset = new JButton("Reset");
-		contin = new JButton("Continue");
-		
-
-		numbers.add(cb);
-		numbers.add(cb2);
-		numbers.add(colon);
-
-		numbers.add(cb3);
-		numbers.add(cb4);
-		numbers.add(colon2);
-
-		numbers.add(cb5);
-		numbers.add(cb6);
-
-		buttons.setLayout(fl);
-		buttons.add(start);
-		buttons.add(stop);
-		buttons.add(reset);
-		buttons.add(contin);
-
-		numbers.setBorder(border);
-		timeDisplay.setBorder(border);
-
-		display.add(timeDisplay);
-		add(display);
-		add(numbers);
-		add(buttons);
-
-		StartEvent startEvent = new StartEvent();
-		StopEvent stopEvent = new StopEvent();
-		ResetEvent resetEvent = new ResetEvent();
-		ContinEvent continEvent = new ContinEvent();
-		
-		start.addActionListener(startEvent);
-		stop.addActionListener(stopEvent);
-		reset.addActionListener(resetEvent);
-		contin.addActionListener(continEvent);
-		contin.setEnabled(false);
-
+		ongoing = false;
+		prepareGui("Task");
+		ActionClick startStopButtonClick = new ActionClick(); //start/stop
+		startStopButton.addActionListener(startStopButtonClick);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		//ActionClick resetClick = new ActionClick("reset");
+		//startStopButton.addActionListener(resetClick);
 	}
-
-	private void closeOperationOnDefault(int exitOnClose) {
-		// TODO Auto-generated method stub
-
+	/**
+	 * This is a Constructor with String parameter. Do Not Remove 
+	 */
+	public StopWatch(String taskname) {
+		name = taskname;
+		ongoing = false;
+		prepareGui(taskname);
+		ActionClick startStopButtonClick = new ActionClick(); //start/stop
+		startStopButton.addActionListener(startStopButtonClick);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		//ActionClick resetClick = new ActionClick("reset");
+		//startStopButton.addActionListener(resetClick);
 	}
 	
-	public class StartEvent implements ActionListener {
+	//write functionality
+	public void writeXML(){
+	 
+	}
+	
+	 //read functionality
+	public void readXML(){
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-
-			start.setEnabled(false);
-			int h1 = Integer.parseInt(cb.getSelectedItem().toString());
-			int h2 = Integer.parseInt(cb2.getSelectedItem().toString());
-			int m1 = Integer.parseInt(cb3.getSelectedItem().toString());
-			int m2 = Integer.parseInt(cb4.getSelectedItem().toString());
-			int s1 = Integer.parseInt(cb5.getSelectedItem().toString());
-			int s2 = Integer.parseInt(cb6.getSelectedItem().toString());
-			hour = initialNumbers(h1, h2);
-			min = initialNumbers(m1, m2);
-			sec = initialNumbers(s1, s2);
-			timeDisplay.setForeground(Color.black);
-			int total = hour+min+sec;
-			if(total == 0)
-			{
-				timeDisplay.setText("Please enter a valid time");
-				start.setEnabled(true);
+	}
+	
+	
+	public static boolean isOngoing() { 
+		return ongoing;
+	}
+	
+	/**
+	 * This method starts the gui for the time task
+	 * @return void
+	 */
+	public static void prepareGui(String name) { 
+		mainframe = new JFrame(name);
+		north = new JPanel();
+		north.setBackground((new Color(200,90,90)));
+		center = new JPanel();
+		south = new JPanel();
+		mainframe.setSize(350, 275);
+		//mainframe.setLayout();
+		mainframe.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent) {
+				System.exit(0);
 			}
-			else{
-			TimeClass tc = new TimeClass();
-			timer = new Timer(1000, tc);
-			timer.start();}
+		});
+		// grid 1
+		title = new JLabel("", JLabel.CENTER);
+		title.setSize(350, 100);
+		title.setForeground(new Color(50,50,50));
+		title.setText("This is Timer Tool");
+		north.add(title);
+		// grid 2
+		hours = new JLabel("00");
+		minutes = new JLabel("00");
+		seconds = new JLabel("00");
+		hours.setSize(100, 100);
+		minutes.setSize(100, 100);
+		seconds.setSize(100, 100);
+		center.add(hours);
+		center.add(minutes);
+		center.add(seconds);
+		// grid 3
+		startStopButton = new JButton("Start"); ;
+		saveButton = new JButton("save");
+		south.add(startStopButton);
+        south.add(saveButton);
+        mainframe.getContentPane().add(BorderLayout.NORTH, north);
+        mainframe.getContentPane().add(BorderLayout.CENTER, center);
+        mainframe.getContentPane().add(BorderLayout.SOUTH, south);
+		mainframe.setVisible(true);
+	}
 
-		}
-
+	/*
+	 * public static void showEvent(){
+	 * 
+	 * }
+	 */
+	//misc - classes, impListeners
+	public class ActionClick implements ActionListener {
 		/**
-		 * 
-		 * @param number1
-		 * 			first digit from the combo box
-		 * @param number2
-		 * 			second digit from the combo box
-		 * @return
-		 * 			the full number which correlates to a time in minutes seconds or hours
+		 * This is the method called when the action is performed
+		 * @return void
 		 */
-		public int initialNumbers(int number1, int number2) {
-			number1 *= 10;
-
-			return number1 + number2;
+		public void actionPerformed(ActionEvent actionEvent) {
+			//start clicked - ongoing
+			if (ongoing == false){
+				timer = new Timer(1000, new TimeClass());
+				timer.start();
+				startStopButton.setText("Pause");
+				ongoing = true;
+			} else{
+				timer.stop();
+				startStopButton.setText("Play");
+				ongoing = false;
+			}
 		}
-	}
-
-	
-	public class StopEvent implements ActionListener  {
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-
-			try {
-			timer.stop();
-			start.setEnabled(false);
-			contin.setEnabled(true);
-			}
-			catch (NullPointerException e1 )
-			{
-				timeDisplay.setText("Please enter a valid time");
-			}
-		}
 	}
-	
-	public class ResetEvent implements ActionListener {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-
-			try{
-			timeDisplay.setText("00 : 00 : 00");
-			timeDisplay.setForeground(Color.black);
-			hour = 0;
-			min = 0;
-			sec = 0;
-			timer.stop();
-			start.setEnabled(true);
-			contin.setEnabled(false);
-			}
-			catch(NullPointerException e1 ){
-				timeDisplay.setText("Please enter a valid time");
-			}
-		}
-	}
-	public class ContinEvent implements ActionListener {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-
-			TimeClass tc = new TimeClass();
-			timer = new Timer(1000, tc);
-			timer.start();
-			contin.setEnabled(false);
-		}
-	}
-	
 
 	public class TimeClass implements ActionListener {
-		
-		
-
-		public TimeClass() {
-		}
-		
-
 		/**
-		 * This is the heart of the program that counts down and sets the time based on the 
-		 * input from the combo boxes
+		 * This is the method called when the action is performed
+		 * @return void
 		 */
-		public void actionPerformed(ActionEvent e) {
-
-			timeDisplay.setText(logic());
-			if(sec == 0 && hour ==0 && min ==0)
-				timeDisplay.setForeground(Color.red);
-
-			
-		}
-
-		public String logic (){
-			if (hour > 0) {
-				if (min > 0) {
-					if (sec > 0)
-						sec--;
-					else {
-						min--;
-						sec = 59;
-					}
-				} else if (min == 0) {
-					if (sec > 0)
-						sec--;
-					else {
-						hour--;
-						min = 59;
-						sec = 59;
-					}
-				}
-				String formatHour = String.format("%02d", hour);
-				String formatMin = String.format("%02d", min);
-				String formatSec = String.format("%02d", sec);
-				return (formatHour +" : "+ formatMin +" : "   + formatSec);
-			} else if (min > 0) {
-				if (sec > 0) {
-					sec--;
-
+		public void actionPerformed(ActionEvent actionEvent) {
+			// this should only be clicked once.
+			if (s < 59) {
+				s++;
+				String sec = (s < 10 ? "0" : "") + s;
+				seconds.setText("" + sec);
+			} else {
+				s = 0;
+				seconds.setText("" + s);
+				if (m < 59) {
+					m++;
+					String min = (m < 10 ? "0" : "") + m;
+					minutes.setText("" + min);
 				} else {
-					min--;
-					sec = 59;
-				}
-				String formatHour = String.format("%02d", hour);
-				String formatMin = String.format("%02d", min);
-				String formatSec = String.format("%02d", sec);
-				return (formatHour+" : "+formatMin+" : "+formatSec);
-			} else if (sec > 0) {
-				sec--;
-				String formatHour = String.format("%02d", hour);
-				String formatMin = String.format("%02d", min);
-				String formatSec = String.format("%02d", sec);
-				return (formatHour+" : "+formatMin+" : "+formatSec);
-			} 
+					m = 0;
 
-			else {
-				timer.stop();
-				return "Done";	
-			}
-			
+					h++;
+					String hr = (h < 10 ? "0" : "") + h;
+					hours.setText("" + hr);
+					hours.setText("" + h);
+				  }
+			  }
 		}
 	}
-
-}
-
+}//StopWatch

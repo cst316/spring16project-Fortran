@@ -1,10 +1,10 @@
-package net.sf.memoranda.ui.resources.icons.mimetypes.text;
+
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import net.sf.memoranda.ui.TimerTask;
+import net.sf.memoranda.ui.StopWatch;
 
 public class timertaskUnitTesting {
 
@@ -14,7 +14,7 @@ public class timertaskUnitTesting {
 	 */
 	@Test
 	public void test1() {
-		TimerTask task1 = new TimerTask();
+		StopWatch task1 = new StopWatch();
 		String temp1 = "Task";
 		assertTrue(!(temp1 == task1.name));
 	}
@@ -25,7 +25,7 @@ public class timertaskUnitTesting {
 	 */
 	@Test
 	public void test2() {
-		TimerTask task2 = new TimerTask("MyFirstTask");
+		StopWatch task2 = new StopWatch("MyFirstTask");
 		String temp2 = "MyFirstTask";
 		assertEquals(temp2, task2.name);
 	}
@@ -35,7 +35,7 @@ public class timertaskUnitTesting {
 	 */
 	@Test
 	public void test3(){
-		TimerTask task3 = new TimerTask("My First Task");
+		StopWatch task3 = new StopWatch("My First Task");
 		String temp3 = "My First Task";
 		assertTrue(temp3 == task3.name);
 		
