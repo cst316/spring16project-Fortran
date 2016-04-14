@@ -53,7 +53,7 @@ public class StopWatch extends JFrame {
 		prepareGui("Task");
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
 	}
@@ -66,7 +66,7 @@ public class StopWatch extends JFrame {
 		prepareGui(taskname);
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
 	}
@@ -81,6 +81,7 @@ public class StopWatch extends JFrame {
 	 */
 	public static void prepareGui(String name) { 
 		mainframe = new JFrame(name);
+		mainframe.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		north = new JPanel();
 		north.setBackground((new Color(200,90,90)));
 		center = new JPanel();
