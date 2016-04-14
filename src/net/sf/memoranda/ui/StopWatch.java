@@ -90,7 +90,7 @@ public class StopWatch extends JFrame {
 		//mainframe.setLayout();
 		mainframe.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
-				System.exit(0);
+				///System.exit(0);
 			}
 		});
 		// grid 1
