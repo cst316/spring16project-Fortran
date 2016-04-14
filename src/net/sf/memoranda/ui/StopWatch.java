@@ -45,8 +45,6 @@ public class StopWatch extends JFrame {
 	}
 
 	int s;
-
-	
 	/**
 	 * This is the default Constructor. Do Not Remove 
 	 */
@@ -55,7 +53,7 @@ public class StopWatch extends JFrame {
 		prepareGui("Task");
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
 	}
@@ -68,21 +66,10 @@ public class StopWatch extends JFrame {
 		prepareGui(taskname);
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
 	}
-	
-	//write functionality
-	public void writeXML(){
-	 
-	}
-	
-	 //read functionality
-	public void readXML(){
-		
-	}
-	
 	
 	public static boolean isOngoing() { 
 		return ongoing;
@@ -160,6 +147,7 @@ public class StopWatch extends JFrame {
 	}
 
 	public class TimeClass implements ActionListener {
+
 		/**
 		 * This is the method called when the action is performed
 		 * @return void
@@ -188,4 +176,4 @@ public class StopWatch extends JFrame {
 			  }
 		}
 	}
-}//StopWatch
+}

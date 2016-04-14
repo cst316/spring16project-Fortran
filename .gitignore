@@ -1,10 +1,11 @@
+.metadata
 .settings
-bin
-build
-LOCreader.java
 .classpath
 .project
-build.number
 .DS_Store
 *.class
 /classes/
+bin
+build
+LOCreader.java
+build.number
