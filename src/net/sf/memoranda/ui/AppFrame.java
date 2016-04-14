@@ -1006,7 +1006,7 @@ public class AppFrame extends JFrame {
 		UIManager.put("FileChooser.openButtonToolTipText", Local.getString("Open selected file"));
 		UIManager.put("FileChooser.cancelButtonText", Local.getString("Cancel"));
 		UIManager.put("FileChooser.cancelButtonToolTipText", Local.getString("Cancel"));
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
 		chooser.setFileHidingEnabled(false);
 		chooser.setDialogTitle(Local.getString("Import Code"));
 		chooser.setAcceptAllFileFilterUsed(false);
@@ -1018,7 +1018,7 @@ public class AppFrame extends JFrame {
 		chooser.setPreferredSize(new Dimension(550, 375));
 
 		int val = chooser.showOpenDialog(this);
-		//System.out.println("?: " + JFileChooser.APPROVE_OPTION + ":?");
+
 		if (val == JFileChooser.APPROVE_OPTION) {
 
 			File f = chooser.getSelectedFile();
@@ -1028,7 +1028,7 @@ public class AppFrame extends JFrame {
 			LOCWriter write = new LOCWriter(Srcreader);
 			// create SAvedLOCREader and return the data as 2Darray
 			Object[][] temp = LOCReader.xmlToArray();
-			@SuppressWarnings("unused")
+			//@SuppressWarnings("unused")
 			LOCTable table = new LOCTable(temp, LOCTable.COLUMNAMES);
 		}
 	}//importSource_actionPerformed
