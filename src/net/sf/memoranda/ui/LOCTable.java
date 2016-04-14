@@ -8,24 +8,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 import javax.swing.JTextField;
 import java.awt.event.KeyEvent;
-import java.awt.print.PrinterException;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.awt.event.KeyAdapter;
-import net.sf.memoranda.util.LOCReader;
 import javax.swing.JCheckBox;
-import javax.swing.JToggleButton;
-import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -40,7 +35,7 @@ public class LOCTable extends JFrame   {
 	private JTable displayTable;
 	private JTextField search_Txt;
 	private JLabel lblNewLabel;
-	JLabel lbl_Msg;
+	JLabel lbl_msg;
 	private String errorMsg;
 	private JCheckBox contains_Chk;
 	private final static String EMPTYSTRING = "Please type in a FileName";
@@ -104,10 +99,10 @@ public class LOCTable extends JFrame   {
 						boolean searchResult = searchTable(input);
 						if(!searchResult){
 							errorMsg = FNF;
-							DisplayMsg();
+							displayMsg();
 						}
 						else{
-							lbl_Msg.setText("");
+							lbl_msg.setText("");
 							displaySearchResults();
 						}
 					}
@@ -135,9 +130,9 @@ public class LOCTable extends JFrame   {
 		btnRefresh.setBounds(317, 46, 113, 23);
 		contentPane.add(btnRefresh);
 		
-		lbl_Msg = new JLabel("New label");
-		lbl_Msg.setBounds(48, 27, 178, 14);
-		contentPane.add(lbl_Msg);
+		lbl_msg = new JLabel("New label");
+		lbl_msg.setBounds(48, 27, 178, 14);
+		contentPane.add(lbl_msg);
 		JScrollPane scroll = new JScrollPane(displayTable);
 		scroll.setBounds(5, 74, 432, 205);
 		contentPane.add(scroll);
@@ -145,7 +140,7 @@ public class LOCTable extends JFrame   {
 		removeEmptyRows();
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
-		lbl_Msg.setVisible(false);
+		lbl_msg.setVisible(false);
 	}
 	
 	private void arrayToHash(Object[][] data){
@@ -161,11 +156,11 @@ public class LOCTable extends JFrame   {
 			tableData.put(row[0],row[1]);	
 		}
 	}
-	private void DisplayMsg(){
+	private void displayMsg(){
 		
-		lbl_Msg.setVisible(true);
-		lbl_Msg.setText(errorMsg);
-		lbl_Msg.setForeground(Color.RED);
+		lbl_msg.setVisible(true);
+		lbl_msg.setText(errorMsg);
+		lbl_msg.setForeground(Color.RED);
 		
 	}
 	private boolean checkInput(String input){
@@ -173,7 +168,7 @@ public class LOCTable extends JFrame   {
 		if(input.isEmpty()){
 			result = false;
 			errorMsg = EMPTYSTRING;
-			DisplayMsg();
+			displayMsg();
 		}
 		return result;
 		
@@ -280,7 +275,7 @@ public class LOCTable extends JFrame   {
 					result = true;
 					matches.put(fileName,LOC);
 				}
-				else if(fileName.contains(s) && isContainsChecked){
+				else if(fileName.contains(s)){
 					result = true;
 					matches.put(fileName,LOC);
 					
