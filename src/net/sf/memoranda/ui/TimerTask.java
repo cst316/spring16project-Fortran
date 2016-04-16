@@ -19,8 +19,8 @@ public class TimerTask extends JFrame {
 	static JLabel hours;
 	static JLabel minutes;
 	static JLabel seconds;
-	static JButton startStopButton;
-	static JButton saveButton;
+	static JButton startStopButton; //performed button functionality & acceptance testing (PASSED)
+	static JButton saveButton; //performed button functionality and acceptance testing (REJECTED)
 	static JButton reset;
 	static boolean ongoing;
 	Timer timer;
@@ -34,13 +34,12 @@ public class TimerTask extends JFrame {
 		this.name = name;
 	}
 	
-	//
+
 	public String getName(){
 		return name;
 	}
-	/**
-	 * This is the default Constructor. Do Not Remove 
-	 */
+	
+	//This is the default Constructor. Do Not Remove 
 	public TimerTask() {
 		ongoing = false;
 		prepareGui("Task");
@@ -49,10 +48,9 @@ public class TimerTask extends JFrame {
 		//ActionClick resetClick = new ActionClick("reset");
 		//startStopButton.addActionListener(resetClick);
 	}
-	/**
-	 * This is a Constructor with String parameter. Do Not Remove 
-	 * This constructor allows to create a timertask with a specific name.
-	 */
+	
+	// This is a Constructor with String parameter. Do Not Remove 
+	// This constructor allows to create a timertask with a specific name.
 	public TimerTask(String taskname) {
 		setName(taskname);
 		ongoing = false;
@@ -68,10 +66,8 @@ public class TimerTask extends JFrame {
 		return ongoing;
 	}
 	
-	/**
-	 * This method starts the gui for the time task
-	 * @return void
-	 */
+	
+	// This method starts the gui for the time task
 	public static void prepareGui(String name) { 
 		mainframe = new JFrame(name);
 		north = new JPanel();
@@ -92,7 +88,6 @@ public class TimerTask extends JFrame {
 		title.setText("This is Timer Tool");
 		north.add(title);
 		// grid 2. this is the center/main area of timertask where the
-		//time gets updated/incremented
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		seconds = new JLabel("00");
@@ -170,7 +165,7 @@ public class TimerTask extends JFrame {
 		 * @return void
 		 */
 		public void actionPerformed(ActionEvent actionEvent) {
-			// this should only be clicked once.
+			// Performed functionality & aceptance testing (PASSED). Counts correctly
 			if (s < 59) {
 				s++;
 				String sec = (s < 10 ? "0" : "") + s;
