@@ -102,10 +102,11 @@ public class LOCReader {
 		//obtain zipfile's files
 		String zipFileName = zipFile.getName();
 		zipFileName = zipFileName.substring(0,zipFileName.length() - 4);
-		new File(zipFileName).mkdir();
+		
 		
 		//unzip file and extract java files
 		 try {
+			 new File(zipFileName).mkdir();
 			
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
