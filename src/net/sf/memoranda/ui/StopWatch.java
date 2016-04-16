@@ -3,9 +3,7 @@ package net.sf.memoranda.ui;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 
 public class StopWatch extends JFrame { 
 	//field variables
@@ -90,7 +88,7 @@ public class StopWatch extends JFrame {
 		//mainframe.setLayout();
 		mainframe.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
-				///System.exit(0);
+			
 			}
 		});
 		// grid 1

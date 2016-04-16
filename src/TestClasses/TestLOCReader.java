@@ -1,3 +1,4 @@
+package TestClasses;
 /**
  * 
  */
@@ -44,7 +45,7 @@ public class TestLOCReader {
 		 * 
 		 * Check to see if Output Directory Exists
 		 */
-		File testCase1 = new File("test/t1Nested.zip");
+		File testCase1 = new File("testCases/t1Nested.zip");
 		File testCase2 = new File("test/t2.zip");
 		File testCase3 = new File("test/t3.zip");
 
@@ -74,9 +75,9 @@ public class TestLOCReader {
 		final int expectedCount2 = 18;
 		final int expectedCount3 = 24;
 		
-		File testCase1 = new File("test/test1.zip/");
-		File testCase2 = new File("test/test2.zip/");
-		File testCase3 = new File("test/test3.zip/");
+		File testCase1 = new File("testCases/test1.zip/");
+		File testCase2 = new File("testCases/test2.zip/");
+		File testCase3 = new File("testCases/test3.zip/");
 		
 		LOCReader zip1 = new LOCReader(testCase1);
 		LOCReader zip2 = new LOCReader(testCase2);
