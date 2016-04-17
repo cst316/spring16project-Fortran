@@ -1761,20 +1761,20 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	void setImageProperties(Element el, String src, String alt, String width, String height, String hspace,
-			String vspace, String border, String align) {
+	void setImageProperties(ElementParameter ep, ImagePropertiesParameter ip, 
+			ImageInfoParameter ifp) {
 		ImageDialog dlg = new ImageDialog(null);
 		dlg.setLocation(imageActionB.getLocationOnScreen());
 		dlg.setModal(true);
 		dlg.setTitle(Local.getString("Image properties"));
-		dlg.fileField.setText(src);
-		dlg.altField.setText(alt);
-		dlg.widthField.setText(width);
-		dlg.heightField.setText(height);
-		dlg.hspaceField.setText(hspace);
-		dlg.vspaceField.setText(vspace);
-		dlg.borderField.setText(border);
-		dlg.alignCB.setSelectedItem(align);
+		dlg.fileField.setText(ep.getSource());
+		dlg.altField.setText(ep.getAlternative());
+		dlg.widthField.setText(ip.getWidth_Img());
+		dlg.heightField.setText(ip.getHeight_Img());
+		dlg.hspaceField.setText(ip.getHspace_Img());
+		dlg.vspaceField.setText(ip.getVspace_Img());
+		dlg.borderField.setText(ifp.getBorder());
+		dlg.alignCB.setSelectedItem(ifp.getAlign());
 		dlg.updatePreview();
 		dlg.setVisible(true);
 		if (dlg.CANCELLED) {
@@ -1827,7 +1827,7 @@ public class HTMLEditor extends JPanel {
 			}
 		}
 		try {
-			document.setOuterHTML(el, imgTag);
+			document.setOuterHTML(ep.getElement(), imgTag);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -2231,7 +2231,10 @@ public class HTMLEditor extends JPanel {
 			if (attrs.isDefined(HTML.Attribute.ALIGN)) {
 				align = attrs.getAttribute(HTML.Attribute.ALIGN).toString();
 			}
-			setImageProperties(el, src, alt, width, height, hspace, vspace, border, align);
+			ElementParameter ep = new ElementParameter(el, src, alt);
+			ImagePropertiesParameter ip = new ImagePropertiesParameter(width, height, hspace, vspace);
+			ImageInfoParameter ipf = new ImageInfoParameter(border,align);
+			setImageProperties(ep, ip, ipf);
 			return;
 		}
 
