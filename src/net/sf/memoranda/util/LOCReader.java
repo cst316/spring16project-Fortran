@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
@@ -39,7 +40,7 @@ public class LOCReader {
 	private static int ROW;
 	private static String[][] array;
 	private static String configPath = System.getProperty("user.home") + File.separator + ".memoranda" + File.separator;
-	private final int MAXLIMIT = 2048;
+	private final static int MAXLIMIT = 2048;
 	public final static String JAVAEXTENSION = ".java";
 	private Hashtable<String,Integer> locMap;
 	private boolean ableToExtract;
@@ -106,7 +107,6 @@ public class LOCReader {
 		
 		//unzip file and extract java files
 		 try {
-			
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
@@ -246,18 +246,19 @@ public class LOCReader {
 					// Remove all spaces in the beginning
 					fileLine = fileLine.replaceAll("\\s+", "");
 					
-					if (fileName.startsWith("/*")) {
+					if (fileLine.startsWith("/*")) {
 						flag = true;
+					}
+					
+					if (fileLine.endsWith("*/")) {
+						flag = false;
+						LOC--;
 					}
 					
 					if (!flag) {
 						if (fileLine.length() > 0 && !fileLine.startsWith("//")) {
 							LOC++;
 						}
-					}
-					
-					if (fileLine.endsWith("*/")) {
-						flag = false;
 					}
 					fileLine = reader.readLine();
 				}
@@ -342,15 +343,15 @@ public class LOCReader {
 		
 		}   
 		
-		catch (FileNotFoundException e) {
+		catch (ParserConfigurationException | SAXException | IOException e) {
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		catch (Exception e) {
+		/*catch (Exception e) {
 			JOptionPane.showMessageDialog(null,"Sorry, something went wrong, try importing again.",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
-		}
+		}*/
 		
 		return (array.clone());
 	}

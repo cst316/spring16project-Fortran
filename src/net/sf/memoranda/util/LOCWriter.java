@@ -29,10 +29,10 @@ import javax.xml.transform.OutputKeys;
 public class LOCWriter {
 	
 	//Constants for XML tags
-	 private final String LOC_STR = "LOCLIST";
-	 private final String LOCF_STR = "LOCFILE";
-	 private final String SOURCEFILE = "SOURCEFILE";
-	 private final String LOCINT = "LOC";
+	 private final static String LOC_STR = "LOCLIST";
+	 private final static String LOCF_STR = "LOCFILE";
+	 private final static String SOURCEFILE = "SOURCEFILE";
+	 private final static String LOCINT = "LOC";
 	 
 	private String configPath = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;
