@@ -7,6 +7,9 @@ import java.util.Hashtable;
 import java.util.Set;
 import java.util.TimerTask;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,20 +49,18 @@ public class LOCWriter {
 	private Element toElement(Document document,LOCReader reader,Node root){
 		
 		
-		Element locFile = null; //= document.createElement(LOCF_STR);
+		Element locFile = null; 
 		//root.appendChild(locFile);
 		
 		
 		Hashtable<String,Integer> temp = reader.getLocTable();
-		System.out.println("HashTable " + temp.toString());
-		//insert while loop enumeration in here
-		Set<String> keys = temp.keySet();
-		System.out.println(keys);
+		Set<Entry<String, Integer>> keys = temp.entrySet();
+		
 		Iterator it = keys.iterator(); 
-		while(it.hasNext()){
+		for(Entry e : keys){
 			
-			//grab key from set 
-			String fileNameKey = (String) it.next();
+			//grab key from Entryt 
+			String fileNameKey = (String) e.getKey();//it.next();
 		
 			//grab value from table
 			Integer valueLOC = temp.get(fileNameKey);
@@ -114,7 +115,7 @@ public class LOCWriter {
 			}
 			else{
 				
-				//refactor this to createnewXMLFile(root, )
+			
 				Document document = db.newDocument();
 			
 				Node root = document.createElement(LOC_STR);
@@ -147,15 +148,6 @@ public class LOCWriter {
 			
 	}
 	
-	private void writeToXML(StopWatch st){
-		
-		
-		
-		
-		
-		
-	}
-	
 	/**
 	 * Constrcutor for source java file
 	 * @param reader
@@ -174,18 +166,5 @@ public class LOCWriter {
 		
 		
 	}
-	public LOCWriter(StopWatch sw){
-		
-		
-		writeToXML(sw);
-		
-		
-	}
-	public LOCWriter(TimerTask tsk){
-		
-		
-	}
 	
-	
-
 }

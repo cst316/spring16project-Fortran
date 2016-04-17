@@ -181,8 +181,8 @@ public class LOCTable extends JFrame   {
 		
 		int max_Row = displayTable.getRowCount();
 		System.out.println(max_Row);
-		//get iterator for hashtable
-		Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
+		
+		Set<Map.Entry<Object,Object>> keys = tableData.entrySet();
 		Iterator it = keys.iterator();
 		String LOC;
 		String fileName;
@@ -205,20 +205,19 @@ public class LOCTable extends JFrame   {
 		
 		int max_Row = displayTable.getRowCount();
 		int row_Counter = max_Row - 1;
-		//System.out.println(max_Row);
+		
 		while(row_Counter >= 0){
-			//System.out.print(row_Counter + " ");
+			
 			String temp = (String) displayTable.getValueAt(row_Counter,col_Counter);
-			//System.out.println(temp + " " + displayTable.getValueAt(row_Counter,col_Counter + 1));
+			
 			if(temp.equals("-")){
-				//System.out.println("come on");
+				
 				dt.removeRow(row_Counter);
 				tableData.remove(temp);
 			}
 			--row_Counter;
 		}
 
-		//deelte empty string in hashTable too
 		
 	}
 	/*
@@ -265,7 +264,7 @@ public class LOCTable extends JFrame   {
 		}
 		else if(isContainsChecked){
 			
-			Set<Map.Entry<Object,Object>> keys = tableData.entrySet();//Map.entry<Object,Object>
+			Set<Map.Entry<Object,Object>> keys = tableData.entrySet();
 			Iterator it = keys.iterator();
 			for(Entry entry : keys){
 				
@@ -290,19 +289,18 @@ public class LOCTable extends JFrame   {
 		//Display table and actual data table
 		//copy and data tables
 		if(!matches.isEmpty()){
-			//System.out.println("we in");
+			
 			Set<Map.Entry<String,String>> keys = matches.entrySet();
 			Iterator it = keys.iterator();
 			int max_Row = displayTable.getRowCount();
 			int row_Counter = 0;
 			int col_Counter = 0;
-			//modify data table
-			//going to need to go in constructor and modify isEditable to copy
+			
 		    for(Entry entry : keys){
 		    	
 		    	String key = (String) entry.getKey();
 				String LOC = (String) matches.get(key);
-				System.out.println(key + "," + LOC);
+			
 			
 				displayTable.setValueAt(key,row_Counter,col_Counter);
 				displayTable.setValueAt(LOC,row_Counter,col_Counter + 1);
