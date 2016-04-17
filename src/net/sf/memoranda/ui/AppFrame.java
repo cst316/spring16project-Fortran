@@ -45,6 +45,7 @@ import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
+import net.sf.memoranda.util.ExportParameter;
 import net.sf.memoranda.util.LOCReader;
 import net.sf.memoranda.util.LOCWriter;
 import net.sf.memoranda.util.Local;
@@ -919,8 +920,11 @@ public class AppFrame extends JFrame {
 		File f = chooser.getSelectedFile();
 		boolean xhtml = chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
 		CurrentProject.save();
-		ProjectExporter.export(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, dlg.splitChB.isSelected(),
+		
+		ExportParameter ep = new ExportParameter(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, dlg.splitChB.isSelected(),
 				true, nument, dlg.titlesAsHeadersChB.isSelected(), false);
+		
+		ProjectExporter.export(ep);
 	}
 
 	protected void ppImport_actionPerformed(ActionEvent e) {

@@ -42,23 +42,25 @@ public class ProjectExporter {
 	static boolean _navigation = false;
 
 	static String charsetString = "\n";
+	
+	static Project prj;
 
-	public static void export(Project prj, File f, String charset, boolean xhtml, boolean chunked, boolean navigation,
-			boolean num, boolean titlesAsHeaders, boolean copyImages) {
-
-		_num = num;
-		_chunked = chunked;
-		_charset = charset;
-		_xhtml = xhtml;
-		_titlesAsHeaders = titlesAsHeaders;
-		_copyImages = copyImages;
-		_navigation = navigation;
+	public static void export(ExportParameter ep) {
+		prj = ep.getPrj();
+		_num = ep.isNum();
+		_chunked = ep.isChunked();
+		_charset = ep.getCharSet();
+		_xhtml = ep.isXHTML();
+		_titlesAsHeaders = ep.areTitlesAsheaders();
+		_copyImages = ep.isImageCopied();
+		_navigation = ep.isNavigatable();
+		File f = ep.getFile();
 		if (f.isDirectory()) {
 			output = new File(f.getPath() + "/index.html");
 		} else {
 			output = f;
 		}
-		NoteList nl = CurrentStorage.get().openNoteList(prj);
+		NoteList nl = CurrentStorage.get().openNoteList(ep.getPrj());
 		Vector notes = (Vector) nl.getAllNotes();
 		// NotesVectorSorter.sort(notes);
 		Collections.sort(notes);
@@ -74,9 +76,9 @@ public class ProjectExporter {
 			output = new File(nfile);
 		}
 		try {
-			if (charset != null) {
-				fw = new OutputStreamWriter(new FileOutputStream(output), charset);
-				charsetString = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + charset + "\" />";
+			if (_charset != null) {
+				fw = new OutputStreamWriter(new FileOutputStream(output), _charset);
+				charsetString = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + _charset + "\" />";
 			} else {
 				fw = new FileWriter(output);
 			}
