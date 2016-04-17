@@ -42,6 +42,8 @@ import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
+import net.sf.memoranda.util.BooleanContentParameter;
+import net.sf.memoranda.util.BooleanXHTMLParameter;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
@@ -921,10 +923,11 @@ public class AppFrame extends JFrame {
 		boolean xhtml = chooser.getFileFilter().getDescription().indexOf("XHTML") > -1;
 		CurrentProject.save();
 		
-		ExportParameter ep = new ExportParameter(CurrentProject.get(), chooser.getSelectedFile(), enc, xhtml, dlg.splitChB.isSelected(),
-				true, nument, dlg.titlesAsHeadersChB.isSelected(), false);
+		ExportParameter ep = new ExportParameter(CurrentProject.get(), chooser.getSelectedFile(), enc);
+		BooleanXHTMLParameter  bxp = new BooleanXHTMLParameter(xhtml, dlg.splitChB.isSelected(),true);
+		BooleanContentParameter bp = new BooleanContentParameter(nument, dlg.titlesAsHeadersChB.isSelected(), false);
 		
-		ProjectExporter.export(ep);
+		ProjectExporter.export(ep,bp,bxp);
 	}
 
 	protected void ppImport_actionPerformed(ActionEvent e) {

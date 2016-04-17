@@ -6,7 +6,7 @@ import net.sf.memoranda.Project;
 
 public class ExportParameter {
 
-	private Project prj;
+	private Project prject;
 	private File file;
 	private String charSet;
 	private boolean isXHTML;
@@ -24,21 +24,20 @@ public class ExportParameter {
 		this.isNavigatable = isNavigatable;
 	}
 
-	public ExportParameter(Project prj, File f, String charset, 
-			boolean xhtml, boolean chunked, boolean navigation,
-			boolean num, boolean titlesAsHeaders, boolean copyImages) {
+	public ExportParameter(Project prj, File f, String charset) {
 		
-		
-		
+		prject = prj;
+		file = f;
+		charSet = charset;
 		// TODO Auto-generated constructor stub
 	}
 
 	public Project getPrj() {
-		return prj;
+		return prject;
 	}
 
 	public void setPrj(Project prj) {
-		this.prj = prj;
+		this.prject = prj;
 	}
 
 	public File getFile() {
@@ -56,45 +55,6 @@ public class ExportParameter {
 	public void setCharSet(String charSet) {
 		this.charSet = charSet;
 	}
-
-	public boolean isXHTML() {
-		return isXHTML;
-	}
-
-	public void setXHTML(boolean isXHTML) {
-		this.isXHTML = isXHTML;
-	}
-
-	public boolean isChunked() {
-		return isChunked;
-	}
-
-	public void setChunked(boolean isChunked) {
-		this.isChunked = isChunked;
-	}
-
-	public boolean isNum() {
-		return isNum;
-	}
-
-	public void setNum(boolean isNum) {
-		this.isNum = isNum;
-	}
-
-	public boolean areTitlesAsheaders() {
-		return areTitlesAsheaders;
-	}
-
-	public void setAreTitlesAsheaders(boolean areTitlesAsheaders) {
-		this.areTitlesAsheaders = areTitlesAsheaders;
-	}
-
-	public boolean isImageCopied() {
-		return isImageCopied;
-	}
-
-	public void setImageCopied(boolean isImageCopied) {
-		this.isImageCopied = isImageCopied;
-	}
-
 }
+
+	

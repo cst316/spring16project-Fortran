@@ -1,4 +1,4 @@
-package net.sf.memoranda.ui.resources.icons.mimetypes.text;
+
 
 import static org.junit.Assert.*;
 

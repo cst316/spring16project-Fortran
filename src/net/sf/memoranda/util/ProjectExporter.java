@@ -45,14 +45,15 @@ public class ProjectExporter {
 	
 	static Project prj;
 
-	public static void export(ExportParameter ep) {
+	public static void export(ExportParameter ep,BooleanContentParameter bp,
+			 BooleanXHTMLParameter bxp) {
 		prj = ep.getPrj();
-		_num = ep.isNum();
-		_chunked = ep.isChunked();
+		_num = bp.isNum();
+		_chunked = bxp.isChunked();
 		_charset = ep.getCharSet();
-		_xhtml = ep.isXHTML();
-		_titlesAsHeaders = ep.areTitlesAsheaders();
-		_copyImages = ep.isImageCopied();
+		_xhtml = bxp.isXHTML();
+		_titlesAsHeaders = bp.areTitlesAsheaders();
+		_copyImages = bp.isCopyImagesRequired();
 		_navigation = ep.isNavigatable();
 		File f = ep.getFile();
 		if (f.isDirectory()) {
