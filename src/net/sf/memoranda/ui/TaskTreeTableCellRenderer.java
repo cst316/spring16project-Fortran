@@ -192,40 +192,58 @@ public class TaskTreeTableCellRenderer extends DefaultTreeCellRenderer implement
 		}
 	}
 
+	private static Color getColorForTaskStatus_trueSwitchCase(Task t) {
+		switch (t.getStatus(CurrentDate.get())) {
+		case Task.ACTIVE:
+			return new Color(192, 255, 192);
+		case Task.SCHEDULED:
+			return new Color(192, 230, 255);
+		case Task.DEADLINE:
+			return new Color(255, 240, 160);
+		case Task.FAILED:
+			return new Color(255, 192, 192);
+		case Task.COMPLETED:
+			return new Color(230, 255, 230);
+		}
+		return null;
+	}
+
+	private Color getColorForTaskStatus_falseSwitchCase(Task t, boolean light1) {
+		switch (t.getStatus(CurrentDate.get())) {
+		case Task.ACTIVE:
+			return new Color(0, 180, 0);
+		case Task.SCHEDULED:
+			return new Color(0, 120, 255);
+		case Task.DEADLINE:
+			return new Color(160, 90, 0);
+		case Task.FAILED:
+			return new Color(255, 0, 0);
+		case Task.COMPLETED:
+			return new Color(0, 120, 0);
+		}
+		return null;
+	}
+
 	/**
 	 * Color representing task status, "light" color is useful for backgrounds
 	 * and other for text
 	 */
 	public static Color getColorForTaskStatus(Task t, boolean light) {
 		if (light) {
-			switch (t.getStatus(CurrentDate.get())) {
-			case Task.ACTIVE:
-				return new Color(192, 255, 192);
-			case Task.SCHEDULED:
-				return new Color(192, 230, 255);
-			case Task.DEADLINE:
-				return new Color(255, 240, 160);
-			case Task.FAILED:
-				return new Color(255, 192, 192);
-			case Task.COMPLETED:
-				return new Color(230, 255, 230);
-			}
+			Color color = getColorForTaskStatus_trueSwitchCase(t);
+			// if (color == null) {
+			// System.err.println("Problem finding color for task status");
+			// }
+			return color;
 		} else {
-			switch (t.getStatus(CurrentDate.get())) {
-			case Task.ACTIVE:
-				return new Color(0, 180, 0);
-			case Task.SCHEDULED:
-				return new Color(0, 120, 255);
-			case Task.DEADLINE:
-				return new Color(160, 90, 0);
-			case Task.FAILED:
-				return new Color(255, 0, 0);
-			case Task.COMPLETED:
-				return new Color(0, 120, 0);
-			}
+			Color color = getColorForTaskStatus_trueSwitchCase(t);
+			// if (color == null) {
+			// System.err.println("Problem finding color for task status");
+			// }
+			return color;
 		}
-		System.err.println("Problem finding color for task status");
-		return null;
+		// System.err.println("Problem finding color for task status");
+		// return null;
 	}
 
 	public static ImageIcon getStatusIcon(Task t) {

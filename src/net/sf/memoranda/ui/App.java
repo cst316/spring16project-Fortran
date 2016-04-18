@@ -59,20 +59,7 @@ public class App {
 		}
 	}
 
-	public App(boolean fullmode) {
-		super();
-		if (fullmode) {
-			fullmode = !Configuration.get("START_MINIMIZED").equals("yes");
-		}
-		/* DEBUG */
-		if (!fullmode) {
-			System.out.println("Minimized mode");
-		}
-		if (!Configuration.get("SHOW_SPLASH").equals("no")) {
-			showSplash();
-		}
-		System.out.println(VERSION_INFO);
-		System.out.println(Configuration.get("LOOK_AND_FEEL"));
+	void App_trylf() {
 		try {
 			if (Configuration.get("LOOK_AND_FEEL").equals("system")) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -86,6 +73,25 @@ public class App {
 			new ExceptionDialog(e, "Error when initializing a pluggable look-and-feel. Default LF will be used.",
 					"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
 		}
+	}
+
+	public App(boolean fullmode) {
+		super();
+		if (fullmode) {
+			fullmode = !Configuration.get("START_MINIMIZED").equals("yes");
+		}
+		/* DEBUG */
+		// else {
+		// System.out.println("Minimized mode");
+		// }
+		if (!Configuration.get("SHOW_SPLASH").equals("no")) {
+			showSplash();
+		}
+		// System.out.println(VERSION_INFO);
+		// System.out.println(Configuration.get("LOOK_AND_FEEL"));
+
+		App_trylf();
+
 		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("")) {
 			String fdow;
 			if (Calendar.getInstance().getFirstDayOfWeek() == 2) {

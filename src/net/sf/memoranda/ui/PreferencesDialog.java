@@ -563,13 +563,7 @@ public class PreferencesDialog extends JDialog {
 
 	}
 
-	void setValues() {
-		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("yes"));
-		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString().equalsIgnoreCase("no"));
-		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY").toString().equalsIgnoreCase("yes"));
-		startMinimizedChB.setSelected(Configuration.get("START_MINIMIZED").toString().equalsIgnoreCase("yes"));
-		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString().equalsIgnoreCase("mon"));
-
+	void setValues_lf() {
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
 		if (lf.equalsIgnoreCase("system")) {
@@ -583,7 +577,9 @@ public class PreferencesDialog extends JDialog {
 		} else {
 			lfJavaRB.setSelected(true);
 		}
+	}
 
+	void setValues_onclose() {
 		askConfirmChB.setSelected(!Configuration.get("ASK_ON_EXIT").toString().equalsIgnoreCase("no"));
 		String onclose = Configuration.get("ON_CLOSE").toString();
 		if (onclose.equals("exit")) {
@@ -593,6 +589,17 @@ public class PreferencesDialog extends JDialog {
 			this.closeHideRB.setSelected(true);
 			// this.askConfirmChB.setEnabled(false);
 		}
+	}
+
+	void setValues() {
+		enL10nChB.setSelected(!Configuration.get("DISABLE_L10N").toString().equalsIgnoreCase("yes"));
+		enSplashChB.setSelected(!Configuration.get("SHOW_SPLASH").toString().equalsIgnoreCase("no"));
+		enSystrayChB.setSelected(!Configuration.get("DISABLE_SYSTRAY").toString().equalsIgnoreCase("yes"));
+		startMinimizedChB.setSelected(Configuration.get("START_MINIMIZED").toString().equalsIgnoreCase("yes"));
+		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString().equalsIgnoreCase("mon"));
+
+		setValues_lf();
+		setValues_onclose();
 
 		String onmin = Configuration.get("ON_MINIMIZE").toString();
 		this.minTaskbarRB.setSelected(true);
@@ -644,7 +651,7 @@ public class PreferencesDialog extends JDialog {
 		}
 	}
 
-	void apply() {
+	void applyIfs() {
 		if (this.firstdow.isSelected()) {
 			Configuration.put("FIRST_DAY_OF_WEEK", "mon");
 		} else {
@@ -686,19 +693,11 @@ public class PreferencesDialog extends JDialog {
 		} else {
 			Configuration.put("ON_CLOSE", "minimize");
 		}
+	}
 
-		Configuration.put("ON_MINIMIZE", "normal");
-
+	void apply_ifnewlf() {
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
 		String newlf = "";
-
-		if (this.lfSystemRB.isSelected()) {
-			newlf = "system";
-		} else if (this.lfJavaRB.isSelected()) {
-			newlf = "default";
-		} else if (this.lfCustomRB.isSelected()) {
-			newlf = this.lfClassName.getText();
-		}
 
 		if (!lf.equalsIgnoreCase(newlf)) {
 			Configuration.put("LOOK_AND_FEEL", newlf);
@@ -719,6 +718,21 @@ public class PreferencesDialog extends JDialog {
 						"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
 			}
 		}
+		if (this.lfSystemRB.isSelected()) {
+			newlf = "system";
+		} else if (this.lfJavaRB.isSelected()) {
+			newlf = "default";
+		} else if (this.lfCustomRB.isSelected()) {
+			newlf = this.lfClassName.getText();
+		}
+	}
+
+	void apply() {
+
+		applyIfs();
+
+		Configuration.put("ON_MINIMIZE", "normal");
+
 		String brPath = this.browserPath.getText();
 		if (new java.io.File(brPath).isFile()) {
 			MimeTypesList.getAppList().setBrowserExec(brPath);

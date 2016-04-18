@@ -401,6 +401,24 @@ public class EditorPanel extends JPanel {
 				.replaceSelection(DateFormat.getTimeInstance(DateFormat.SHORT, Local.getCurrentLocale()).format(d));
 	}
 
+	void exportB_actionPerformed_checkFor_dlg(FileExportDialog dlg, String enc) {
+		if (enc != null) {
+			dlg.encCB.setSelectedItem(enc);
+		}
+		String templ = (String) Context.get("EXPORT_TEMPLATE");
+		if (templ != null) {
+			dlg.templF.setText(templ);
+		}
+		String xhtml = (String) Context.get("EXPORT_XHTML");
+		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES"))) {
+			dlg.xhtmlChB.setSelected(true);
+		}
+		String num = (String) Context.get("EXPORT_NUMENT");
+		if ((num != null) && (num.equalsIgnoreCase("YES"))) {
+			dlg.numentChB.setSelected(true);
+		}
+	}
+
 	void exportB_actionPerformed(ActionEvent e) {
 		// Fix until Sun's JVM supports more locales...
 		UIManager.put("FileChooser.lookInLabelText", Local.getString("Save in:"));
@@ -431,21 +449,9 @@ public class EditorPanel extends JPanel {
 
 		FileExportDialog dlg = new FileExportDialog(App.getFrame(), Local.getString("Export note"), chooser);
 		String enc = (String) Context.get("EXPORT_FILE_ENCODING");
-		if (enc != null) {
-			dlg.encCB.setSelectedItem(enc);
-		}
-		String templ = (String) Context.get("EXPORT_TEMPLATE");
-		if (templ != null) {
-			dlg.templF.setText(templ);
-		}
-		String xhtml = (String) Context.get("EXPORT_XHTML");
-		if ((xhtml != null) && (xhtml.equalsIgnoreCase("YES"))) {
-			dlg.xhtmlChB.setSelected(true);
-		}
-		String num = (String) Context.get("EXPORT_NUMENT");
-		if ((num != null) && (num.equalsIgnoreCase("YES"))) {
-			dlg.numentChB.setSelected(true);
-		}
+
+		exportB_actionPerformed_checkFor_dlg(dlg, enc);
+
 		Dimension dlgSize = new Dimension(550, 475);
 		dlg.setSize(dlgSize);
 		Dimension frmSize = App.getFrame().getSize();

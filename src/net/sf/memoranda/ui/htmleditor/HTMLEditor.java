@@ -1243,6 +1243,43 @@ public class HTMLEditor extends JPanel {
 			super("ParaBreakAction");
 		}
 
+		void actionPerformed_check_elem(ActionEvent e, Element elem) {
+			if (elem.getEndOffset() - elem.getStartOffset() > 1) {
+				try {
+					document.insertAfterEnd(elem.getParentElement(), "<li></li>");
+					editor.setCaretPosition(elem.getParentElement().getEndOffset());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				/*
+				 * HTMLEditorKit.InsertHTMLTextAction liAction = new
+				 * HTMLEditorKit.InsertHTMLTextAction("insertLI", " <li> </li>
+				 * ", parentTag, HTML.Tag.LI);
+				 */
+			} else {
+				try {
+					document.remove(editor.getCaretPosition(), 1);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				Element listParentElement = elem.getParentElement().getParentElement().getParentElement();
+				HTML.Tag listParentTag = HTML.getTag(listParentElement.getName());
+				String listParentTagName = listParentTag.toString();
+				if (listParentTagName.toLowerCase().equals("li")) {
+					Element listAncEl = listParentElement.getParentElement();
+					try {
+						editorKit.insertHTML(document, listAncEl.getEndOffset(), "<li><p></p></li>", 3, 0, HTML.Tag.LI);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				} else {
+					HTMLEditorKit.InsertHTMLTextAction pAction = new HTMLEditorKit.InsertHTMLTextAction("insertP",
+							"<p></p>", listParentTag, HTML.Tag.P);
+					pAction.actionPerformed(e);
+				}
+			}
+		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -1256,41 +1293,7 @@ public class HTMLEditor extends JPanel {
 			if (parentname.toLowerCase().equals("li")) {
 				// HTML.Tag listTag =
 				// HTML.getTag(elem.getParentElement().getParentElement().getName());
-				if (elem.getEndOffset() - elem.getStartOffset() > 1) {
-					try {
-						document.insertAfterEnd(elem.getParentElement(), "<li></li>");
-						editor.setCaretPosition(elem.getParentElement().getEndOffset());
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					/*
-					 * HTMLEditorKit.InsertHTMLTextAction liAction = new
-					 * HTMLEditorKit.InsertHTMLTextAction("insertLI", " <li>
-					 * </li> ", parentTag, HTML.Tag.LI);
-					 */
-				} else {
-					try {
-						document.remove(editor.getCaretPosition(), 1);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					Element listParentElement = elem.getParentElement().getParentElement().getParentElement();
-					HTML.Tag listParentTag = HTML.getTag(listParentElement.getName());
-					String listParentTagName = listParentTag.toString();
-					if (listParentTagName.toLowerCase().equals("li")) {
-						Element listAncEl = listParentElement.getParentElement();
-						try {
-							editorKit.insertHTML(document, listAncEl.getEndOffset(), "<li><p></p></li>", 3, 0,
-									HTML.Tag.LI);
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-					} else {
-						HTMLEditorKit.InsertHTMLTextAction pAction = new HTMLEditorKit.InsertHTMLTextAction("insertP",
-								"<p></p>", listParentTag, HTML.Tag.P);
-						pAction.actionPerformed(e);
-					}
-				}
+				actionPerformed_check_elem(e, elem);
 			} else if ((elName.equals("PRE")) || (elName.equals("ADDRESS")) || (elName.equals("BLOCKQUOTE"))) {
 				if (editor.getCaretPosition() > 0) {
 					removeIfEmpty(document.getParagraphElement(editor.getCaretPosition() - 1));
@@ -1761,8 +1764,7 @@ public class HTMLEditor extends JPanel {
 		}
 	}
 
-	void setImageProperties(ElementParameter ep, ImagePropertiesParameter ip, 
-			ImageInfoParameter ifp) {
+	void setImageProperties(ElementParameter ep, ImagePropertiesParameter ip, ImageInfoParameter ifp) {
 		ImageDialog dlg = new ImageDialog(null);
 		dlg.setLocation(imageActionB.getLocationOnScreen());
 		dlg.setModal(true);
@@ -1864,17 +1866,7 @@ public class HTMLEditor extends JPanel {
 		document.setParagraphAttributes(el.getStartOffset(), 0, attrs, true);
 	}
 
-	void setTableProperties(Element td) {
-		Element tr = td.getParentElement();
-		Element table = tr.getParentElement();
-
-		TdDialog dlg = new TdDialog(null);
-		dlg.setLocation(editor.getLocationOnScreen());
-		dlg.setModal(true);
-		dlg.setTitle(Local.getString("Table properties"));
-
-		/** **********PARSE ELEMENTS*********** */
-		// TD***
+	void setTableProperties_td(Element td, TdDialog dlg) {
 		AttributeSet tda = td.getAttributes();
 		if (tda.isDefined(HTML.Attribute.BGCOLOR)) {
 			dlg.tdBgcolorField.setText(tda.getAttribute(HTML.Attribute.BGCOLOR).toString());
@@ -1910,6 +1902,20 @@ public class HTMLEditor extends JPanel {
 		}
 		dlg.tdNowrapChB.setSelected((tda.isDefined(HTML.Attribute.NOWRAP)));
 
+	}
+
+	void setTableProperties(Element td) {
+		Element tr = td.getParentElement();
+		Element table = tr.getParentElement();
+
+		TdDialog dlg = new TdDialog(null);
+		dlg.setLocation(editor.getLocationOnScreen());
+		dlg.setModal(true);
+		dlg.setTitle(Local.getString("Table properties"));
+
+		/** **********PARSE ELEMENTS*********** */
+		// TD***
+		;
 		// TR ****
 		AttributeSet tra = tr.getAttributes();
 		if (tra.isDefined(HTML.Attribute.BGCOLOR)) {
@@ -2233,7 +2239,7 @@ public class HTMLEditor extends JPanel {
 			}
 			ElementParameter ep = new ElementParameter(el, src, alt);
 			ImagePropertiesParameter ip = new ImagePropertiesParameter(width, height, hspace, vspace);
-			ImageInfoParameter ipf = new ImageInfoParameter(border,align);
+			ImageInfoParameter ipf = new ImageInfoParameter(border, align);
 			setImageProperties(ep, ip, ipf);
 			return;
 		}

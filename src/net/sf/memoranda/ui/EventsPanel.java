@@ -238,23 +238,7 @@ public class EventsPanel extends JPanel {
 		});
 	}
 
-	void editEventB_actionPerformed(ActionEvent e) {
-		EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("Event"));
-		net.sf.memoranda.Event ev = (net.sf.memoranda.Event) eventsTable.getModel()
-				.getValueAt(eventsTable.getSelectedRow(), EventsTable.EVENT);
-
-		dlg.timeSpin.getModel().setValue(ev.getTime());
-		/*
-		 * if (new CalendarDate(ev.getTime()).equals(CalendarDate.today()))
-		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setStart(new Date());
-		 * else
-		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setStart(CalendarDate.
-		 * today().getDate());
-		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setEnd(CalendarDate.
-		 * tomorrow().getDate());
-		 */
-		dlg.textField.setText(ev.getText());
-		int rep = ev.getRepeat();
+	void editEventB_actionPerformed_part1(int rep, EventDialog dlg, net.sf.memoranda.Event ev) {
 		if (rep > 0) {
 			dlg.startDate.getModel().setValue(ev.getStartDate().getDate());
 			if (rep == EventsManager.REPEAT_DAILY) {
@@ -291,6 +275,27 @@ public class EventsPanel extends JPanel {
 			}
 
 		}
+	}
+
+	void editEventB_actionPerformed(ActionEvent e) {
+		EventDialog dlg = new EventDialog(App.getFrame(), Local.getString("Event"));
+		net.sf.memoranda.Event ev = (net.sf.memoranda.Event) eventsTable.getModel()
+				.getValueAt(eventsTable.getSelectedRow(), EventsTable.EVENT);
+
+		dlg.timeSpin.getModel().setValue(ev.getTime());
+		/*
+		 * if (new CalendarDate(ev.getTime()).equals(CalendarDate.today()))
+		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setStart(new Date());
+		 * else
+		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setStart(CalendarDate.
+		 * today().getDate());
+		 * ((SpinnerDateModel)dlg.timeSpin.getModel()).setEnd(CalendarDate.
+		 * tomorrow().getDate());
+		 */
+		dlg.textField.setText(ev.getText());
+		int rep = ev.getRepeat();
+
+		editEventB_actionPerformed_part1(rep, dlg, ev);
 
 		Dimension frmSize = App.getFrame().getSize();
 		Point loc = App.getFrame().getLocation();

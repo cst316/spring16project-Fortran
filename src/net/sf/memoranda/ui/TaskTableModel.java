@@ -72,19 +72,9 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 		return columnNames[column];
 	}
 
-	/**
-	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getValueAt(java.lang.Object,
-	 *      int)
-	 */
-	@Override
-	public Object getValueAt(Object node, int column) {
-		if (node instanceof Project) {
-			return null;
-		}
+	Object getValueAt_switch(Object node, int column) {
 		Task t = (Task) node;
 		switch (column) {
-		case 0:
-			return "";
 		case 1:
 			return t;
 		case 2:
@@ -106,8 +96,21 @@ public class TaskTableModel extends AbstractTreeTableModel implements TreeTableM
 			return t.getID();
 		case TaskTable.TASK:
 			return t;
+		default:
+			return "";
 		}
-		return "";
+	}
+
+	/**
+	 * @see net.sf.memoranda.ui.treetable.TreeTableModel#getValueAt(java.lang.Object,
+	 *      int)
+	 */
+	@Override
+	public Object getValueAt(Object node, int column) {
+		if (node instanceof Project) {
+			return null;
+		}
+		return getValueAt_switch(node, column);
 	}
 
 	String getStatusString(int status) {
