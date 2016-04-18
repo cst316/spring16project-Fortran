@@ -1,4 +1,5 @@
 # spring16project
+![alt tag](https://github.com/cst316/spring16project-Fortran.git/US-118-BuildWebsite/src/net/sf/memoranda website/LOC.png)
 [![Build Status](https://travis-ci.org/cst316/spring16project-Fortran.svg?branch=master)](https://travis-ci.org/cst316/spring16project-Fortran)
 This is the initial dump for the cst316 spring 2016 project. It is a slightly modified version of the Memoranda project from memoranda.sf.net
 
