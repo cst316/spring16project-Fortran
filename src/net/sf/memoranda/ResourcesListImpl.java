@@ -8,8 +8,8 @@
  */
 package net.sf.memoranda;
 
-import java.util.Vector;
 import java.io.File;
+import java.util.Vector;
 
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
@@ -42,25 +42,30 @@ public class ResourcesListImpl implements ResourcesList {
 		_project = prj;
 	}
 
+	@Override
 	public Vector getAllResources() {
 		Vector v = new Vector();
 		Elements rs = _root.getChildElements("resource");
-		for (int i = 0; i < rs.size(); i++)
+		for (int i = 0; i < rs.size(); i++) {
 			v.add(new Resource(rs.get(i).getAttribute("path").getValue(),
 					rs.get(i).getAttribute("isInetShortcut") != null, rs.get(i).getAttribute("isProjectFile") != null));
+		}
 		return v;
 	}
 
 	/**
 	 * @see net.sf.memoranda.ResourcesList#getResource(java.lang.String)
 	 */
+	@Override
 	public Resource getResource(String path) {
 		Elements rs = _root.getChildElements("resource");
-		for (int i = 0; i < rs.size(); i++)
-			if (rs.get(i).getAttribute("path").getValue().equals(path))
+		for (int i = 0; i < rs.size(); i++) {
+			if (rs.get(i).getAttribute("path").getValue().equals(path)) {
 				return new Resource(rs.get(i).getAttribute("path").getValue(),
 						rs.get(i).getAttribute("isInetShortcut") != null,
 						rs.get(i).getAttribute("isProjectFile") != null);
+			}
+		}
 		return null;
 	}
 
@@ -80,17 +85,21 @@ public class ResourcesListImpl implements ResourcesList {
 	 * @see net.sf.memoranda.ResourcesList#addResource(java.lang.String,
 	 *      boolean)
 	 */
+	@Override
 	public void addResource(String path, boolean isInternetShortcut, boolean isProjectFile) {
 		Element el = new Element("resource");
 		el.addAttribute(new Attribute("id", Util.generateId()));
 		el.addAttribute(new Attribute("path", path));
-		if (isInternetShortcut)
+		if (isInternetShortcut) {
 			el.addAttribute(new Attribute("isInetShortcut", "true"));
-		if (isProjectFile)
+		}
+		if (isProjectFile) {
 			el.addAttribute(new Attribute("isProjectFile", "true"));
+		}
 		_root.appendChild(el);
 	}
 
+	@Override
 	public void addResource(String path) {
 		addResource(path, false, false);
 	}
@@ -98,9 +107,10 @@ public class ResourcesListImpl implements ResourcesList {
 	/**
 	 * @see net.sf.memoranda.ResourcesList#removeResource(java.lang.String)
 	 */
+	@Override
 	public void removeResource(String path) {
 		Elements rs = _root.getChildElements("resource");
-		for (int i = 0; i < rs.size(); i++)
+		for (int i = 0; i < rs.size(); i++) {
 			if (rs.get(i).getAttribute("path").getValue().equals(path)) {
 				if (getResource(path).isProjectFile()) {
 					File f = new File(path);
@@ -109,11 +119,13 @@ public class ResourcesListImpl implements ResourcesList {
 				}
 				_root.removeChild(rs.get(i));
 			}
+		}
 	}
 
 	/**
 	 * @see net.sf.memoranda.ResourcesList#getAllResourcesCount()
 	 */
+	@Override
 	public int getAllResourcesCount() {
 		return _root.getChildElements("resource").size();
 	}
@@ -121,6 +133,7 @@ public class ResourcesListImpl implements ResourcesList {
 	/**
 	 * @see net.sf.memoranda.ResourcesList#getXMLContent()
 	 */
+	@Override
 	public Document getXMLContent() {
 		return _doc;
 	}

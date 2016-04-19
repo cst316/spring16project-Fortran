@@ -17,7 +17,8 @@ public class StopWatchUnitTesting {
 	public void test1() {
 		StopWatch task1 = new StopWatch();
 		String temp1 = "Task";
-		assertTrue(!(temp1 == task1.name));
+		String temp1check = task1.getName();
+		assertTrue(!(temp1 == task1.getName()));
 	}
 	
 	/*
@@ -28,7 +29,8 @@ public class StopWatchUnitTesting {
 	public void test2() {
 		StopWatch task2 = new StopWatch("MyFirstTask");
 		String temp2 = "MyFirstTask";
-		assertEquals(temp2, task2.name);
+		String temp2check = task2.getName();
+		assertEquals(temp2, task2.getName());
 	}
 	/*
 	 * This method case tests for the name of the task
@@ -38,7 +40,8 @@ public class StopWatchUnitTesting {
 	public void test3(){
 		StopWatch task3 = new StopWatch("My First Task");
 		String temp3 = "My First Task";
-		assertTrue(temp3 == task3.name);
+		String temp3check = task3.getName();
+		assertTrue(temp3 == task3.getName());
 		
 	}
 }

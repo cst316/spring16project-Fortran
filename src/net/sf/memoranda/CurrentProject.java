@@ -44,8 +44,9 @@ public class CurrentProject {
 			// alexeya: Fixed bug with NullPointer when LAST_OPENED_PROJECT_ID
 			// references to missing project
 			_project = ProjectManager.getProject("__default");
-			if (_project == null)
+			if (_project == null) {
 				_project = (Project) ProjectManager.getActiveProjects().get(0);
+			}
 			Context.put("LAST_OPENED_PROJECT_ID", _project.getID());
 
 		}
@@ -54,6 +55,7 @@ public class CurrentProject {
 		_notelist = CurrentStorage.get().openNoteList(_project);
 		_resources = CurrentStorage.get().openResourcesList(_project);
 		AppFrame.addExitListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				save();
 			}
@@ -77,8 +79,9 @@ public class CurrentProject {
 	}
 
 	public static void set(Project project) {
-		if (project.getID().equals(_project.getID()))
+		if (project.getID().equals(_project.getID())) {
 			return;
+		}
 		TaskList newtasklist = CurrentStorage.get().openTaskList(project);
 		NoteList newnotelist = CurrentStorage.get().openNoteList(project);
 		ResourcesList newresources = CurrentStorage.get().openResourcesList(project);

@@ -9,7 +9,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.*;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 /*$Id: LoadableProperties.java,v 1.4 2004/01/30 12:17:42 alexeya Exp $*/
 public class LoadableProperties extends Hashtable {
@@ -72,8 +73,9 @@ public class LoadableProperties extends Hashtable {
 	}
 
 	private boolean isValid(String str) {
-		if (str == null)
+		if (str == null) {
 			return false;
+		}
 		if (str.length() > 0) {
 			if (str.startsWith("#") || str.startsWith("!")) {
 				return false;

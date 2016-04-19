@@ -5,13 +5,10 @@ package net.sf.memoranda.util;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Set;
-import java.util.TimerTask;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.Transformer;
@@ -22,7 +19,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import net.sf.memoranda.ui.StopWatch;
 
 import javax.xml.transform.OutputKeys;
 /**
@@ -32,10 +28,10 @@ import javax.xml.transform.OutputKeys;
 public class LOCWriter {
 	
 	//Constants for XML tags
-	 private final String LOC_STR = "LOCLIST";
-	 private final String LOCF_STR = "LOCFILE";
-	 private final String SOURCEFILE = "SOURCEFILE";
-	 private final String LOCINT = "LOC";
+	 private final static String LOC_STR = "LOCLIST";
+	 private final static String LOCF_STR = "LOCFILE";
+	 private final static String SOURCEFILE = "SOURCEFILE";
+	 private final static String LOCINT = "LOC";
 	 
 	private String configPath = System.getProperty("user.home") + File.separator 
 	     	+ ".memoranda" + File.separator;

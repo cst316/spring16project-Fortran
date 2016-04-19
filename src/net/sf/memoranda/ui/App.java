@@ -3,7 +3,6 @@ package net.sf.memoranda.ui;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
@@ -11,13 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-import com.sun.glass.ui.Cursor;
-
 import net.sf.memoranda.EventsScheduler;
 import net.sf.memoranda.util.Configuration;
 
 /**
- * 
+ *
  * Copyright (c) 2003 Memoranda Team. http://memoranda.sf.net
  */
 
@@ -57,39 +54,51 @@ public class App {
 		if (frame.isVisible()) {
 			frame.toFront();
 			frame.requestFocus();
-		} else
+		} else {
 			init();
+		}
 	}
 
-	public App(boolean fullmode) {
-		super();
-		if (fullmode)
-			fullmode = !Configuration.get("START_MINIMIZED").equals("yes");
-		/* DEBUG */
-		if (!fullmode)
-			System.out.println("Minimized mode");
-		if (!Configuration.get("SHOW_SPLASH").equals("no"))
-			showSplash();
-		System.out.println(VERSION_INFO);
-		System.out.println(Configuration.get("LOOK_AND_FEEL"));
+	void App_trylf() {
 		try {
-			if (Configuration.get("LOOK_AND_FEEL").equals("system"))
+			if (Configuration.get("LOOK_AND_FEEL").equals("system")) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			else if (Configuration.get("LOOK_AND_FEEL").equals("default"))
+			} else if (Configuration.get("LOOK_AND_FEEL").equals("default")) {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0)
+			} else if (Configuration.get("LOOK_AND_FEEL").toString().length() > 0) {
 				UIManager.setLookAndFeel(Configuration.get("LOOK_AND_FEEL").toString());
+			}
 
 		} catch (Exception e) {
 			new ExceptionDialog(e, "Error when initializing a pluggable look-and-feel. Default LF will be used.",
 					"Make sure that specified look-and-feel library classes are on the CLASSPATH.");
 		}
+	}
+
+	public App(boolean fullmode) {
+		super();
+		if (fullmode) {
+			fullmode = !Configuration.get("START_MINIMIZED").equals("yes");
+		}
+		/* DEBUG */
+		// else {
+		// System.out.println("Minimized mode");
+		// }
+		if (!Configuration.get("SHOW_SPLASH").equals("no")) {
+			showSplash();
+		}
+		// System.out.println(VERSION_INFO);
+		// System.out.println(Configuration.get("LOOK_AND_FEEL"));
+
+		App_trylf();
+
 		if (Configuration.get("FIRST_DAY_OF_WEEK").equals("")) {
 			String fdow;
-			if (Calendar.getInstance().getFirstDayOfWeek() == 2)
+			if (Calendar.getInstance().getFirstDayOfWeek() == 2) {
 				fdow = "mon";
-			else
+			} else {
 				fdow = "sun";
+			}
 			Configuration.put("FIRST_DAY_OF_WEEK", fdow);
 			Configuration.saveConfig();
 			/* DEBUG */
@@ -101,22 +110,23 @@ public class App {
 		if (fullmode) {
 			init();
 		}
-		if (!Configuration.get("SHOW_SPLASH").equals("no"))
+		if (!Configuration.get("SHOW_SPLASH").equals("no")) {
 			splash.dispose();
+		}
 	}
 
 	void init() {
 		/*
 		 * if (packFrame) { frame.pack(); } else { frame.validate(); }
-		 * 
+		 *
 		 * Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		 * 
+		 *
 		 * Dimension frameSize = frame.getSize(); if (frameSize.height >
 		 * screenSize.height) { frameSize.height = screenSize.height; } if
 		 * (frameSize.width > screenSize.width) { frameSize.width =
 		 * screenSize.width; }
-		 * 
-		 * 
+		 *
+		 *
 		 * Make the window fullscreen - On Request of users This seems not to
 		 * work on sun's version 1.4.1_01 Works great with 1.4.2 !!! So update
 		 * your J2RE or J2SDK.
@@ -142,8 +152,9 @@ public class App {
 	}
 
 	public static void closeWindow() {
-		if (frame == null)
+		if (frame == null) {
 			return;
+		}
 		System.out.println("inCloWin");
 		// frame.dispose();
 		// System.exit(0);

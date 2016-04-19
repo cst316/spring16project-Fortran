@@ -21,7 +21,7 @@ public class TimerTaskTest {
 	public void TimeLogictest() 
 	{
 		String result = "19 : 20 : 19";
-		assertTrue(tc.logic().equals(result));//20, 19, 20
+		assertTrue(tc.logic(20, 19, 20).equals(result));//20, 19, 20
 		
 	}
 

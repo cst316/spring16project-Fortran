@@ -217,7 +217,6 @@ public class LOCTable extends JFrame   {
 			}
 			--row_Counter;
 		}
-
 		
 	}
 	/*
@@ -316,7 +315,6 @@ public class LOCTable extends JFrame   {
 			}
 			
 		}
-	
 	}
 	public String getErrorMsg() {
 		return errorMsg;

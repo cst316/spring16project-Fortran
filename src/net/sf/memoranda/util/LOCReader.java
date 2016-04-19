@@ -10,11 +10,16 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 
@@ -35,7 +40,7 @@ public class LOCReader {
 	private static int ROW;
 	private static String[][] array;
 	private static String configPath = System.getProperty("user.home") + File.separator + ".memoranda" + File.separator;
-	private final int MAXLIMIT = 2048;
+	private final static int MAXLIMIT = 2048;
 	public final static String JAVAEXTENSION = ".java";
 	private Hashtable<String,Integer> locMap;
 	private boolean ableToExtract;
@@ -102,7 +107,6 @@ public class LOCReader {
 		
 		//unzip file and extract java files
 		 try {
-			
 			 BufferedOutputStream dest = null;
 	         BufferedInputStream is = null;
 	         ZipEntry entry;
@@ -146,12 +150,16 @@ public class LOCReader {
 	            	
 	            	ableToExtract = false;
 	            }
+	            if(currentEntry.endsWith(".java")){
+	            	++testCount;
+	            }
+	            
 	         }
          	zipfile.close();
 		} 
 		 
 		catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Something went wrong trying to extraxt zip please try again",
+			JOptionPane.showMessageDialog(null,"Something went wrong trying to extract zip please try again",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		 
@@ -221,14 +229,14 @@ public class LOCReader {
 	}
 	
 	public void computeLOC(File readFile){
-		FileReader file;
+		InputStreamReader file;
 		LOC = 0;
 		fileLine = "";
 		fileName = readFile.getName();
 		
 		try {
 			
-			file = new FileReader(readFile);
+			file = new InputStreamReader(new FileInputStream(readFile), "UTF-8");
 			if (fileName.contains(".java")) { 
 			
 				BufferedReader reader = new BufferedReader(file);
@@ -242,8 +250,13 @@ public class LOCReader {
 					// Remove all spaces in the beginning
 					fileLine = fileLine.replaceAll("\\s+", "");
 					
-					if (fileName.startsWith("/*")) {
+					if (fileLine.startsWith("/*")) {
 						flag = true;
+					}
+					
+					if (fileLine.endsWith("*/")) {
+						flag = false;
+						LOC--;
 					}
 					
 					if (!flag) {
@@ -251,19 +264,16 @@ public class LOCReader {
 							LOC++;
 						}
 					}
-					
-					if (fileLine.endsWith("*/")) {
-						flag = false;
-					}
 					fileLine = reader.readLine();
 				}
-				
+				reader.close();
 				file.close();
 			}
 		}
 		
 		catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Something went wrong reading the file, please try again.",
+		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -337,17 +347,13 @@ public class LOCReader {
 		
 		}   
 		
-		catch (FileNotFoundException e) {
+		catch (ParserConfigurationException | SAXException | IOException e) {
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		catch (Exception e) {
-			JOptionPane.showMessageDialog(null,"Sorry, something went wrong, try importing again.",
-		    		"Error",JOptionPane.ERROR_MESSAGE);
-		}
-		
-		return (array);
+	
+		return (array.clone());
 	}
 	
 	private void listToHash (List<File> currentList) {
@@ -390,7 +396,7 @@ public class LOCReader {
 	}
 
 	public Hashtable<String,Integer> getLocTable(){
-		return locMap;
+		return (Hashtable<String, Integer>) locMap.clone();
 		
 	}
 

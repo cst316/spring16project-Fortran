@@ -1,18 +1,18 @@
 package net.sf.memoranda.ui.table;
 
 /**
- * A sorter for TableModels. The sorter has a model (conforming to TableModel) 
- * and itself implements TableModel. TableSorter does not store or copy 
- * the data in the TableModel, instead it maintains an array of 
- * integers which it keeps the same size as the number of rows in its 
- * model. When the model changes it notifies the sorter that something 
- * has changed eg. "rowsAdded" so that its internal array of integers 
- * can be reallocated. As requests are made of the sorter (like 
- * getValueAt(row, col) it redirects them to its model via the mapping 
- * array. That way the TableSorter appears to hold another copy of the table 
- * with the rows in a different order. The sorting algorthm used is stable 
- * which means that it does not move around rows when its comparison 
- * function returns 0 to denote that they are equivalent. 
+ * A sorter for TableModels. The sorter has a model (conforming to TableModel)
+ * and itself implements TableModel. TableSorter does not store or copy
+ * the data in the TableModel, instead it maintains an array of
+ * integers which it keeps the same size as the number of rows in its
+ * model. When the model changes it notifies the sorter that something
+ * has changed eg. "rowsAdded" so that its internal array of integers
+ * can be reallocated. As requests are made of the sorter (like
+ * getValueAt(row, col) it redirects them to its model via the mapping
+ * array. That way the TableSorter appears to hold another copy of the table
+ * with the rows in a different order. The sorting algorthm used is stable
+ * which means that it does not move around rows when its comparison
+ * function returns 0 to denote that they are equivalent.
  *
  * @version 1.5 12/17/97
  * @author Philip Milne
@@ -21,14 +21,15 @@ package net.sf.memoranda.ui.table;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
-import java.util.Vector;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+
 import net.sf.memoranda.util.Local;
 
 /*$Id: TableSorter.java,v 1.7 2004/10/07 08:52:32 ivanrise Exp $*/
@@ -47,6 +48,7 @@ public class TableSorter extends TableMap {
 		setModel(model);
 	}
 
+	@Override
 	public void setModel(TableModel model) {
 		super.setModel(model);
 		reallocateIndexes();
@@ -129,10 +131,11 @@ public class TableSorter extends TableMap {
 				priority.put(Local.getString("High"), new Integer(4));
 				priority.put(Local.getString("Highest"), new Integer(5));
 
-				Integer s1 = (Integer) priority.get((String) data.getValueAt(row1, column));
-				Integer s2 = (Integer) priority.get((String) data.getValueAt(row2, column));
-				if (s1 == null || s2 == null)
+				Integer s1 = (Integer) priority.get(data.getValueAt(row1, column));
+				Integer s2 = (Integer) priority.get(data.getValueAt(row2, column));
+				if (s1 == null || s2 == null) {
 					return 0;
+				}
 				result = s1.compareTo(s2);
 			} else if (data.getColumnName(column).equals(Local.getString("Status"))) {
 				Hashtable priority = new Hashtable();
@@ -142,10 +145,11 @@ public class TableSorter extends TableMap {
 				priority.put(Local.getString("Active"), new Integer(4));
 				priority.put(Local.getString("Deadline"), new Integer(5));
 
-				Integer s1 = (Integer) priority.get((String) data.getValueAt(row1, column));
-				Integer s2 = (Integer) priority.get((String) data.getValueAt(row2, column));
-				if (s1 == null || s2 == null)
+				Integer s1 = (Integer) priority.get(data.getValueAt(row1, column));
+				Integer s2 = (Integer) priority.get(data.getValueAt(row2, column));
+				if (s1 == null || s2 == null) {
 					return 0;
+				}
 				result = s1.compareTo(s2);
 			} else {
 				String s1 = (String) data.getValueAt(row1, column);
@@ -215,6 +219,7 @@ public class TableSorter extends TableMap {
 		}
 	}
 
+	@Override
 	public void tableChanged(TableModelEvent e) {
 		// System.out.println("Sorter: tableChanged");
 		reallocateIndexes();
@@ -235,7 +240,7 @@ public class TableSorter extends TableMap {
 		compares = 0;
 		// n2sort();
 		// qsort(0, indexes.length-1);
-		shuttlesort((int[]) indexes.clone(), indexes, 0, indexes.length);
+		shuttlesort(indexes.clone(), indexes, 0, indexes.length);
 		// System.out.println("Compares: "+compares);
 	}
 
@@ -310,11 +315,13 @@ public class TableSorter extends TableMap {
 	// The mapping only affects the contents of the data rows.
 	// Pass all requests to these rows through the mapping array: "indexes".
 
+	@Override
 	public Object getValueAt(int aRow, int aColumn) {
 		checkModel();
 		return model.getValueAt(indexes[aRow], aColumn);
 	}
 
+	@Override
 	public void setValueAt(Object aValue, int aRow, int aColumn) {
 		checkModel();
 		model.setValueAt(aValue, indexes[aRow], aColumn);
@@ -352,6 +359,7 @@ public class TableSorter extends TableMap {
 		MouseAdapter listMouseListener = new MouseAdapter() {
 			boolean ascending = false;
 
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				TableColumnModel columnModel = tableView.getColumnModel();
 				int viewColumn = columnModel.getColumnIndexAtX(e.getX());
@@ -361,10 +369,11 @@ public class TableSorter extends TableMap {
 					// int shiftPressed =
 					// e.getModifiers()&InputEvent.SHIFT_MASK;
 					// boolean ascending = (shiftPressed == 0);
-					if (column == sortBy)
+					if (column == sortBy) {
 						ascending = !ascending;
-					else
+					} else {
 						ascending = true;
+					}
 					sorter.sortByColumn(column, ascending);
 					tableView.getTableHeader().updateUI();
 				}

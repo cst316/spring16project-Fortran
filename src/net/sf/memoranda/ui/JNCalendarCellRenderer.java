@@ -40,11 +40,44 @@ public class JNCalendarCellRenderer extends javax.swing.table.DefaultTableCellRe
 		return t;
 	}
 
+	void getTableCellRendererComponent_setGroundColor(JLabel label, String currentPanel, boolean isSelected) {
+		// set background color
+		getTableCellRendererComponent_setForegroundColor(label, currentPanel, isSelected);
+
+		// set background color
+		getTableCellRendererComponent_setBackgroundColor(label, currentPanel, isSelected);
+	}
+
+	void getTableCellRendererComponent_setForegroundColor(JLabel label, String currentPanel, boolean isSelected) {
+		// set foreground color
+		if (d.getCalendar().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			label.setForeground(new Color(255, 0, 0));
+		} else {
+			label.setForeground(Color.BLACK);
+		}
+	}
+
+	void getTableCellRendererComponent_setBackgroundColor(JLabel label, String currentPanel, boolean isSelected) {
+		// set background color
+		if (currentPanel == null) {
+			label.setBackground(Color.WHITE);
+		} else if (currentPanel.equals("TASKS") && (t != null) && (d.inPeriod(t.getStartDate(), t.getEndDate()))) {
+			label.setBackground(new Color(230, 255, 230));
+		} else if (currentPanel.equals("NOTES") && CurrentProject.getNoteList().getNoteForDate(d) != null) {
+			label.setBackground(new Color(255, 245, 200));
+		} else if (currentPanel.equals("EVENTS") && (!(EventsManager.getEventsForDate(d).isEmpty()))) {
+			label.setBackground(new Color(255, 230, 230));
+		} else if (!isSelected) {
+			label.setBackground(Color.WHITE);
+		}
+	}
+
+	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
 		JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		String currentPanel = ((AppFrame) App.getFrame()).workPanel.dailyItemsPanel.getCurrentPanel();
+		String currentPanel = App.getFrame().workPanel.dailyItemsPanel.getCurrentPanel();
 
 		if (d == null) {
 			label.setEnabled(false);
@@ -69,34 +102,16 @@ public class JNCalendarCellRenderer extends javax.swing.table.DefaultTableCellRe
 			label.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 128)));
 		}
 
-		// set foreground color
-		if (d.getCalendar().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-			label.setForeground(new Color(255, 0, 0));
-		} else {
-			label.setForeground(Color.BLACK);
-		}
-
-		// set background color
-		if (currentPanel == null)
-			label.setBackground(Color.WHITE);
-
-		else if (currentPanel.equals("TASKS") && (t != null) && (d.inPeriod(t.getStartDate(), t.getEndDate())))
-			label.setBackground(new Color(230, 255, 230));
-
-		else if (currentPanel.equals("NOTES") && CurrentProject.getNoteList().getNoteForDate(d) != null)
-			label.setBackground(new Color(255, 245, 200));
-
-		else if (currentPanel.equals("EVENTS") && (!(EventsManager.getEventsForDate(d).isEmpty())))
-			label.setBackground(new Color(255, 230, 230));
-
-		else if (!isSelected)
-			label.setBackground(Color.WHITE);
+		getTableCellRendererComponent_setGroundColor(label, currentPanel, isSelected);
 
 		// always display NREvents
 		if (EventsManager.isNREventsForDate(d))
+
+		{
 			label.setIcon(evIcon);
-		else
+		} else {
 			label.setIcon(null);
+		}
 
 		return label;
 	}

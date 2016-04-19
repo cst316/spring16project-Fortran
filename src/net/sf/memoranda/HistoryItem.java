@@ -40,7 +40,9 @@ public class HistoryItem {
 		return _project;
 	}
 
-	public boolean equals(HistoryItem i) {
+	//changed the name from equals to equalsItem so that when .equals is used, no one gets confused
+	//4-9-16 Miguel
+	public boolean equalsItem(HistoryItem i) {
 		return i.getDate().equals(_date) && i.getProject().getID().equals(_project.getID());
 	}
 

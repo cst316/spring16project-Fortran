@@ -40,8 +40,9 @@ public class MimeType {
 
 	public String getExtension() {
 		Elements exts = _root.getChildElements("ext");
-		if (exts.size() > 0)
+		if (exts.size() > 0) {
 			return exts.get(0).getValue();
+		}
 		return null;
 	}
 
@@ -49,8 +50,9 @@ public class MimeType {
 		Vector v = new Vector();
 		String[] ss = {};
 		Elements exts = _root.getChildElements("ext");
-		for (int i = 0; i < exts.size(); i++)
+		for (int i = 0; i < exts.size(); i++) {
 			v.add(exts.get(i).getValue());
+		}
 		return (String[]) v.toArray(ss);
 	}
 
@@ -61,33 +63,39 @@ public class MimeType {
 	}
 
 	public String getLabel() {
-		if ((_root.getAttribute("label") != null) && (_root.getAttribute("label").getValue().length() > 0))
+		if ((_root.getAttribute("label") != null) && (_root.getAttribute("label").getValue().length() > 0)) {
 			return _root.getAttribute("label").getValue();
-		else
+		} else {
 			return _root.getAttribute("id").getValue();
+		}
 	}
 
 	public void setLabel(String label) {
-		if (_root.getAttribute("label") != null)
+		if (_root.getAttribute("label") != null) {
 			_root.getAttribute("label").setValue(label);
-		else
+		} else {
 			_root.addAttribute(new Attribute("label", label));
+		}
 	}
 
 	public String getAppId(String plafCode) {
 		Elements apps = _root.getChildElements("app");
-		for (int i = 0; i < apps.size(); i++)
-			if (apps.get(i).getAttribute("platform").getValue().toLowerCase().equals(plafCode.toLowerCase()))
+		for (int i = 0; i < apps.size(); i++) {
+			if (apps.get(i).getAttribute("platform").getValue().toLowerCase().equals(plafCode.toLowerCase())) {
 				return apps.get(i).getAttribute("appId").getValue();
+			}
+		}
 		return null;
 	}
 
 	public void setApp(String plafCode, String appId) {
 		if (getAppId(plafCode) != null) {
 			Elements apps = _root.getChildElements("app");
-			for (int i = 0; i < apps.size(); i++)
-				if (apps.get(i).getAttribute("platform").getValue().toLowerCase().equals(plafCode.toLowerCase()))
+			for (int i = 0; i < apps.size(); i++) {
+				if (apps.get(i).getAttribute("platform").getValue().toLowerCase().equals(plafCode.toLowerCase())) {
 					apps.get(i).getAttribute("appId").setValue(appId);
+				}
+			}
 		} else {
 			Element app = new Element("app");
 			app.addAttribute(new Attribute("appId", appId));
@@ -106,17 +114,19 @@ public class MimeType {
 	}
 
 	public String getIconPath() {
-		if (_root.getAttribute("icon") != null)
+		if (_root.getAttribute("icon") != null) {
 			return _root.getAttribute("icon").getValue();
-		else
+		} else {
 			return "";
+		}
 	}
 
 	public void setIconPath(String path) {
-		if (_root.getAttribute("icon") != null)
+		if (_root.getAttribute("icon") != null) {
 			_root.getAttribute("icon").setValue(path);
-		else
+		} else {
 			_root.addAttribute(new Attribute("icon", path));
+		}
 	}
 
 	public ImageIcon getIcon() {
@@ -135,7 +145,7 @@ public class MimeType {
 							net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
 				}
 			}
-		} else
+		} else {
 			try {
 				icon = new ImageIcon(ip);
 			} catch (Exception ex) {
@@ -147,6 +157,7 @@ public class MimeType {
 							net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/mimetypes/default.png"));
 				}
 			}
+		}
 		return icon;
 	}
 }
