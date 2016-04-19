@@ -43,7 +43,7 @@ public class TimerTask extends JFrame {
 
 	public TimerTask() {
 
-		super("Window");
+		super("TimerCountDown");
 		setLayout(new GridLayout(3, 1));
 		numbers.setLayout(fl);
 		setVisible(true);

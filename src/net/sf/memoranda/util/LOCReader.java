@@ -31,7 +31,7 @@ import javax.xml.parsers.*;
 
 public class LOCReader {
 	//field variables and constants
-	private static final int COLUMN = 2;
+    private static final int COLUMN = 2;
 	private int LOC;
 	private int testCount;
 	private String fileLine;
@@ -54,6 +54,7 @@ public class LOCReader {
 	}
 	
 	public LOCReader(File readFile) {
+	
 		files = new ArrayList<File>();
 		locMap = new Hashtable<String,Integer>();
 		
@@ -71,10 +72,8 @@ public class LOCReader {
 		    boolean result = extract(readFile);
 		    
 		    if(result == false){
-		    	
 		    	///unable to extract nested zip
-		    	 JOptionPane.showMessageDialog(null,"Nested Zip Found Aborting Import",
-				    		"ZipError",JOptionPane.ERROR_MESSAGE);
+		    	JOptionPane.showMessageDialog(null,"Nested Zip Found Aborting Import","ZipError",JOptionPane.ERROR_MESSAGE);
 		    }
 		    else{
 		    	
@@ -97,7 +96,7 @@ public class LOCReader {
 	 * 		  <li> false - if nested zip folder is found</li>	
 	 * 		  </ul>
 	 */
-	public boolean extract (File zipFile){
+	public boolean extract(File zipFile){
 		ableToExtract = true;
 		
 		//obtain zipfile's files
@@ -106,19 +105,23 @@ public class LOCReader {
 		new File(zipFileName).mkdir();
 		
 		//unzip file and extract java files
-		 try {
-			 BufferedOutputStream dest = null;
-	         BufferedInputStream is = null;
-	         ZipEntry entry;
-	         ZipFile zipfile = new ZipFile(zipFile);
-	         Enumeration<? extends ZipEntry> e = zipfile.entries();
-	         File destFile;
+
+
+		try {
+			
+			BufferedOutputStream dest = null;
+	        BufferedInputStream is = null;
+	        ZipEntry entry;
+	        ZipFile zipfile = new ZipFile(zipFile);
+	        Enumeration<? extends ZipEntry> e = zipfile.entries();
+	        File destFile;
+
 	         
-	         while(e.hasMoreElements() && ableToExtract) {
+	        while(e.hasMoreElements() && ableToExtract) {
 	        	
-	            entry = (ZipEntry) e.nextElement();
+	        	entry = (ZipEntry) e.nextElement();
 	            
-	            String currentEntry = entry.getName();
+	        	String currentEntry = entry.getName();
 	            String path = "test/";
 	          
 	            destFile = new File(path + zipFileName, currentEntry);
@@ -131,8 +134,7 @@ public class LOCReader {
 	            
 	            if(!entry.isDirectory()) {
 
-	            	is = new BufferedInputStream
-	            			(zipfile.getInputStream(entry));
+	            	is = new BufferedInputStream(zipfile.getInputStream(entry));
 	            	int count;
 	            	byte data[] = new byte[MAXLIMIT];
 	            	FileOutputStream fos = new FileOutputStream(destFile);
@@ -145,6 +147,7 @@ public class LOCReader {
 	            	dest.flush();
 	            	dest.close();
 	            	is.close();
+
 	            }
 	            if(currentEntry.endsWith(".zip")){
 	            	
@@ -155,14 +158,12 @@ public class LOCReader {
 	            }
 	            
 	         }
-         	zipfile.close();
+         	 zipfile.close();
 		} 
-		 
 		catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Something went wrong trying to extract zip please try again",
 		    		"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		 
 		finally {			
 			return ableToExtract; 	 
 		} 
@@ -207,6 +208,7 @@ public class LOCReader {
 	 * @param folder Folder to be Searched
 	 */
 	public boolean search(File file){
+		
 		boolean result = false;
 		
 		if(file.isDirectory() && file.canRead()){	
@@ -349,14 +351,14 @@ public class LOCReader {
 		
 		catch (ParserConfigurationException | SAXException | IOException e) {
 		    JOptionPane.showMessageDialog(null,"Cannot Find File with Saved LOC",
-		    		"Error",JOptionPane.ERROR_MESSAGE);
+		    	"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		
-	
 		return (array.clone());
+
 	}
 	
-	private void listToHash (List<File> currentList) {
+	private void listToHash(List<File> currentList) {
 		File listFileName = null;
 		
 		for (int i = 0; i < currentList.size(); i++) {

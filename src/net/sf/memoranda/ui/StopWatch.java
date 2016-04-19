@@ -42,7 +42,7 @@ public class StopWatch extends JFrame {
 	//This is the default Constructor. Do Not Remove 
 	public StopWatch() {
 		ongoing = false;
-		prepareGui("Task");
+		prepareGui("StopWatch");
 		ActionClick startStopButtonClick = new ActionClick(); //start/stop
 		startStopButton.addActionListener(startStopButtonClick);
 		//ActionClick resetClick = new ActionClick("reset");
