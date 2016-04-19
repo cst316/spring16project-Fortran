@@ -1,0 +1,41 @@
+/* Styles go here */
+
+html, 
+body {
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+#cover {
+  background: #222 url('http://cdn1.bestpsdfreebies.com/wp-content/uploads/2014/05/shards_pattern.jpg') no-repeat;
+  background-size: cover;
+  color: white;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+#cover-caption {
+  width: 100%;
+  color: black;
+}
+
+.section-content {
+  padding: 5rem 0;
+  
+}
+
+#about {
+  background: url('MemorandaBanner.png') center center no-repeat;
+}
+
+.about-text {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 1.875rem;
+}
