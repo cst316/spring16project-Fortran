@@ -20,7 +20,6 @@ public class StopWatch extends JFrame {
 	static JLabel minutes;
 	static JLabel seconds;
 	static JButton startStopButton; //performed button functionality & acceptance testing (PASSED)
-	static JButton saveButton; //performed button functionality and acceptance testing (REJECTED)
 	static JButton reset;
 	static boolean ongoing;
 	Timer timer;
@@ -28,6 +27,7 @@ public class StopWatch extends JFrame {
 	int h;
 	int m;
 	int s;
+	private static JButton btnReset;
 
 	//setters and getters for name.
 	public void setName(String name){
@@ -68,7 +68,7 @@ public class StopWatch extends JFrame {
 	
 	
 	// This method starts the gui for the time task
-	public static void prepareGui(String name) { 
+	public void prepareGui(String name) { 
 		mainframe = new JFrame(name);
 		north = new JPanel();
 		north.setBackground((new Color(200,90,90)));
@@ -80,7 +80,7 @@ public class StopWatch extends JFrame {
 		title = new JLabel("", JLabel.CENTER);
 		title.setSize(350, 100);
 		title.setForeground(new Color(50,50,50));
-		title.setText("This is Timer Tool");
+		title.setText("StopWatch");
 		north.add(title);
 		// grid 2. this is the center/main area of timertask where the
 		hours = new JLabel("00");
@@ -95,20 +95,36 @@ public class StopWatch extends JFrame {
 		// grid 3. This is the bottom part of timertask panel.
 		//Its contains two buttons start and save.
 		startStopButton = new JButton("Start"); ;
-		saveButton = new JButton("save");
 		south.add(startStopButton);
-        south.add(saveButton);
         mainframe.getContentPane().add(BorderLayout.NORTH, north);
         mainframe.getContentPane().add(BorderLayout.CENTER, center);
         mainframe.getContentPane().add(BorderLayout.SOUTH, south);
+        
+        btnReset = new JButton("Reset");
+        btnReset.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		resetClock();
+        	}
+        });
+        south.add(btnReset);
 		mainframe.setVisible(true);
 	}
+	private void resetClock(){
+		
+		h = 0;
+		m = 0;
+		s = 0;
+		String hour_S = Integer.toString(h);
+		String min_S = Integer.toString(m);
+		String sec_S = Integer.toString(s);
+		hours.setText(hour_S + "0");
+		minutes.setText(min_S + "0");
+		seconds.setText(sec_S + "0");
+		
+	}
 
-	/*
-	 * public static void showEvent(){
-	 * 
-	 * }
-	 */
+
+	 
 	//misc - classes, impListeners
 	public class ActionClick implements ActionListener {
 		/*

@@ -136,8 +136,9 @@ public class LOCTable extends JFrame   {
 		JScrollPane scroll = new JScrollPane(displayTable);
 		scroll.setBounds(5, 74, 432, 205);
 		contentPane.add(scroll);
-	
+		
 		removeEmptyRows();
+		displayTable.getTableHeader().setReorderingAllowed(false);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		lbl_msg.setVisible(false);
