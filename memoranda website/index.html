@@ -11,8 +11,8 @@
     <script src="script.js"></script>
   </head>
 
-  <body>
-    <nav class="navbar navbar-dark bg-inverse navbar-full navbar-light" id="nav-main">
+  <body onload="changeColor();">
+    <nav class="navbar navbar-dark bg-inverse navbar-full navbar-light navbar-fixed-top" id="nav-main" >
       <a class="navbar-brand" href="index.html">Team Fortran</a>
       <ul class="nav navbar-nav">
         <li class="nav-item active">
@@ -34,9 +34,12 @@
       <div id="cover-caption">
         <div class="container">
           <div class="col-sm-10 col-sm-offset-1">
-            <h1 class="display-3">Team FORTRAN</h1>
-            <p>Just like the old Memoranda, but better!</p>
+            <h1 class="display-3" id="team">Team FORTRAN</h1>
+            <h2>Just like the old Memoranda, but better!</h2>
+            <marquee behavior="alternate" id="mm">**CLICK THE RED BUTTON TO DOWNLOAD MEMORANDA 2.0**		MADE BY	TEAM FORTRAN</marquee>
           </div>
+          
+          <img src="clickMe.gif" onClick="downloadIt();" onMouseOver="doIt();" onMouseOut="getItOut();" id="thebutton">
         </div>
       </div>
     </section>
@@ -60,6 +63,9 @@
                 <p class="card-text">Timer tool will calculate the time it takes you to finish a task. Use this tool to time yourself and increase your efficiecy!</p>
                 
               </div>
+              <form>
+                	<button type="button" class="btn" onClick="featuresPage();">Learn more!</button>
+                </form>
             </div>
             <div class="card">
               <div class="card-block">
@@ -69,7 +75,9 @@
               <img src="StopWatch.png" alt="a stopwatchtool">
               <div class="card-block">
                 <p class="card-text">stop Watch tool will count down the time it takes you to finish a task.</p>
-                
+                <form>
+                	<button type="button" class="btn" onClick="featuresPage();">Learn more!</button>
+                </form>
               </div>
             </div>
             <div class="card">
@@ -80,6 +88,9 @@
               <img src="LOC2.png" alt="a LOCtool">
               <div class="card-block">
                 <p class="card-text">LOC tool will count the number of lines in your program. Use this tool to understand the scale of your project!</p>
+                <form>
+                	<button type="button" class="btn" onClick="featuresPage();">Learn more!</button>
+                </form>
                 
               </div>
             </div>

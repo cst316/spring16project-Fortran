@@ -8,7 +8,9 @@ body {
 img {
   max-width: 100%;
 }
-
+#nav-main{
+  background : url("http://images.freecreatives.com/wp-content/uploads/2015/04/wood-_texture10531.jpg");
+}
 
 #cover {
   background: #222 url('http://cdn1.bestpsdfreebies.com/wp-content/uploads/2014/05/shards_pattern.jpg') no-repeat;
@@ -38,4 +40,9 @@ img {
   background: rgba(0,0,0,0.8);
   color: white;
   padding: 1.875rem;
+}
+
+#mm {
+  color: white;
+  background: #222;
 }
